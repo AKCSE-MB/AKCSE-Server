@@ -1,5 +1,5 @@
 import { CallerWrongUsageException } from "@common/exception/internal.exception";
-import { getIdentification } from "@domain/account/repository/account.repository";
+import { getIdentification, saveAccount } from "@domain/account/repository/account.repository";
 import { ErrorSubCategoryEnum } from "@common/exception/enum";
 import bcrypt from 'bcrypt';
 import { ConfigurationService } from "@domain/configuration/configuration.service";
@@ -16,6 +16,17 @@ export async function getAccount(
         throw new CallerWrongUsageException(ErrorSubCategoryEnum.INVALID_INPUT,'no data');
     }
     return data;
+}
+
+export async function createAccount(param: {
+    identification: string;
+    password: string;
+}) {
+  const password = await encryptValue(param.password);
+  await saveAccount({
+    identification: param.identification,
+    password,
+  });
 }
 
 async function checkPassword(entity: AccountEntity, password: string) {
@@ -41,6 +52,9 @@ export async function createToken(param: {
     return token;
 }
 
+async function encryptValue(value: string) {
+  return bcrypt.hash(value, 10);
+}
 
 function makeTokens(payload: { userId: number }) {
     const cfgService = new ConfigurationService(new ConfigService());
