@@ -7,14 +7,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users {
+model Accounts {
   id             Int      @id @default(autoincrement())
   identification String   @map("identification") @db.VarChar(256)
   password       String   @map("password") @db.VarChar(256)
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
 
-  @@map("users")
+  @@map("accounts")
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
