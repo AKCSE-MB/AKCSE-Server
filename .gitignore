@@ -1,6 +1,6 @@
 # compiled output
 /dist
-/node_modules
+**/node_modules
 
 # Logs
 logs
@@ -33,3 +33,5 @@ data/
 cache/
 
 .env
+src/api/
+packages/api/lib/
