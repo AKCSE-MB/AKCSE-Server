@@ -1,9 +1,9 @@
 import { truncateTables } from '@root/jest.setup';
 import prismaClient from '@common/database/prisma';
 import {
-    getIdentification,
+  getIdentification,
   saveAccount,
-  saveAccounts
+  saveAccounts,
 } from '@domain/account/repository/account.repository';
 
 describe('account repository', () => {

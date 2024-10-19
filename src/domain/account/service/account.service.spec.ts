@@ -1,6 +1,6 @@
 import { truncateTables } from '@root/jest.setup';
 import {
-    createAccount,
+  createAccount,
   createToken,
   getAccount,
 } from '@domain/account/service/account.service';
