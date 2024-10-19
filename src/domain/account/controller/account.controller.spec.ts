@@ -1,10 +1,7 @@
 import { TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 import { INestApplication } from '@nestjs/common';
-import {
-  appModuleFixture,
-  assertStatusCode,
-} from '@root/jest.setup';
+import { appModuleFixture, assertStatusCode } from '@root/jest.setup';
 import { AccountModule } from '@domain/account/account.module';
 import { ConfigurationService } from '@domain/configuration/configuration.service';
 import * as accountService from '@domain/account/service/account.service';
