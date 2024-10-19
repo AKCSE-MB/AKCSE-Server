@@ -6,9 +6,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import {
-  BaseException,
-} from '@common/exception/internal.exception';
+import { BaseException } from '@common/exception/internal.exception';
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {

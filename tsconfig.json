@@ -31,7 +31,20 @@
       ],
       "@common/*": [
         "src/common/*"
-      ],
+      ]
     },
+    "plugins": [
+      {
+        "transform": "@nestia/core/lib/transform",
+        "validate": "assert",
+        "stringify": "assert"
+      },
+      {
+        "transform": "@nestia/sdk/lib/transform"
+      },
+      {
+        "transform": "typia/lib/transform"
+      }
+    ]
   }
 }
