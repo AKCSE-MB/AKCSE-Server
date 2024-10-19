@@ -2,6 +2,7 @@ import { truncateTables } from '@root/jest.setup';
 import {
   createAccount,
   createToken,
+  findAccessToken,
   getAccount,
 } from '@domain/account/service/account.service';
 import prismaClient from '@common/database/prisma';

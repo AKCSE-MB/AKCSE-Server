@@ -1,6 +1,7 @@
 import { CallerWrongUsageException } from '@common/exception/internal.exception';
 import {
   getIdentification,
+  getToken,
   saveAccount,
 } from '@domain/account/repository/account.repository';
 import { ErrorSubCategoryEnum } from '@common/exception/enum';
@@ -9,6 +10,8 @@ import { ConfigurationService } from '@domain/configuration/configuration.servic
 import { ConfigService } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
 import { add } from 'date-fns';
+import { pipe } from 'fp-ts/lib/function';
+import { saveToken } from '@domain/account/repository/token.repository';
 
 export type AccountEntity = Awaited<ReturnType<typeof getAccount>>;
 export async function getAccount(identification: string) {
@@ -33,6 +36,10 @@ export async function createAccount(param: {
   });
 }
 
+export function findAccessToken(accessToken: string) {
+  return pipe(accessToken, getToken);
+}
+
 async function checkPassword(entity: AccountEntity, password: string) {
   const isMatched = await bcrypt.compare(password, entity.password);
   if (isMatched) {
@@ -52,8 +59,12 @@ export async function createToken(param: {
   const entity = await getAccount(param.identification);
 
   await checkPassword(entity, param.password);
-  const token = makeTokens({ userId: entity.id });
-  return token;
+  const tokens = makeTokens({ userId: entity.id });
+  await saveToken({
+    accountId: entity.id,
+    ...tokens,
+  });
+  return tokens;
 }
 
 async function encryptValue(value: string) {
