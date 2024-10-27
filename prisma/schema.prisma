@@ -30,6 +30,19 @@ model Tokens {
   @@map("tokens")
 }
 
+model Members {
+  id                    Int     @id @default(autoincrement())
+  score                 Int     @map("score")
+  numAttend             Int     @map("num_attend")
+  name                  String  @map("name") @db.VarChar(256)
+  username              String  @map("username") @db.VarChar(256)
+  role                  String  @map("role") @db.VarChar(256)
+  createdAt             DateTime @default(now()) @map("created_at")
+  updatedAt             DateTime @updatedAt @map("updated_at")
+
+  @@map("members")
+}
+
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model spatial_ref_sys {
   srid      Int     @id
