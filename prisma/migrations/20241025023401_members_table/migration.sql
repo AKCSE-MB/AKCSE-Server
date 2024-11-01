@@ -1,8 +1,8 @@
 -- CreateTable
 CREATE TABLE "members" (
     "id" SERIAL NOT NULL,
-    "score" INTEGER NOT NULL,
-    "num_attend" INTEGER NOT NULL,
+    "score" INTEGER NOT NULL DEFAULT 0,
+    "num_attend" INTEGER NOT NULL DEFAULT 0,
     "name" VARCHAR(256) NOT NULL,
     "username" VARCHAR(256) NOT NULL,
     "program" VARCHAR(256) NOT NULL, 
