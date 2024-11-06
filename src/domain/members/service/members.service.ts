@@ -2,6 +2,7 @@ import { CallerWrongUsageException } from '@common/exception/internal.exception'
 import { ErrorSubCategoryEnum } from '@root/src/common/exception/enum';
 import {
   saveMember,
+  getMembers,
   getMemberById,
   getMembersBySearch,
   getTopMembers,
@@ -17,7 +18,7 @@ export async function createMember(param: {
   program: string;
   role: string;
 }) {
-  await saveMember({
+  return await saveMember({
     score: param.score,
     numAttend: param.numAttend,
     name: param.name,
@@ -25,6 +26,10 @@ export async function createMember(param: {
     program: param.program,
     role: param.role,
   });
+}
+
+export async function getAllMembers() {
+  return getMembers();
 }
 
 export async function getMember(id: number) {
@@ -36,6 +41,8 @@ export async function getMember(id: number) {
       'no such member',
     );
   }
+
+  return member;
 }
 
 export async function searchMember(key: string) {
@@ -47,19 +54,22 @@ export async function searchMember(key: string) {
       'no such member',
     );
   }
+
+  return member;
 }
 
-export async function editMember(param: {
-  id: number;
-  score: number;
-  numAttend: number;
-  name: string;
-  username: string;
-  program: string;
-  role: string;
-}) {
-  await updateMember({
-    id: param.id,
+export async function editMember(
+  id: number,
+  param: {
+    score: number;
+    numAttend: number;
+    name: string;
+    username: string;
+    program: string;
+    role: string;
+  },
+) {
+  return await updateMember(id, {
     score: param.score,
     numAttend: param.numAttend,
     name: param.name,
@@ -70,7 +80,7 @@ export async function editMember(param: {
 }
 
 export async function removeMember(id: number) {
-  await deleteMember(id);
+  return await deleteMember(id);
 }
 
 export async function createLeaderboard() {
