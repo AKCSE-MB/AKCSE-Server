@@ -8,20 +8,13 @@ export async function saveMember(param: {
   program: string;
   role: string;
 }) {
-  await saveMembers([param]);
+  return await prismaClient.members.createMany({ data: param });
 }
 
-export async function saveMembers(
-  param: {
-    score: number;
-    numAttend: number;
-    name: string;
-    username: string;
-    program: string;
-    role: string;
-  }[],
-) {
-  return await prismaClient.members.createMany({ data: param });
+export async function getMembers() {
+  const members = await prismaClient.members.findMany();
+
+  return members;
 }
 
 export async function getMemberById(id: number) {
@@ -45,46 +38,6 @@ export async function getMembersBySearch(key: string) {
   });
 }
 
-/*
-export async function getMembersByName(name: string) {
-    return prismaClient.members.findMany({
-        where: {
-            name: {
-                contains: name,
-            }
-        } 
-    });
-}
-
-export async function getMembersByUsername(username: string) {
-    return prismaClient.members.findMany({
-        where: {
-            username: {
-                contains: username,
-            }
-        } 
-    });
-}
-
-export async function getMembersByRole(role: string) {
-    return prismaClient.members.findMany({
-        where: {
-            role: {
-                contains: role,
-            }
-        } 
-    });
-}
-
-export async function getMembersByProgram(program: string) {
-    return prismaClient.members.findMany({
-        where: {
-            program: program,
-        }
-    });
-}
-*/
-
 export async function getTopMembers() {
   return await prismaClient.members.findMany({
     orderBy: { score: 'desc' },
@@ -98,18 +51,20 @@ export async function getTopMembers() {
   });
 }
 
-export async function updateMember(param: {
-  id: number;
-  score: number;
-  numAttend: number;
-  name: string;
-  username: string;
-  program: string;
-  role: string;
-}) {
+export async function updateMember(
+  id: number,
+  param: {
+    score: number;
+    numAttend: number;
+    name: string;
+    username: string;
+    program: string;
+    role: string;
+  },
+) {
   await prismaClient.members.update({
     where: {
-      id: param.id,
+      id: id,
     },
     data: {
       score: param.score,
@@ -120,12 +75,18 @@ export async function updateMember(param: {
       role: param.role,
     },
   });
+
+  return await getMemberById(id);
 }
 
 export async function deleteMember(id: number) {
+  const member = await getMemberById(id);
+
   await prismaClient.members.delete({
     where: {
       id: id,
     },
   });
+
+  return member;
 }
