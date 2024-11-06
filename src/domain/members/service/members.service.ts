@@ -69,18 +69,38 @@ export async function editMember(
     role: string;
   },
 ) {
-  return await updateMember(id, {
-    score: param.score,
-    numAttend: param.numAttend,
-    name: param.name,
-    username: param.username,
-    program: param.program,
-    role: param.role,
-  });
+  const member = await getMemberById(id);
+
+  if (member) {
+    return await updateMember(id, {
+      score: param.score,
+      numAttend: param.numAttend,
+      name: param.name,
+      username: param.username,
+      program: param.program,
+      role: param.role,
+    });
+  } else {
+    throw new CallerWrongUsageException(
+      ErrorSubCategoryEnum.INVALID_INPUT,
+      'no such member',
+    );
+  }
 }
 
 export async function removeMember(id: number) {
-  return await deleteMember(id);
+  const member = await getMember(id);
+
+  if (member) {
+    await deleteMember(id);
+  } else {
+    throw new CallerWrongUsageException(
+      ErrorSubCategoryEnum.INVALID_INPUT,
+      'no such member',
+    );
+  }
+
+  return member;
 }
 
 export async function createLeaderboard() {
