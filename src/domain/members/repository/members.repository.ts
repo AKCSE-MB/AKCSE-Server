@@ -80,13 +80,9 @@ export async function updateMember(
 }
 
 export async function deleteMember(id: number) {
-  const member = await getMemberById(id);
-
   await prismaClient.members.delete({
     where: {
       id: id,
     },
   });
-
-  return member;
 }
