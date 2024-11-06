@@ -21,10 +21,6 @@ import {
   createLeaderboard,
 } from '../service/members.service';
 import { BaseResponseDto } from '@root/src/common/dto/base.dto';
-import {
-  getMemberById,
-  getMembersBySearch,
-} from '../repository/members.repository';
 import { error } from 'console';
 
 @Controller('v1/members')
@@ -65,8 +61,8 @@ export class MembersController {
    */
   @TypedRoute.Get('/:id')
   @HttpCode(200)
-  async getMemberById(id: number): Promise<BaseResponseDto<object>> {
-    const member = await getMemberById(id);
+  async getMember(id: number): Promise<BaseResponseDto<object>> {
+    const member = await getMember(id);
     if (member) return new BaseResponseDto(member);
 
     throw new error();
@@ -79,10 +75,8 @@ export class MembersController {
    */
   @TypedRoute.Get('/:searchKey')
   @HttpCode(200)
-  async getMembesrBySearch(
-    searchKey: string,
-  ): Promise<BaseResponseDto<object>[]> {
-    const members = await getMembersBySearch(searchKey);
+  async searchMember(searchKey: string): Promise<BaseResponseDto<object>[]> {
+    const members = await searchMember(searchKey);
     const memberArr: BaseResponseDto<object>[] = members.map(
       (member) => new BaseResponseDto(member),
     );
