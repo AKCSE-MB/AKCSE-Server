@@ -71,34 +71,34 @@ export async function editMember(
 ) {
   const member = await getMemberById(id);
 
-  if (member) {
-    return await updateMember(id, {
-      score: param.score,
-      numAttend: param.numAttend,
-      name: param.name,
-      username: param.username,
-      program: param.program,
-      role: param.role,
-    });
-  } else {
+  if (!member) {
     throw new CallerWrongUsageException(
       ErrorSubCategoryEnum.INVALID_INPUT,
       'no such member',
     );
   }
+
+  return await updateMember(id, {
+    score: param.score,
+    numAttend: param.numAttend,
+    name: param.name,
+    username: param.username,
+    program: param.program,
+    role: param.role,
+  });
 }
 
 export async function removeMember(id: number) {
   const member = await getMember(id);
 
-  if (member) {
-    await deleteMember(id);
-  } else {
+  if (!member) {
     throw new CallerWrongUsageException(
       ErrorSubCategoryEnum.INVALID_INPUT,
       'no such member',
     );
   }
+
+  await removeMember(id);
 
   return member;
 }
