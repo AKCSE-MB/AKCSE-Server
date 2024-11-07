@@ -10,7 +10,11 @@ import {
 } from '@nestjs/common';
 import { HttpExceptionFilter } from '@common/exception/exception.filter';
 import { TypedBody, TypedRoute, TypedParam } from '@nestia/core';
-import { CreateMembersDTO, MembersResponseDTO } from '../dto/members.dto';
+import {
+  CreateMembersDTO,
+  MembersResponseDTO,
+  TopMemberDTO,
+} from '../dto/members.dto';
 import {
   getAllMembers,
   getMember,
@@ -21,7 +25,6 @@ import {
   createLeaderboard,
 } from '../service/members.service';
 import { BaseResponseDto } from '@root/src/common/dto/base.dto';
-import { error } from 'console';
 
 @Controller('v1/members')
 @UseFilters(new HttpExceptionFilter())
@@ -45,13 +48,13 @@ export class MembersController {
    */
   @TypedRoute.Get()
   @HttpCode(200)
-  async getMembers(): Promise<MembersResponseDTO[]> {
+  async getMembers(): Promise<BaseResponseDto<MembersResponseDTO>[]> {
     const members = await getAllMembers();
-    // const memberArr: BaseResponseDto<object>[] = members.map(
-    //     (member) => new BaseResponseDto(member)
-    // );
+    const memberArr: BaseResponseDto<MembersResponseDTO>[] = members.map(
+      (member) => new BaseResponseDto(member),
+    );
 
-    return members;
+    return memberArr;
   }
 
   /**
@@ -61,11 +64,11 @@ export class MembersController {
    */
   @TypedRoute.Get('/:id')
   @HttpCode(200)
-  async getMember(id: number): Promise<BaseResponseDto<object>> {
+  async getMember(
+    @TypedParam('id') id: number,
+  ): Promise<BaseResponseDto<MembersResponseDTO>> {
     const member = await getMember(id);
-    if (member) return new BaseResponseDto(member);
-
-    throw new error();
+    return new BaseResponseDto(member);
   }
 
   /**
@@ -75,9 +78,11 @@ export class MembersController {
    */
   @TypedRoute.Get('/:searchKey')
   @HttpCode(200)
-  async searchMember(searchKey: string): Promise<BaseResponseDto<object>[]> {
+  async searchMember(
+    @TypedParam('searchKey') searchKey: string,
+  ): Promise<BaseResponseDto<MembersResponseDTO>[]> {
     const members = await searchMember(searchKey);
-    const memberArr: BaseResponseDto<object>[] = members.map(
+    const memberArr: BaseResponseDto<MembersResponseDTO>[] = members.map(
       (member) => new BaseResponseDto(member),
     );
 
@@ -91,9 +96,9 @@ export class MembersController {
    */
   @TypedRoute.Get('/leaderboard')
   @HttpCode(200)
-  async getLeaderboard(): Promise<BaseResponseDto<object>[]> {
+  async getLeaderboard(): Promise<BaseResponseDto<TopMemberDTO>[]> {
     const topMembers = await createLeaderboard();
-    const leaderboard: BaseResponseDto<object>[] = topMembers.map(
+    const leaderboard: BaseResponseDto<TopMemberDTO>[] = topMembers.map(
       (member) => new BaseResponseDto(member),
     );
 
