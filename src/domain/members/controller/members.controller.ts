@@ -11,8 +11,8 @@ import {
 import { HttpExceptionFilter } from '@common/exception/exception.filter';
 import { TypedBody, TypedRoute, TypedParam } from '@nestia/core';
 import {
-  CreateMembersDTO,
-  MembersResponseDTO,
+  MemberRequestDTO,
+  MemberResponseDTO,
   TopMemberDTO,
 } from '../dto/members.dto';
 import {
@@ -37,7 +37,7 @@ export class MembersController {
    */
   @TypedRoute.Post()
   @HttpCode(200)
-  async addMember(@TypedBody() memberData: CreateMembersDTO) {
+  async addMember(@TypedBody() memberData: MemberRequestDTO) {
     await createMember(memberData);
   }
 
@@ -48,9 +48,9 @@ export class MembersController {
    */
   @TypedRoute.Get()
   @HttpCode(200)
-  async getMembers(): Promise<BaseResponseDto<MembersResponseDTO>[]> {
+  async getMembers(): Promise<BaseResponseDto<MemberResponseDTO>[]> {
     const members = await getAllMembers();
-    const memberArr: BaseResponseDto<MembersResponseDTO>[] = members.map(
+    const memberArr: BaseResponseDto<MemberResponseDTO>[] = members.map(
       (member) => new BaseResponseDto(member),
     );
 
@@ -66,23 +66,23 @@ export class MembersController {
   @HttpCode(200)
   async getMember(
     @TypedParam('id') id: number,
-  ): Promise<BaseResponseDto<MembersResponseDTO>> {
+  ): Promise<BaseResponseDto<MemberResponseDTO>> {
     const member = await getMember(id);
     return new BaseResponseDto(member);
   }
 
   /**
    * @tag members
-   * @summary get a member with the passed id
+   * @summary get a member with the passed search key
    * @security bearer
    */
-  @TypedRoute.Get('/:searchKey')
+  @TypedRoute.Get('search/:searchKey')
   @HttpCode(200)
   async searchMember(
     @TypedParam('searchKey') searchKey: string,
-  ): Promise<BaseResponseDto<MembersResponseDTO>[]> {
+  ): Promise<BaseResponseDto<MemberResponseDTO>[]> {
     const members = await searchMember(searchKey);
-    const memberArr: BaseResponseDto<MembersResponseDTO>[] = members.map(
+    const memberArr: BaseResponseDto<MemberResponseDTO>[] = members.map(
       (member) => new BaseResponseDto(member),
     );
 
@@ -91,10 +91,10 @@ export class MembersController {
 
   /**
    * @tag members
-   * @summary get a member with the passed id
+   * @summary get top 5 members with the highest scores
    * @security bearer
    */
-  @TypedRoute.Get('/leaderboard')
+  @TypedRoute.Get('/leaderboard/top5')
   @HttpCode(200)
   async getLeaderboard(): Promise<BaseResponseDto<TopMemberDTO>[]> {
     const topMembers = await createLeaderboard();
@@ -114,7 +114,7 @@ export class MembersController {
   @HttpCode(200)
   async updateMember(
     @TypedParam('id') id: number,
-    @TypedBody() memberData: MembersResponseDTO,
+    @TypedBody() memberData: MemberResponseDTO,
   ) {
     await editMember(id, memberData);
   }
