@@ -8,7 +8,7 @@ export async function saveMember(param: {
   program: string;
   role: string;
 }) {
-  await prismaClient.members.createMany({ data: param });
+  await prismaClient.members.create({ data: param });
 }
 
 export async function getMembers() {
