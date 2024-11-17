@@ -38,8 +38,11 @@ export class MembersController {
    */
   @TypedRoute.Post()
   @HttpCode(200)
-  async addMember(@TypedBody() memberData: MemberRequestDTO) {
-    await createMember(memberData);
+  async addMember(
+    @TypedBody() memberData: MemberRequestDTO,
+  ): Promise<BaseResponseDto<MemberResponseDTO>> {
+    const member = await createMember(memberData);
+    return new BaseResponseDto(member);
   }
 
   /**
@@ -115,9 +118,10 @@ export class MembersController {
   @HttpCode(200)
   async updateMember(
     @TypedParam('id') id: number,
-    @TypedBody() memberData: MemberUpdateRequestDTO,
-  ) {
-    await editMember(id, memberData);
+    @TypedBody() memberData: MemberUpdateDTO,
+  ): Promise<BaseResponseDto<MemberResponseDTO>> {
+    const updated = await editMember(id, memberData);
+    return new BaseResponseDto(updated);
   }
 
   /**
@@ -126,8 +130,11 @@ export class MembersController {
    * @security bearer
    */
   @TypedRoute.Delete('/:id')
-  @HttpCode(204)
-  async deleteMember(@TypedParam('id') id: number) {
-    await removeMember(id);
+  @HttpCode(200)
+  async deleteMember(
+    @TypedParam('id') id: number,
+  ): Promise<BaseResponseDto<MemberResponseDTO>> {
+    const deleted = await removeMember(id);
+    return new BaseResponseDto(deleted);
   }
 }
