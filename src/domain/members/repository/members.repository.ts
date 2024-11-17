@@ -86,7 +86,10 @@ export async function updateMember(
     where: {
       id: id,
     },
-    data: param,
+    data: {
+      ...param,
+      updatedAt: new Date(),
+    },
   });
 
   return await getMemberById(id);
