@@ -91,8 +91,6 @@ export async function updateMember(
       updatedAt: new Date(),
     },
   });
-
-  return await getMemberById(id);
 }
 
 export async function deleteMember(id: number) {
