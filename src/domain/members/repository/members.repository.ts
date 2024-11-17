@@ -29,10 +29,30 @@ export async function getMembersBySearch(key: string) {
   return await prismaClient.members.findMany({
     where: {
       OR: [
-        { name: { contains: key } },
-        { username: { contains: key } },
-        { role: { contains: key } },
-        { program: { contains: key } },
+        {
+          name: {
+            contains: key,
+            mode: 'insensitive',
+          },
+        },
+        {
+          username: {
+            contains: key,
+            mode: 'insensitive',
+          },
+        },
+        {
+          role: {
+            contains: key,
+            mode: 'insensitive',
+          },
+        },
+        {
+          program: {
+            contains: key,
+            mode: 'insensitive',
+          },
+        },
       ],
     },
   });
