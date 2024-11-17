@@ -6,9 +6,6 @@ import { MembersModule } from '@domain/members/members.module';
 import { ConfigurationService } from '@domain/configuration/configuration.service';
 import * as membersService from '@domain/members/service/members.service';
 import { MemberResponseDTO } from '../dto/members.dto';
-import { BaseResponseDto } from '@root/src/common/dto/base.dto';
-import { sequenceSeqArray } from 'fp-ts/lib/Task';
-import { mock } from 'node:test';
 
 describe('account controller', () => {
   let app: INestApplication;
