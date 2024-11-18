@@ -9,7 +9,6 @@ import {
   createLeaderboard,
 } from '@domain/members/service/members.service';
 import prismaClient from '@common/database/prisma';
-import { getMemberById } from '../repository/members.repository';
 
 describe('members service', () => {
   beforeEach(async () => {
@@ -43,21 +42,24 @@ describe('members service', () => {
 
   /* get all members */
   // members exist
-  it('should return all members in the database', async () => {
+  it('should return all members', async () => {
     const dto = {
       score: 0,
       numAttend: 0,
-      name: 'testName1',
-      username: 'test1',
+      name: 'testName',
+      username: 'test',
       program: 'Computer Science',
       role: 'Member',
     };
 
     await createMember({ ...dto });
+    await createMember({ ...dto });
 
     const members = await getAllMembers();
 
     expect(members).not.toEqual([]);
+    expect(members.length).toEqual(2);
+
     members.forEach((member) => {
       expect(member).toHaveProperty('id');
       expect(member).toHaveProperty('score');
@@ -310,7 +312,7 @@ describe('members service', () => {
 
     const member = await createMember({ ...dto });
     const deleted = await removeMember(member.id);
-    const test = getMemberById(deleted.id);
+    const test = getMember(deleted.id);
 
     expect(test).toBeNull();
   });
