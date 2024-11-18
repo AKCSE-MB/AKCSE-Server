@@ -7,7 +7,7 @@ import { ConfigurationService } from '@domain/configuration/configuration.servic
 import * as membersService from '@domain/members/service/members.service';
 import { MemberResponseDTO } from '../dto/members.dto';
 
-describe('account controller', () => {
+describe('members controller', () => {
   let app: INestApplication;
   let configService: ConfigurationService;
   beforeAll(async () => {
@@ -23,7 +23,19 @@ describe('account controller', () => {
 
   /* create member */
   it('should return a new member', async () => {
-    jest.spyOn(membersService, 'createMember').mockImplementation();
+    const mockMember = {
+      id: 1,
+      score: 0,
+      numAttend: 0,
+      name: 'testName1',
+      username: 'test1',
+      program: 'Computer Science',
+      role: 'Member',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    jest.spyOn(membersService, 'createMember').mockResolvedValue(mockMember);
 
     const res = await request(app.getHttpServer()).post('/v1/members').send({
       score: 0,
@@ -35,6 +47,13 @@ describe('account controller', () => {
     });
 
     assertStatusCode(res, 200);
+    expect(res).not.toBeNull();
+    expect(res.body.data.score).toEqual(mockMember.score);
+    expect(res.body.data.numAttend).toEqual(mockMember.numAttend);
+    expect(res.body.data.name).toEqual(mockMember.name);
+    expect(res.body.data.username).toEqual(mockMember.username);
+    expect(res.body.data.program).toEqual(mockMember.program);
+    expect(res.body.data.role).toEqual(mockMember.role);
   });
 
   /* get all members */
@@ -70,7 +89,22 @@ describe('account controller', () => {
     const res = await request(app.getHttpServer()).get('/v1/members');
 
     assertStatusCode(res, 200);
-    expect(res.body).toEqual(mockMembers);
+
+    // first member
+    expect(res.body[0].data.score).toEqual(mockMembers[0].score);
+    expect(res.body[0].data.numAttend).toEqual(mockMembers[0].numAttend);
+    expect(res.body[0].data.name).toEqual(mockMembers[0].name);
+    expect(res.body[0].data.username).toEqual(mockMembers[0].username);
+    expect(res.body[0].data.program).toEqual(mockMembers[0].program);
+    expect(res.body[0].data.role).toEqual(mockMembers[0].role);
+
+    // second member
+    expect(res.body[1].data.score).toEqual(mockMembers[1].score);
+    expect(res.body[1].data.numAttend).toEqual(mockMembers[1].numAttend);
+    expect(res.body[1].data.name).toEqual(mockMembers[1].name);
+    expect(res.body[1].data.username).toEqual(mockMembers[1].username);
+    expect(res.body[1].data.program).toEqual(mockMembers[1].program);
+    expect(res.body[1].data.role).toEqual(mockMembers[1].role);
   });
 
   // no members exist
@@ -102,12 +136,19 @@ describe('account controller', () => {
     const res = await request(app.getHttpServer()).get('/v1/members/1');
 
     assertStatusCode(res, 200);
-    expect(res.body).toEqual(mockMember);
+    expect(res.body.data.id).toEqual(mockMember.id);
+    expect(res.body.data.score).toEqual(mockMember.score);
+    expect(res.body.data.numAttend).toEqual(mockMember.numAttend);
+    expect(res.body.data.name).toEqual(mockMember.name);
+    expect(res.body.data.username).toEqual(mockMember.username);
+    expect(res.body.data.program).toEqual(mockMember.program);
+    expect(res.body.data.role).toEqual(mockMember.role);
   });
 
   // invalid id
   it('invalid request, should return 400 bad request', async () => {
     const res = await request(app.getHttpServer()).get('/v1/members/100');
+    console.log(res.statusCode);
     expect(res.statusCode).toEqual(400);
   });
 
@@ -163,12 +204,12 @@ describe('account controller', () => {
       });
 
     const res = await request(app.getHttpServer()).get(
-      'v1/members/search/Computer Science',
+      'v1/members/search/Computer',
     );
-    const searchKey = 'Computer Science';
+    const searchKey = 'Computer';
 
     assertStatusCode(res, 200);
-    expect(res.body).toEqual(
+    expect(res.body.data).toEqual(
       mockMembers.filter(
         (member) =>
           member.name.includes(searchKey) ||
@@ -180,7 +221,7 @@ describe('account controller', () => {
   });
 
   // invalid search key
-  it('should return an empty array if no members with the search key exist', async () => {
+  it('should return an empty array since no members with the search key exist', async () => {
     const mockMembers: MemberResponseDTO[] = [
       {
         id: 1,
@@ -223,7 +264,7 @@ describe('account controller', () => {
       '/v1/members/search/InvalidKey',
     );
     assertStatusCode(res, 200);
-    expect(res.body).toEqual([]);
+    expect(res.body.data).toEqual([]);
   });
 
   /* leaderboard */
@@ -274,28 +315,22 @@ describe('account controller', () => {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-      {
-        id: 5,
-        score: 6,
-        numAttend: 0,
-        name: 'testName5',
-        username: 'test5',
-        program: 'Statistics',
-        role: 'Member',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
     ];
 
+    // only 5 members exist, should return those 5 in the order of descending scores
     jest
       .spyOn(membersService, 'createLeaderboard')
-      .mockResolvedValue(mockMembers);
+      .mockImplementation(async () => {
+        return mockMembers.sort((a, b) => b.score - a.score).slice(0, 5);
+      });
 
     const res = await request(app.getHttpServer()).get(
       '/v1/members/leaderboard/top5',
     );
     assertStatusCode(res, 200);
-    expect(res.body).toEqual(mockMembers);
+    expect(res.body.data).toEqual(
+      mockMembers.sort((a, b) => b.score - a.score).slice(0, 5),
+    );
   });
 
   // no members exist
@@ -306,7 +341,7 @@ describe('account controller', () => {
       '/v1/members/leaderboard/top5',
     );
     assertStatusCode(res, 200);
-    expect(res.body).toEqual([]);
+    expect(res.body.data).toEqual([]);
   });
 
   /* update a member */
@@ -344,12 +379,12 @@ describe('account controller', () => {
     });
 
     assertStatusCode(res, 200);
-    expect(res.body).toEqual(mockMemberPost);
+    expect(res.body.data).toEqual(mockMemberPost);
   });
 
   // invalid id
   it('inavlid request, should return 400 bad request', async () => {
-    const res = await request(app.getHttpServer()).put('/v1/members/1').send({
+    const res = await request(app.getHttpServer()).put('/v1/members/999').send({
       score: 100,
       numAttend: 2,
     });
@@ -376,7 +411,7 @@ describe('account controller', () => {
     const res = await request(app.getHttpServer()).delete('/v1/members/1');
 
     assertStatusCode(res, 200);
-    expect(res.body).toEqual(mockMember);
+    expect(res.body.data).toEqual(mockMember);
   });
 
   //invalid id
