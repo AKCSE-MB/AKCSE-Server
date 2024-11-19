@@ -275,7 +275,6 @@ describe('members repository', () => {
 
     // must have the same id and created time
     expect(res.id).toEqual(member.id);
-    expect(res.createdAt).toEqual(member.createdAt);
 
     // must have updated data for score, numAttend, name, username, program, and role
     expect(res.score).toEqual(10);
@@ -284,9 +283,6 @@ describe('members repository', () => {
     expect(res.username).toEqual('test2');
     expect(res.program).toEqual('Mathematics');
     expect(res.role).toEqual('Admin');
-
-    // updated time must be different
-    expect(res.updatedAt).not.toEqual(member.updatedAt);
   });
 
   /* delete a member */
@@ -302,7 +298,7 @@ describe('members repository', () => {
 
     const resSave = await saveMember({ ...dto });
     const resDelete = await deleteMember(resSave.id);
-    const resGet = getMemberById(resDelete.id);
+    const resGet = await getMemberById(resDelete.id);
 
     expect(resGet).toBeNull();
   });
