@@ -1,5 +1,5 @@
 import prismaClient from '@common/database/prisma';
-import { Program, Role } from '@domain/members/enumerator';
+import { Program, Role } from '@root/src/domain/members/members.enum';
 
 export async function saveMember(param: {
   score: number;
