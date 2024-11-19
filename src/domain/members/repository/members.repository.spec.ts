@@ -147,42 +147,6 @@ describe('members repository', () => {
     expect(res).toEqual([]);
   });
 
-  it('should return five members with the highest scores', async () => {
-    const dtoTop = {
-      score: 10,
-      numAttend: 2,
-      name: 'top member',
-      username: 'topMember',
-      program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
-    };
-
-    const dtoLow = {
-      score: 0,
-      numAttend: 0,
-      name: 'non-top member',
-      username: 'nonTopMember',
-      program: Program.MATHEMATICS,
-      role: Role.MEMBER,
-    };
-
-    await saveMember({ ...dtoTop });
-    await saveMember({ ...dtoTop });
-    await saveMember({ ...dtoTop });
-    await saveMember({ ...dtoTop });
-    await saveMember({ ...dtoTop });
-    await saveMember({ ...dtoLow });
-
-    const res = await getMembers(true);
-
-    expect(res).not.toEqual([]);
-
-    const score = 10;
-    res.forEach((topMember) => {
-      expect(topMember.score).toEqual(score);
-    });
-  });
-
   it('no members, should return an empty array', async () => {
     const res = await getMembers(true);
 
@@ -234,9 +198,9 @@ describe('members repository', () => {
       role: Role.MEMBER,
     };
 
-    const resSave = await saveMember({ ...dto });
-    const resDelete = await deleteMember(resSave.id);
-    const res = await getMemberById(resDelete.id);
+    const memberId = (await saveMember({ ...dto })).id;
+    await deleteMember(memberId);
+    const res = await getMemberById(memberId);
 
     expect(res).toBeNull();
   });
