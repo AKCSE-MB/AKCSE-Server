@@ -131,7 +131,7 @@ describe('members controller', () => {
       updatedAt: new Date(),
     };
 
-    jest.spyOn(membersService, 'getMember').mockResolvedValue(mockMember);
+    jest.spyOn(membersService, 'getMember').mockResolvedValueOnce(mockMember);
 
     const res = await request(app.getHttpServer()).get('/v1/members/1');
 
@@ -147,8 +147,10 @@ describe('members controller', () => {
 
   // invalid id
   it('invalid request, should return 400 bad request', async () => {
-    const res = await request(app.getHttpServer()).get('/v1/members/100');
-    console.log(res.statusCode);
+    const memberId = 100;
+    const res = await request(app.getHttpServer()).get(
+      `/v1/members/${memberId}`,
+    );
     expect(res.statusCode).toEqual(400);
   });
 
