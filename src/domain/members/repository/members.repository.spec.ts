@@ -8,7 +8,7 @@ import {
   updateMember,
   deleteMember,
 } from '@domain/members/repository/members.repository';
-import { Program, Role } from '@domain/members/enumerator';
+import { Program, Role } from '@root/src/domain/members/members.enum';
 
 describe('members repository', () => {
   beforeEach(async () => {
@@ -201,7 +201,7 @@ describe('members repository', () => {
 
     const member = await saveMember({ ...dto });
 
-    const expectedDto = {
+    const updateData = {
       score: 10,
       numAttend: 1,
       name: 'testName2',
@@ -210,7 +210,7 @@ describe('members repository', () => {
       role: 'Admin',
     };
 
-    const res = await updateMember(member.id, { ...expectedDto });
+    const res = await updateMember(member.id, { ...updateData });
 
     expect(res).not.toBeNull();
 
