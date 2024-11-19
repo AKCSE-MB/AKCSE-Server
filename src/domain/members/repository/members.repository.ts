@@ -1,12 +1,13 @@
 import prismaClient from '@common/database/prisma';
+import { Program, Role } from '@domain/members/enumerator';
 
 export async function saveMember(param: {
   score: number;
   numAttend: number;
   name: string;
   username: string;
-  program: string;
-  role: string;
+  program: Program;
+  role: Role;
 }) {
   return await prismaClient.members.create({ data: param });
 }
@@ -42,7 +43,7 @@ export async function getMembersByConditions(param: {
   role?: string;
   program?: string;
 }) {
-  const conditions: any = {};
+  const conditions = {};
   if (param.name && param.name.length >= 1) {
     conditions['name'] = { contains: param.name };
   }
@@ -59,7 +60,7 @@ export async function getMembersByConditions(param: {
     conditions['program'] = { contains: param.program };
   }
 
-  const res = await prismaClient.members.findMany({
+  return await prismaClient.members.findMany({
     where: {
       OR: Object.keys(conditions).map((key) => ({ [key]: conditions[key] })),
     },
