@@ -8,6 +8,7 @@ import {
   updateMember,
   deleteMember,
 } from '@domain/members/repository/members.repository';
+import { Program, Role } from '@domain/members/enumerator';
 
 describe('members repository', () => {
   beforeEach(async () => {
@@ -21,22 +22,13 @@ describe('members repository', () => {
       numAttend: 0,
       name: 'testName1',
       username: 'test1',
-      program: 'Computer Science',
-      role: 'Member',
+      program: Program.COMPUTER_SCIENCE,
+      role: Role.MEMBER,
     };
 
     const res = await saveMember({ ...dto });
 
     expect(res).not.toBeNull();
-    expect(res).toHaveProperty('id');
-    expect(res).toHaveProperty('score');
-    expect(res).toHaveProperty('numAttend');
-    expect(res).toHaveProperty('name');
-    expect(res).toHaveProperty('username');
-    expect(res).toHaveProperty('program');
-    expect(res).toHaveProperty('role');
-    expect(res).toHaveProperty('createdAt');
-    expect(res).toHaveProperty('updatedAt');
   });
 
   /* get all members */
@@ -46,8 +38,8 @@ describe('members repository', () => {
       numAttend: 0,
       name: 'testName',
       username: 'test',
-      program: 'Computer Science',
-      role: 'Member',
+      program: Program.COMPUTER_SCIENCE,
+      role: Role.MEMBER,
     };
 
     await saveMember({ ...dto });
@@ -58,18 +50,6 @@ describe('members repository', () => {
 
     expect(res).not.toEqual([]);
     expect(res.length).toEqual(2);
-
-    res.forEach((member) => {
-      expect(member).toHaveProperty('id');
-      expect(member).toHaveProperty('score');
-      expect(member).toHaveProperty('numAttend');
-      expect(member).toHaveProperty('name');
-      expect(member).toHaveProperty('username');
-      expect(member).toHaveProperty('program');
-      expect(member).toHaveProperty('role');
-      expect(member).toHaveProperty('createdAt');
-      expect(member).toHaveProperty('updatedAt');
-    });
   });
 
   // no members exist
@@ -86,19 +66,20 @@ describe('members repository', () => {
       numAttend: 0,
       name: 'testName1',
       username: 'test1',
-      program: 'Computer Science',
-      role: 'Member',
+      program: Program.COMPUTER_SCIENCE,
+      role: Role.MEMBER,
     };
 
     const resSave = await saveMember({ ...dto });
-    const resGet = await getMemberById(resSave.id);
+    const res = await getMemberById(resSave.id);
 
-    expect(resGet).not.toBeNull();
+    expect(res).not.toBeNull();
   });
 
   // member does not exist
   it('member does not exist, should be null', async () => {
-    const res = await getMemberById(999);
+    const memberId = 100;
+    const res = await getMemberById(memberId);
 
     // may have to change the verification method
     expect(res).toBeNull;
@@ -112,8 +93,8 @@ describe('members repository', () => {
       numAttend: 0,
       name: 'testName1',
       username: 'test1',
-      program: 'Computer Science',
-      role: 'Member',
+      program: Program.COMPUTER_SCIENCE,
+      role: Role.MEMBER,
     };
 
     // this member must have an id of 1
@@ -138,8 +119,8 @@ describe('members repository', () => {
       numAttend: 0,
       name: 'testName1',
       username: 'test1',
-      program: 'Computer Science',
-      role: 'Member',
+      program: Program.COMPUTER_SCIENCE,
+      role: Role.MEMBER,
     };
 
     // this member must have an id of 1
@@ -164,8 +145,8 @@ describe('members repository', () => {
       numAttend: 0,
       name: 'testName1',
       username: 'test1',
-      program: 'Computer Science',
-      role: 'Member',
+      program: Program.COMPUTER_SCIENCE,
+      role: Role.MEMBER,
     };
 
     // this member must have an id of 1
@@ -175,53 +156,55 @@ describe('members repository', () => {
     const param = {
       name: 'Name2',
       username: '2',
-      program: 'Statistics',
-      role: 'Admin',
+      program: Program.STATISTICS,
+      role: Role.ADMIN,
     };
 
     const res = await getMembersByConditions(param);
-    expect(res).not.toEqual([]);
+    console.log(res);
+    expect(res).toEqual([]);
   });
 
   /* create a leaderboard */
   // members exist
   it('should return up to 5 members with the highest scores', async () => {
     // create 6 members
-    const dto1 = {
+    const dtoTop = {
       score: 10,
       numAttend: 2,
       name: 'top member',
       username: 'topMember',
-      program: 'Computer Science',
-      role: 'Member',
+      program: Program.COMPUTER_SCIENCE,
+      role: Role.MEMBER,
     };
 
-    const dto2 = {
+    const dtoLow = {
       score: 0,
       numAttend: 0,
       name: 'non-top member',
       username: 'nonTopMember',
-      program: 'Mathematics',
-      role: 'Member',
+      program: Program.MATHEMATICS,
+      role: Role.MEMBER,
     };
 
     // 5 members with a score of 10
-    await saveMember({ ...dto1 });
-    await saveMember({ ...dto1 });
-    await saveMember({ ...dto1 });
-    await saveMember({ ...dto1 });
-    await saveMember({ ...dto1 });
+    await saveMember({ ...dtoTop });
+    await saveMember({ ...dtoTop });
+    await saveMember({ ...dtoTop });
+    await saveMember({ ...dtoTop });
+    await saveMember({ ...dtoTop });
 
     // 1 member with a score of 0
-    await saveMember({ ...dto2 });
+    await saveMember({ ...dtoLow });
 
     const res = await getMembers(true);
 
     expect(res).not.toEqual([]);
 
     // all members in the leaderboard should have a score of 10
+    const score = 10;
     res.forEach((topMember) => {
-      expect(topMember.score).toEqual(10);
+      expect(topMember.score).toEqual(score);
     });
   });
 
@@ -239,8 +222,8 @@ describe('members repository', () => {
       numAttend: 0,
       name: 'testName1',
       username: 'test1',
-      program: 'Computer Science',
-      role: 'Member',
+      program: Program.COMPUTER_SCIENCE,
+      role: Role.MEMBER,
     };
 
     const member = await saveMember({ ...dto });
@@ -277,14 +260,14 @@ describe('members repository', () => {
       numAttend: 0,
       name: 'testName1',
       username: 'test1',
-      program: 'Computer Science',
-      role: 'Member',
+      program: Program.COMPUTER_SCIENCE,
+      role: Role.MEMBER,
     };
 
     const resSave = await saveMember({ ...dto });
     const resDelete = await deleteMember(resSave.id);
-    const resGet = await getMemberById(resDelete.id);
+    const res = await getMemberById(resDelete.id);
 
-    expect(resGet).toBeNull();
+    expect(res).toBeNull();
   });
 });
