@@ -18,7 +18,7 @@ export async function createMember(param: {
   program: string;
   role: string;
 }) {
-  return await saveMember({
+  await saveMember({
     score: param.score,
     numAttend: param.numAttend,
     name: param.name,
@@ -98,7 +98,7 @@ export async function removeMember(id: number) {
     );
   }
 
-  await removeMember(id);
+  await deleteMember(id);
 
   return member;
 }
