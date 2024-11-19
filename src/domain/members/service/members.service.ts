@@ -18,7 +18,7 @@ export async function createMember(param: {
   program: string;
   role: string;
 }) {
-  await saveMember({
+  return await saveMember({
     score: param.score,
     numAttend: param.numAttend,
     name: param.name,
@@ -100,9 +100,7 @@ export async function removeMember(id: number) {
     );
   }
 
-  await deleteMember(id);
-
-  return member;
+  return await deleteMember(id);
 }
 
 export async function createLeaderboard() {
