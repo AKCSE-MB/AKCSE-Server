@@ -8,7 +8,7 @@ import {
   updateMember,
   deleteMember,
 } from '@domain/members/repository/members.repository';
-import { Program, Role } from '@root/src/domain/members/members.enum';
+import { Program, Role } from '@domain/members/members.enum';
 
 describe('members repository', () => {
   beforeEach(async () => {
