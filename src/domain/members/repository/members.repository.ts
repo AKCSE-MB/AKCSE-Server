@@ -8,7 +8,7 @@ export async function saveMember(param: {
   program: string;
   role: string;
 }) {
-  await prismaClient.members.create({ data: param });
+  return await prismaClient.members.create({ data: param });
 }
 
 export async function getMembers() {
@@ -82,7 +82,7 @@ export async function updateMember(
     role?: string;
   },
 ) {
-  await prismaClient.members.update({
+  return await prismaClient.members.update({
     where: {
       id: id,
     },
@@ -93,7 +93,7 @@ export async function updateMember(
 }
 
 export async function deleteMember(id: number) {
-  await prismaClient.members.delete({
+  return await prismaClient.members.delete({
     where: {
       id: id,
     },
