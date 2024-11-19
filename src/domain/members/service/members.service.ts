@@ -9,14 +9,15 @@ import {
   updateMember,
   deleteMember,
 } from '../repository/members.repository';
+import { Program, Role } from '@domain/members/members.enum';
 
 export async function createMember(param: {
   score: number;
   numAttend: number;
   name: string;
   username: string;
-  program: string;
-  role: string;
+  program: Program;
+  role: Role;
 }) {
   return await saveMember({
     score: param.score,
@@ -65,8 +66,8 @@ export async function editMember(
     numAttend?: number;
     name?: string;
     username?: string;
-    program?: string;
-    role?: string;
+    program?: Program;
+    role?: Role;
   },
 ) {
   const member = await getMemberById(id);

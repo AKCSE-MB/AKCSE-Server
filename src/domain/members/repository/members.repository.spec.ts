@@ -164,8 +164,8 @@ describe('members repository', () => {
       numAttend: 1,
       name: 'testName2',
       username: 'test2',
-      program: 'Mathematics',
-      role: 'Admin',
+      program: Program.MATHEMATICS,
+      role: Role.ADMIN,
     };
 
     const res = await updateMember(member.id, { ...expected });

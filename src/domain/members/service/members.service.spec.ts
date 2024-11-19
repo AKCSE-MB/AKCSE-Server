@@ -9,6 +9,7 @@ import {
   createLeaderboard,
 } from '@domain/members/service/members.service';
 import prismaClient from '@common/database/prisma';
+import { Program, Role } from '@domain/members/members.enum';
 
 describe('members service', () => {
   beforeEach(async () => {
@@ -22,8 +23,8 @@ describe('members service', () => {
       numAttend: 0,
       name: 'testName1',
       username: 'test1',
-      program: 'Computer Science',
-      role: 'Member',
+      program: Program.COMPUTER_SCIENCE,
+      role: Role.MEMBER,
     };
 
     const member = await createMember({ ...dto });
@@ -48,8 +49,8 @@ describe('members service', () => {
       numAttend: 0,
       name: 'testName',
       username: 'test',
-      program: 'Computer Science',
-      role: 'Member',
+      program: Program.COMPUTER_SCIENCE,
+      role: Role.MEMBER,
     };
 
     await createMember({ ...dto });
@@ -87,8 +88,8 @@ describe('members service', () => {
       numAttend: 0,
       name: 'testName1',
       username: 'test1',
-      program: 'Computer Science',
-      role: 'Member',
+      program: Program.COMPUTER_SCIENCE,
+      role: Role.MEMBER,
     };
 
     const member = await createMember({ ...dto });
@@ -217,8 +218,8 @@ describe('members service', () => {
       numAttend: 2,
       name: 'top member',
       username: 'topMember',
-      program: 'Computer Science',
-      role: 'Member',
+      program: Program.COMPUTER_SCIENCE,
+      role: Role.MEMBER,
     };
 
     const dto2 = {
@@ -226,8 +227,8 @@ describe('members service', () => {
       numAttend: 0,
       name: 'non-top member',
       username: 'nonTopMember',
-      program: 'Mathematics',
-      role: 'Member',
+      program: Program.MATHEMATICS,
+      role: Role.MEMBER,
     };
 
     // 5 members with a score of 10
@@ -264,8 +265,8 @@ describe('members service', () => {
       numAttend: 0,
       name: 'testName1',
       username: 'test1',
-      program: 'Computer Science',
-      role: 'Member',
+      program: Program.COMPUTER_SCIENCE,
+      role: Role.MEMBER,
     };
 
     const member = await createMember({ ...dto });
@@ -275,8 +276,8 @@ describe('members service', () => {
       numAttend: 1,
       name: 'testName2',
       username: 'test2',
-      program: 'Mathematics',
-      role: 'Admin',
+      program: Program.MATHEMATICS,
+      role: Role.ADMIN,
     };
 
     const updatedMember = await editMember(member.id, { ...updatedDto });
@@ -306,8 +307,8 @@ describe('members service', () => {
       numAttend: 0,
       name: 'testName1',
       username: 'test1',
-      program: 'Computer Science',
-      role: 'Member',
+      program: Program.COMPUTER_SCIENCE,
+      role: Role.MEMBER,
     };
 
     const member = await createMember({ ...dto });

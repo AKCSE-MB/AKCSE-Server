@@ -61,8 +61,8 @@ export async function updateMember(
     numAttend?: number;
     name?: string;
     username?: string;
-    program?: string;
-    role?: string;
+    program?: Program;
+    role?: Role;
   },
 ) {
   return await prismaClient.members.update({
