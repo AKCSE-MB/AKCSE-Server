@@ -12,21 +12,8 @@ export async function saveMember(param: {
   return await prismaClient.members.create({ data: param });
 }
 
-export async function getMembers(topMembers?: boolean) {
-  if (topMembers) {
-    return await prismaClient.members.findMany({
-      orderBy: { score: 'desc' },
-      take: 5,
-      select: {
-        id: true,
-        username: true,
-        score: true,
-        numAttend: true,
-      },
-    });
-  } else {
-    return await prismaClient.members.findMany();
-  }
+export async function getMembers() {
+  return await prismaClient.members.findMany();
 }
 
 export async function getMemberById(id: number) {
