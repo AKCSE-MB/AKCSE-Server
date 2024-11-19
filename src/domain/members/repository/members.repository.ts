@@ -27,8 +27,8 @@ export async function getMemberById(id: number) {
 export async function getMembersByConditions(param: {
   name?: string;
   username?: string;
-  role?: string;
   program?: string;
+  role?: string;
 }) {
   const conditions = {};
   if (param.name && param.name.length >= 1) {
@@ -39,12 +39,12 @@ export async function getMembersByConditions(param: {
     conditions['username'] = { contains: param.username };
   }
 
-  if (param.role && param.role.length >= 1) {
-    conditions['role'] = { contains: param.role };
-  }
-
   if (param.program && param.program.length >= 1) {
     conditions['program'] = { contains: param.program };
+  }
+
+  if (param.role && param.role.length >= 1) {
+    conditions['role'] = { contains: param.role };
   }
 
   return await prismaClient.members.findMany({
