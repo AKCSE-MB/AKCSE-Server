@@ -228,7 +228,7 @@ describe('members repository', () => {
 
     const member = await saveMember({ ...dto });
 
-    const updatedDto = {
+    const expectedDto = {
       score: 10,
       numAttend: 1,
       name: 'testName2',
@@ -237,7 +237,7 @@ describe('members repository', () => {
       role: 'Admin',
     };
 
-    const res = await updateMember(member.id, { ...updatedDto });
+    const res = await updateMember(member.id, { ...expectedDto });
 
     expect(res).not.toBeNull();
 
