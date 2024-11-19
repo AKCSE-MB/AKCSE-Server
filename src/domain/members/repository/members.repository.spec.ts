@@ -54,7 +54,7 @@ describe('members repository', () => {
     await saveMember({ ...dto });
 
     //false to get all members
-    const res = await getMembers(false);
+    const res = await getMembers();
 
     expect(res).not.toEqual([]);
     expect(res.length).toEqual(2);
@@ -74,7 +74,7 @@ describe('members repository', () => {
 
   // no members exist
   it('no members, should return an empty array', async () => {
-    const res = await getMembers(false);
+    const res = await getMembers();
     expect(res).toEqual([]);
   });
 
