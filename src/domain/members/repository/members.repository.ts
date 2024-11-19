@@ -54,26 +54,19 @@ export async function getTopMembers() {
 export async function updateMember(
   id: number,
   param: {
-    score: number;
-    numAttend: number;
-    name: string;
-    username: string;
-    program: string;
-    role: string;
+    score?: number;
+    numAttend?: number;
+    name?: string;
+    username?: string;
+    program?: string;
+    role?: string;
   },
 ) {
   await prismaClient.members.update({
     where: {
       id: id,
     },
-    data: {
-      score: param.score,
-      numAttend: param.numAttend,
-      name: param.name,
-      username: param.username,
-      program: param.program,
-      role: param.role,
-    },
+    data: param,
   });
 
   return await getMemberById(id);
