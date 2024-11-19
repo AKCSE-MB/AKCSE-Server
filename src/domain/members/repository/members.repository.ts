@@ -11,10 +11,21 @@ export async function saveMember(param: {
   return await prismaClient.members.create({ data: param });
 }
 
-export async function getMembers() {
-  const members = await prismaClient.members.findMany();
-
-  return members;
+export async function getMembers(topMembers: boolean) {
+  if (topMembers) {
+    return await prismaClient.members.findMany({
+      orderBy: { score: 'desc' },
+      take: 5,
+      select: {
+        id: true,
+        username: true,
+        score: true,
+        numAttend: true,
+      },
+    });
+  } else {
+    return await prismaClient.members.findMany();
+  }
 }
 
 export async function getMemberById(id: number) {
@@ -25,48 +36,32 @@ export async function getMemberById(id: number) {
   });
 }
 
-export async function getMembersBySearch(key: string) {
-  return await prismaClient.members.findMany({
-    where: {
-      OR: [
-        {
-          name: {
-            contains: key,
-            mode: 'insensitive',
-          },
-        },
-        {
-          username: {
-            contains: key,
-            mode: 'insensitive',
-          },
-        },
-        {
-          role: {
-            contains: key,
-            mode: 'insensitive',
-          },
-        },
-        {
-          program: {
-            contains: key,
-            mode: 'insensitive',
-          },
-        },
-      ],
-    },
-  });
-}
+export async function getMembersByConditions(param: {
+  name?: string;
+  username?: string;
+  role?: string;
+  program?: string;
+}) {
+  const conditions: any = {};
+  if (param.name && param.name.length >= 1) {
+    conditions['name'] = { contains: param.name };
+  }
 
-export async function getTopMembers() {
-  return await prismaClient.members.findMany({
-    orderBy: { score: 'desc' },
-    take: 5,
-    select: {
-      id: true,
-      username: true,
-      score: true,
-      numAttend: true,
+  if (param.username && param.username.length >= 1) {
+    conditions['username'] = { contains: param.username };
+  }
+
+  if (param.role && param.role.length >= 1) {
+    conditions['role'] = { contains: param.role };
+  }
+
+  if (param.program && param.program.length >= 1) {
+    conditions['program'] = { contains: param.program };
+  }
+
+  const res = await prismaClient.members.findMany({
+    where: {
+      OR: Object.keys(conditions).map((key) => ({ [key]: conditions[key] })),
     },
   });
 }
