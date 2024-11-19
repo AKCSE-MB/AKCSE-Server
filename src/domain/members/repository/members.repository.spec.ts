@@ -26,18 +26,18 @@ describe('members repository', () => {
       role: 'Member',
     };
 
-    const member = await saveMember({ ...dto });
+    const res = await saveMember({ ...dto });
 
-    expect(member).not.toBeNull();
-    expect(member).toHaveProperty('id');
-    expect(member).toHaveProperty('score');
-    expect(member).toHaveProperty('numAttend');
-    expect(member).toHaveProperty('name');
-    expect(member).toHaveProperty('username');
-    expect(member).toHaveProperty('program');
-    expect(member).toHaveProperty('role');
-    expect(member).toHaveProperty('createdAt');
-    expect(member).toHaveProperty('updatedAt');
+    expect(res).not.toBeNull();
+    expect(res).toHaveProperty('id');
+    expect(res).toHaveProperty('score');
+    expect(res).toHaveProperty('numAttend');
+    expect(res).toHaveProperty('name');
+    expect(res).toHaveProperty('username');
+    expect(res).toHaveProperty('program');
+    expect(res).toHaveProperty('role');
+    expect(res).toHaveProperty('createdAt');
+    expect(res).toHaveProperty('updatedAt');
   });
 
   /* get all members */
@@ -54,12 +54,12 @@ describe('members repository', () => {
     await saveMember({ ...dto });
     await saveMember({ ...dto });
 
-    const members = await getMembers();
+    const res = await getMembers();
 
-    expect(members).not.toEqual([]);
-    expect(members.length).toEqual(2);
+    expect(res).not.toEqual([]);
+    expect(res.length).toEqual(2);
 
-    members.forEach((member) => {
+    res.forEach((member) => {
       expect(member).toHaveProperty('id');
       expect(member).toHaveProperty('score');
       expect(member).toHaveProperty('numAttend');
@@ -74,8 +74,8 @@ describe('members repository', () => {
 
   // no members exist
   it('no members, should return an empty array', async () => {
-    const members = await getMembers();
-    expect(members).toEqual([]);
+    const res = await getMembers();
+    expect(res).toEqual([]);
   });
 
   /* get a member by id */
@@ -90,18 +90,18 @@ describe('members repository', () => {
       role: 'Member',
     };
 
-    const member = await saveMember({ ...dto });
-    const testMember = await getMemberById(member.id);
+    const resSave = await saveMember({ ...dto });
+    const resGet = await getMemberById(resSave.id);
 
-    expect(testMember).not.toBeNull();
+    expect(resGet).not.toBeNull();
   });
 
   // member does not exist
   it('member does not exist, should be null', async () => {
-    const member = await getMemberById(999);
+    const res = await getMemberById(999);
 
     // may have to change the verification method
-    expect(member).toBeNull;
+    expect(res).toBeNull;
   });
 
   /* get a member by a search key */
@@ -120,20 +120,20 @@ describe('members repository', () => {
     await saveMember({ ...dto });
 
     // search key is checked for the name
-    let members = await getMembersBySearch('testName1');
-    expect(members).not.toEqual([]);
+    let res = await getMembersBySearch('testName1');
+    expect(res).not.toEqual([]);
 
     // search key is checked for the username
-    members = await getMembersBySearch('test1');
-    expect(members).not.toEqual([]);
+    res = await getMembersBySearch('test1');
+    expect(res).not.toEqual([]);
 
     // search key is checked for the program
-    members = await getMembersBySearch('Computer Science');
-    expect(members).not.toEqual([]);
+    res = await getMembersBySearch('Computer');
+    expect(res).not.toEqual([]);
 
     // search key is checked for the role
-    members = await getMembersBySearch('Member');
-    expect(members).not.toEqual([]);
+    res = await getMembersBySearch('Member');
+    expect(res).not.toEqual([]);
   });
 
   // get a member with a partial search key
@@ -151,20 +151,20 @@ describe('members repository', () => {
     await saveMember({ ...dto });
 
     // search key is checked for the name
-    let members = await getMembersBySearch('Name1');
-    expect(members).not.toEqual([]);
+    let res = await getMembersBySearch('Name1');
+    expect(res).not.toEqual([]);
 
     // search key is checked for the username
-    members = await getMembersBySearch('test');
-    expect(members).not.toEqual([]);
+    res = await getMembersBySearch('test');
+    expect(res).not.toEqual([]);
 
     // search key is checked for the program
-    members = await getMembersBySearch('Computer');
-    expect(members).not.toEqual([]);
+    res = await getMembersBySearch('Comp');
+    expect(res).not.toEqual([]);
 
     // search key is checked for the role
-    members = await getMembersBySearch('Mem');
-    expect(members).not.toEqual([]);
+    res = await getMembersBySearch('Mem');
+    expect(res).not.toEqual([]);
   });
 
   // no member contains the search key
@@ -182,20 +182,20 @@ describe('members repository', () => {
     await saveMember({ ...dto });
 
     // search key is checked for the name
-    let members = await getMembersBySearch('Name2');
-    expect(members).toEqual([]);
+    let res = await getMembersBySearch('Name2');
+    expect(res).toEqual([]);
 
     // search key is checked for the username
-    members = await getMembersBySearch('2');
-    expect(members).toEqual([]);
+    res = await getMembersBySearch('2');
+    expect(res).toEqual([]);
 
     // search key is checked for the program
-    members = await getMembersBySearch('Statistics');
-    expect(members).toEqual([]);
+    res = await getMembersBySearch('Statistics');
+    expect(res).toEqual([]);
 
     // search key is checked for the role
-    members = await getMembersBySearch('Admin');
-    expect(members).toEqual([]);
+    res = await getMembersBySearch('Admin');
+    expect(res).toEqual([]);
   });
 
   /* create a leaderboard */
@@ -230,21 +230,21 @@ describe('members repository', () => {
     // 1 member with a score of 0
     await saveMember({ ...dto2 });
 
-    const leaderboard = await getTopMembers();
+    const res = await getTopMembers();
 
-    expect(leaderboard).not.toEqual([]);
+    expect(res).not.toEqual([]);
 
     // all members in the leaderboard should have a score of 10
-    leaderboard.forEach((topMember) => {
+    res.forEach((topMember) => {
       expect(topMember.score).toEqual(10);
     });
   });
 
   // no members exist
   it('no members, should return an empty array', async () => {
-    const leaderboard = await getTopMembers();
+    const res = await getTopMembers();
 
-    expect(leaderboard).toEqual([]);
+    expect(res).toEqual([]);
   });
 
   /* edit a member */
@@ -269,24 +269,24 @@ describe('members repository', () => {
       role: 'Admin',
     };
 
-    const updatedMember = await updateMember(member.id, { ...updatedDto });
+    const res = await updateMember(member.id, { ...updatedDto });
 
-    expect(updatedMember).not.toBeNull();
+    expect(res).not.toBeNull();
 
     // must have the same id and created time
-    expect(updatedMember.id).toEqual(member.id);
-    expect(updatedMember.createdAt).toEqual(member.createdAt);
+    expect(res.id).toEqual(member.id);
+    expect(res.createdAt).toEqual(member.createdAt);
 
     // must have updated data for score, numAttend, name, username, program, and role
-    expect(updatedMember.score).toEqual(10);
-    expect(updatedMember.numAttend).toEqual(1);
-    expect(updatedMember.name).toEqual('testName2');
-    expect(updatedMember.username).toEqual('test2');
-    expect(updatedMember.program).toEqual('Mathematics');
-    expect(updatedMember.role).toEqual('Admin');
+    expect(res.score).toEqual(10);
+    expect(res.numAttend).toEqual(1);
+    expect(res.name).toEqual('testName2');
+    expect(res.username).toEqual('test2');
+    expect(res.program).toEqual('Mathematics');
+    expect(res.role).toEqual('Admin');
 
     // updated time must be different
-    expect(updatedMember.updatedAt).not.toEqual(member.updatedAt);
+    expect(res.updatedAt).not.toEqual(member.updatedAt);
   });
 
   /* delete a member */
@@ -300,10 +300,10 @@ describe('members repository', () => {
       role: 'Member',
     };
 
-    const member = await saveMember({ ...dto });
-    const deleted = await deleteMember(member.id);
-    const test = getMemberById(deleted.id);
+    const resSave = await saveMember({ ...dto });
+    const resDelete = await deleteMember(resSave.id);
+    const resGet = getMemberById(resDelete.id);
 
-    expect(test).toBeNull();
+    expect(resGet).toBeNull();
   });
 });
