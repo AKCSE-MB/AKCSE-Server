@@ -61,12 +61,12 @@ export async function searchMember(key: string) {
 export async function editMember(
   id: number,
   param: {
-    score: number;
-    numAttend: number;
-    name: string;
-    username: string;
-    program: string;
-    role: string;
+    score?: number;
+    numAttend?: number;
+    name?: string;
+    username?: string;
+    program?: string;
+    role?: string;
   },
 ) {
   const member = await getMemberById(id);
@@ -78,14 +78,16 @@ export async function editMember(
     );
   }
 
-  return await updateMember(id, {
-    score: param.score,
-    numAttend: param.numAttend,
-    name: param.name,
-    username: param.username,
-    program: param.program,
-    role: param.role,
-  });
+  const data: any = {};
+
+  if (param.score !== undefined) data.score = param.score;
+  if (param.numAttend !== undefined) data.numAttend = param.numAttend;
+  if (param.name !== undefined) data.name = param.name;
+  if (param.username !== undefined) data.username = param.username;
+  if (param.program !== undefined) data.program = param.program;
+  if (param.role !== undefined) data.role = param.role;
+
+  return await updateMember(id, data);
 }
 
 export async function removeMember(id: number) {
