@@ -4,8 +4,7 @@ import {
   saveMember,
   getMembers,
   getMemberById,
-  getMembersBySearch,
-  getTopMembers,
+  getMembersByConditions,
   updateMember,
   deleteMember,
 } from '@domain/members/repository/members.repository';
@@ -54,7 +53,8 @@ describe('members repository', () => {
     await saveMember({ ...dto });
     await saveMember({ ...dto });
 
-    const res = await getMembers();
+    //false to get all members
+    const res = await getMembers(false);
 
     expect(res).not.toEqual([]);
     expect(res.length).toEqual(2);
@@ -74,7 +74,7 @@ describe('members repository', () => {
 
   // no members exist
   it('no members, should return an empty array', async () => {
-    const res = await getMembers();
+    const res = await getMembers(false);
     expect(res).toEqual([]);
   });
 
@@ -119,20 +119,15 @@ describe('members repository', () => {
     // this member must have an id of 1
     await saveMember({ ...dto });
 
-    // search key is checked for the name
-    let res = await getMembersBySearch('testName1');
-    expect(res).not.toEqual([]);
+    // search key is checked for all conditions
+    const param = {
+      name: 'testName1',
+      username: 'test1 ',
+      program: 'Computer Science',
+      role: 'Member',
+    };
 
-    // search key is checked for the username
-    res = await getMembersBySearch('test1');
-    expect(res).not.toEqual([]);
-
-    // search key is checked for the program
-    res = await getMembersBySearch('Computer');
-    expect(res).not.toEqual([]);
-
-    // search key is checked for the role
-    res = await getMembersBySearch('Member');
+    const res = await getMembersByConditions(param);
     expect(res).not.toEqual([]);
   });
 
@@ -150,20 +145,15 @@ describe('members repository', () => {
     // this member must have an id of 1
     await saveMember({ ...dto });
 
-    // search key is checked for the name
-    let res = await getMembersBySearch('Name1');
-    expect(res).not.toEqual([]);
+    // search key is checked for all conditions
+    const param = {
+      name: 'Name1',
+      username: 'test',
+      program: 'Comp',
+      role: 'Mem',
+    };
 
-    // search key is checked for the username
-    res = await getMembersBySearch('test');
-    expect(res).not.toEqual([]);
-
-    // search key is checked for the program
-    res = await getMembersBySearch('Comp');
-    expect(res).not.toEqual([]);
-
-    // search key is checked for the role
-    res = await getMembersBySearch('Mem');
+    const res = await getMembersByConditions(param);
     expect(res).not.toEqual([]);
   });
 
@@ -181,21 +171,16 @@ describe('members repository', () => {
     // this member must have an id of 1
     await saveMember({ ...dto });
 
-    // search key is checked for the name
-    let res = await getMembersBySearch('Name2');
-    expect(res).toEqual([]);
+    // search key is checked for all conditions
+    const param = {
+      name: 'Name2',
+      username: '2',
+      program: 'Statistics',
+      role: 'Admin',
+    };
 
-    // search key is checked for the username
-    res = await getMembersBySearch('2');
-    expect(res).toEqual([]);
-
-    // search key is checked for the program
-    res = await getMembersBySearch('Statistics');
-    expect(res).toEqual([]);
-
-    // search key is checked for the role
-    res = await getMembersBySearch('Admin');
-    expect(res).toEqual([]);
+    const res = await getMembersByConditions(param);
+    expect(res).not.toEqual([]);
   });
 
   /* create a leaderboard */
@@ -230,7 +215,7 @@ describe('members repository', () => {
     // 1 member with a score of 0
     await saveMember({ ...dto2 });
 
-    const res = await getTopMembers();
+    const res = await getMembers(true);
 
     expect(res).not.toEqual([]);
 
@@ -242,7 +227,7 @@ describe('members repository', () => {
 
   // no members exist
   it('no members, should return an empty array', async () => {
-    const res = await getTopMembers();
+    const res = await getMembers(true);
 
     expect(res).toEqual([]);
   });
