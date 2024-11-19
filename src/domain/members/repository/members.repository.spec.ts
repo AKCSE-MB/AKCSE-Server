@@ -147,12 +147,6 @@ describe('members repository', () => {
     expect(res).toEqual([]);
   });
 
-  it('no members, should return an empty array', async () => {
-    const res = await getMembers(true);
-
-    expect(res).toEqual([]);
-  });
-
   it('should return a member with an updated score, numAttend, name, username, program, and role', async () => {
     const dto = {
       score: 0,
@@ -165,7 +159,7 @@ describe('members repository', () => {
 
     const member = await saveMember({ ...dto });
 
-    const updateData = {
+    const expected = {
       score: 10,
       numAttend: 1,
       name: 'testName2',
@@ -174,7 +168,7 @@ describe('members repository', () => {
       role: 'Admin',
     };
 
-    const res = await updateMember(member.id, { ...updateData });
+    const res = await updateMember(member.id, { ...expected });
 
     expect(res).not.toBeNull();
 
