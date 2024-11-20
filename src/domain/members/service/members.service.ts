@@ -89,13 +89,6 @@ export async function editMember(
 export async function removeMember(id: number) {
   const member = await getMember(id);
 
-  if (!member) {
-    throw new CallerWrongUsageException(
-      ErrorSubCategoryEnum.INVALID_INPUT,
-      'no such member',
-    );
-  }
-
   return await deleteMember(id);
 }
 
