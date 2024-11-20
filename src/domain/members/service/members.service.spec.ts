@@ -123,27 +123,25 @@ describe('members service', () => {
       numAttend: 0,
       name: 'testName1',
       username: 'test1',
-      program: 'Computer Science',
-      role: 'Member',
+      program: Program.COMPUTER_SCIENCE,
+      role: Role.MEMBER,
+    };
+
+    const param = {
+      score: 10,
+      numAttend: 1,
+      name: 'testName1',
+      username: 'test1',
+      program: Program.COMPUTER_SCIENCE,
+      role: Role.MEMBER,
     };
 
     // this member must have an id of 1
     await createMember({ ...dto });
 
     // search key is checked for the name
-    let members = await searchMember('testName1');
-    expect(members).not.toEqual([]);
+    const members = await searchMember(param);
 
-    // search key is checked for the username
-    members = await searchMember('test1');
-    expect(members).not.toEqual([]);
-
-    // search key is checked for the program
-    members = await searchMember('Computer Science');
-    expect(members).not.toEqual([]);
-
-    // search key is checked for the role
-    members = await searchMember('Member');
     expect(members).not.toEqual([]);
   });
 
@@ -154,27 +152,24 @@ describe('members service', () => {
       numAttend: 0,
       name: 'testName1',
       username: 'test1',
-      program: 'Computer Science',
-      role: 'Member',
+      program: Program.COMPUTER_SCIENCE,
+      role: Role.MEMBER,
+    };
+
+    const param = {
+      score: 0,
+      numAttend: 0,
+      name: 'testName1',
+      username: 'test1',
+      program: 'Comp',
+      role: 'Mem',
     };
 
     // this member must have an id of 1
     await createMember({ ...dto });
 
     // search key is checked for the name
-    let members = await searchMember('Name1');
-    expect(members).not.toEqual([]);
-
-    // search key is checked for the username
-    members = await searchMember('test');
-    expect(members).not.toEqual([]);
-
-    // search key is checked for the program
-    members = await searchMember('Computer');
-    expect(members).not.toEqual([]);
-
-    // search key is checked for the role
-    members = await searchMember('Mem');
+    const members = await searchMember(param);
     expect(members).not.toEqual([]);
   });
 
@@ -185,27 +180,24 @@ describe('members service', () => {
       numAttend: 0,
       name: 'testName1',
       username: 'test1',
-      program: 'Computer Science',
-      role: 'Member',
+      program: Program.COMPUTER_SCIENCE,
+      role: Role.MEMBER,
+    };
+
+    const param = {
+      score: 0,
+      numAttend: 0,
+      name: 'Name2',
+      username: '2',
+      program: 'Stat',
+      role: 'Mem',
     };
 
     // this member must have an id of 1
     await createMember({ ...dto });
 
     // search key is checked for the name
-    let members = await searchMember('Name2');
-    expect(members).toEqual([]);
-
-    // search key is checked for the username
-    members = await searchMember('2');
-    expect(members).toEqual([]);
-
-    // search key is checked for the program
-    members = await searchMember('Statistics');
-    expect(members).toEqual([]);
-
-    // search key is checked for the role
-    members = await searchMember('Admin');
+    const members = await searchMember(param);
     expect(members).toEqual([]);
   });
 
@@ -271,7 +263,7 @@ describe('members service', () => {
 
     const member = await createMember({ ...dto });
 
-    const updatedDto = {
+    const expected = {
       score: 10,
       numAttend: 1,
       name: 'testName2',
@@ -280,7 +272,7 @@ describe('members service', () => {
       role: Role.ADMIN,
     };
 
-    const updatedMember = await editMember(member.id, { ...updatedDto });
+    const updatedMember = await editMember(member.id, { ...expected });
 
     expect(updatedMember).not.toBeNull();
 

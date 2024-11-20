@@ -4,8 +4,7 @@ import {
   saveMember,
   getMembers,
   getMemberById,
-  getMembersBySearch,
-  getTopMembers,
+  getMembersByConditions,
   updateMember,
   deleteMember,
 } from '../repository/members.repository';
@@ -46,8 +45,13 @@ export async function getMember(id: number) {
   return member;
 }
 
-export async function searchMember(key: string) {
-  const member = await getMembersBySearch(key);
+export async function searchMember(param: {
+  name?: string;
+  username?: string;
+  program?: string;
+  role?: string;
+}) {
+  const member = await getMembersByConditions(param);
 
   if (!member) {
     throw new CallerWrongUsageException(
