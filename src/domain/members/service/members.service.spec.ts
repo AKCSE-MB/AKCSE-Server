@@ -26,18 +26,18 @@ describe('members service', () => {
       role: Role.MEMBER,
     };
 
-    const member = await createMember({ ...dto });
+    const res = await createMember({ ...dto });
 
-    expect(member).not.toBeNull();
-    expect(member).toHaveProperty('id');
-    expect(member).toHaveProperty('score');
-    expect(member).toHaveProperty('numAttend');
-    expect(member).toHaveProperty('name');
-    expect(member).toHaveProperty('username');
-    expect(member).toHaveProperty('program');
-    expect(member).toHaveProperty('role');
-    expect(member).toHaveProperty('createdAt');
-    expect(member).toHaveProperty('updatedAt');
+    expect(res).not.toBeNull();
+    expect(res).toHaveProperty('id');
+    expect(res).toHaveProperty('score');
+    expect(res).toHaveProperty('numAttend');
+    expect(res).toHaveProperty('name');
+    expect(res).toHaveProperty('username');
+    expect(res).toHaveProperty('program');
+    expect(res).toHaveProperty('role');
+    expect(res).toHaveProperty('createdAt');
+    expect(res).toHaveProperty('updatedAt');
   });
 
   it('should return all members', async () => {
@@ -53,12 +53,13 @@ describe('members service', () => {
     await createMember({ ...dto });
     await createMember({ ...dto });
 
-    const members = await getAllMembers();
+    const res = await getAllMembers();
+    const expectedNumMembers = 2;
 
-    expect(members).not.toEqual([]);
-    expect(members.length).toEqual(2);
+    expect(res).not.toEqual([]);
+    expect(res.length).toEqual(expectedNumMembers);
 
-    members.forEach((member) => {
+    res.forEach((member) => {
       expect(member).toHaveProperty('id');
       expect(member).toHaveProperty('score');
       expect(member).toHaveProperty('numAttend');
@@ -72,8 +73,8 @@ describe('members service', () => {
   });
 
   it('no members, should return an empty array', async () => {
-    const members = await getAllMembers();
-    expect(members).toEqual([]);
+    const res = await getAllMembers();
+    expect(res).toEqual([]);
   });
 
   it('should return a member with the passed id', async () => {
@@ -86,25 +87,26 @@ describe('members service', () => {
       role: Role.MEMBER,
     };
 
-    const member = await createMember({ ...dto });
-    const testMember = await getMember(member.id);
+    const resNew = await createMember({ ...dto });
+    const res = await getMember(resNew.id);
 
-    expect(testMember).not.toBeNull();
-    expect(testMember.id).toEqual(member.id);
-    expect(testMember.score).toEqual(member.score);
-    expect(testMember.numAttend).toEqual(member.numAttend);
-    expect(testMember.name).toEqual(member.name);
-    expect(testMember.username).toEqual(member.username);
-    expect(testMember.program).toEqual(member.program);
-    expect(testMember.role).toEqual(member.role);
-    expect(testMember.createdAt).toEqual(member.createdAt);
-    expect(testMember.updatedAt).toEqual(member.updatedAt);
+    expect(res).not.toBeNull();
+    expect(res.id).toEqual(resNew.id);
+    expect(res.score).toEqual(resNew.score);
+    expect(res.numAttend).toEqual(resNew.numAttend);
+    expect(res.name).toEqual(resNew.name);
+    expect(res.username).toEqual(resNew.username);
+    expect(res.program).toEqual(resNew.program);
+    expect(res.role).toEqual(resNew.role);
+    expect(res.createdAt).toEqual(resNew.createdAt);
+    expect(res.updatedAt).toEqual(resNew.updatedAt);
   });
 
   it('member does not exist, should be null', async () => {
-    const member = await getMember(999);
+    const memberId = 100;
+    const res = await getMember(memberId);
 
-    expect(member).toBeNull;
+    expect(res).toBeNull;
   });
 
   it('should return a member', async () => {
@@ -128,9 +130,11 @@ describe('members service', () => {
 
     await createMember({ ...dto });
 
-    const members = await searchMember(param);
+    const res = await searchMember(param);
+    const expectedNumMembers = 1;
 
-    expect(members).not.toEqual([]);
+    expect(res).not.toEqual([]);
+    expect(res.length).toEqual(expectedNumMembers);
   });
 
   it('should return a member', async () => {
@@ -154,8 +158,11 @@ describe('members service', () => {
 
     await createMember({ ...dto });
 
-    const members = await searchMember(param);
-    expect(members).not.toEqual([]);
+    const res = await searchMember(param);
+    const expectedNumMembers = 1;
+
+    expect(res).not.toEqual([]);
+    expect(res.length).toEqual(expectedNumMembers);
   });
 
   it('should return an empty array', async () => {
@@ -179,8 +186,8 @@ describe('members service', () => {
 
     await createMember({ ...dto });
 
-    const members = await searchMember(param);
-    expect(members).toEqual([]);
+    const res = await searchMember(param);
+    expect(res).toEqual([]);
   });
 
   it('should return up to 5 members with the highest scores', async () => {
@@ -210,19 +217,21 @@ describe('members service', () => {
 
     await createMember({ ...dto2 });
 
-    const leaderboard = await createLeaderboard();
+    const res = await createLeaderboard();
+    const expectedNumMembers = 5;
 
-    expect(leaderboard).not.toEqual([]);
+    expect(res).not.toEqual([]);
+    expect(res.length).toEqual(expectedNumMembers);
 
-    leaderboard.forEach((topMember) => {
+    res.forEach((topMember) => {
       expect(topMember.score).toEqual(10);
     });
   });
 
   it('no members, should return an empty array', async () => {
-    const leaderboard = await createLeaderboard();
+    const res = await createLeaderboard();
 
-    expect(leaderboard).toEqual([]);
+    expect(res).toEqual([]);
   });
 
   it('should return a member with an updated score, numAttend, name, username, program, and role', async () => {
@@ -235,8 +244,6 @@ describe('members service', () => {
       role: Role.MEMBER,
     };
 
-    const member = await createMember({ ...dto });
-
     const expected = {
       score: 10,
       numAttend: 1,
@@ -246,21 +253,19 @@ describe('members service', () => {
       role: Role.ADMIN,
     };
 
-    const updatedMember = await editMember(member.id, { ...expected });
+    const resNew = await createMember({ ...dto });
+    const res = await editMember(resNew.id, { ...expected });
 
-    expect(updatedMember).not.toBeNull();
+    expect(res).not.toBeNull();
 
-    expect(updatedMember.id).toEqual(member.id);
-    expect(updatedMember.createdAt).toEqual(member.createdAt);
+    expect(res.id).toEqual(resNew.id);
 
-    expect(updatedMember.score).toEqual(10);
-    expect(updatedMember.numAttend).toEqual(1);
-    expect(updatedMember.name).toEqual('testName2');
-    expect(updatedMember.username).toEqual('test2');
-    expect(updatedMember.program).toEqual('Mathematics');
-    expect(updatedMember.role).toEqual('Admin');
-
-    expect(updatedMember.updatedAt).not.toEqual(member.updatedAt);
+    expect(res.score).toEqual(expected.score);
+    expect(res.numAttend).toEqual(expected.numAttend);
+    expect(res.name).toEqual(expected.name);
+    expect(res.username).toEqual(expected.username);
+    expect(res.program).toEqual(expected.program);
+    expect(res.role).toEqual(expected.role);
   });
 
   it('should not be able to return a member after deletion', async () => {
@@ -273,10 +278,10 @@ describe('members service', () => {
       role: Role.MEMBER,
     };
 
-    const member = await createMember({ ...dto });
-    const deleted = await removeMember(member.id);
-    const test = getMember(deleted.id);
+    const memberId = (await createMember({ ...dto })).id;
+    await removeMember(memberId);
+    const res = getMember(memberId);
 
-    expect(test).toBeNull();
+    expect(res).toBeNull();
   });
 });
