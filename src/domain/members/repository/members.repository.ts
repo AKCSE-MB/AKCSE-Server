@@ -24,36 +24,6 @@ export async function getMemberById(id: number) {
   });
 }
 
-export async function getMembersByConditions(param: {
-  name?: string;
-  username?: string;
-  program?: string;
-  role?: string;
-}) {
-  const conditions = {};
-  if (param.name && param.name.length >= 1) {
-    conditions['name'] = { contains: param.name };
-  }
-
-  if (param.username && param.username.length >= 1) {
-    conditions['username'] = { contains: param.username };
-  }
-
-  if (param.program && param.program.length >= 1) {
-    conditions['program'] = { contains: param.program };
-  }
-
-  if (param.role && param.role.length >= 1) {
-    conditions['role'] = { contains: param.role };
-  }
-
-  return await prismaClient.members.findMany({
-    where: {
-      OR: Object.keys(conditions).map((key) => ({ [key]: conditions[key] })),
-    },
-  });
-}
-
 export async function updateMember(
   id: number,
   param: {
