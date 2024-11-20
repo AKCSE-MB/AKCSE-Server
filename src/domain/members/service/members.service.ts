@@ -45,24 +45,6 @@ export async function getMember(id: number) {
   return member;
 }
 
-export async function searchMember(param: {
-  name?: string;
-  username?: string;
-  program?: string;
-  role?: string;
-}) {
-  const member = await getMembersByConditions(param);
-
-  if (!member) {
-    throw new CallerWrongUsageException(
-      ErrorSubCategoryEnum.INVALID_INPUT,
-      'no such member',
-    );
-  }
-
-  return member;
-}
-
 export async function editMember(
   id: number,
   param: {

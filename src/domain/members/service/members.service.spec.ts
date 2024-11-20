@@ -5,7 +5,6 @@ import {
   getAllMembers,
   getMember,
   createMember,
-  searchMember,
   editMember,
   removeMember,
   getLeaderboard,
@@ -85,85 +84,6 @@ describe('members service', () => {
     const res = await getMember(memberId);
 
     expect(res).not.toBeNull();
-  });
-
-  it('should return a member since at least one search key is valid', async () => {
-    const dto = {
-      score: 0,
-      numAttend: 0,
-      name: 'testName1',
-      username: 'test1',
-      program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
-    };
-
-    const param = {
-      name: 'testName1',
-      username: 'test1',
-      program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
-    };
-
-    await createMember({ ...dto });
-
-    const res = await searchMember(param);
-    const expectedNumMembers = 1;
-
-    expect(res).not.toEqual([]);
-    expect(res.length).toEqual(expectedNumMembers);
-  });
-
-  it('should return a member', async () => {
-    const dto = {
-      score: 0,
-      numAttend: 0,
-      name: 'testName1',
-      username: 'test1',
-      program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
-    };
-
-    const param = {
-      score: 0,
-      numAttend: 0,
-      name: 'testName1',
-      username: 'test1',
-      program: 'Comp',
-      role: 'Mem',
-    };
-
-    await createMember({ ...dto });
-
-    const res = await searchMember(param);
-    const expectedNumMembers = 1;
-
-    expect(res).not.toEqual([]);
-    expect(res.length).toEqual(expectedNumMembers);
-  });
-
-  it('should return an empty array', async () => {
-    const dto = {
-      score: 0,
-      numAttend: 0,
-      name: 'testName1',
-      username: 'test1',
-      program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
-    };
-
-    const param = {
-      score: 0,
-      numAttend: 0,
-      name: 'Name2',
-      username: '2',
-      program: 'Stat',
-      role: 'Adm',
-    };
-
-    await createMember({ ...dto });
-
-    const res = await searchMember(param);
-    expect(res).toEqual([]);
   });
 
   it('should return up to 5 members with the highest scores', async () => {
