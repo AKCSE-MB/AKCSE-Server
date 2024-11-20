@@ -18,7 +18,7 @@ export async function createMember(param: {
   program: Program;
   role: Role;
 }) {
-  return await saveMember({
+  await saveMember({
     score: param.score,
     numAttend: param.numAttend,
     name: param.name,

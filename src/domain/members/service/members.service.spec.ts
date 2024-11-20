@@ -27,8 +27,11 @@ describe('members service', () => {
       program: Program.COMPUTER_SCIENCE,
       role: Role.MEMBER,
     };
+    const memberId = 1;
 
-    const res = await createMember({ ...dto });
+    await createMember({ ...dto });
+
+    const res = await getMember(memberId);
 
     expect(res).not.toBeNull();
     expect(res).toHaveProperty('id');
@@ -89,8 +92,9 @@ describe('members service', () => {
       role: Role.MEMBER,
     };
 
-    const resNew = await createMember({ ...dto });
-    const res = await getMember(resNew.id);
+    await createMember({ ...dto });
+    const memberId = 1;
+    const res = await getMember(memberId);
 
     expect(res).not.toBeNull();
     expect(res.id).toEqual(resNew.id);
@@ -246,13 +250,13 @@ describe('members service', () => {
       role: Role.ADMIN,
     };
 
-    const resNew = await createMember({ ...dto });
-    const res = await editMember(resNew.id, { ...expected });
+    await createMember({ ...dto });
+
+    const memberId = 1;
+    const res = await editMember(memberId, { ...expected });
 
     expect(res).not.toBeNull();
-
-    expect(res.id).toEqual(resNew.id);
-
+    expect(res.id).toEqual(memberId);
     expect(res.score).toEqual(expected.score);
     expect(res.numAttend).toEqual(expected.numAttend);
     expect(res.name).toEqual(expected.name);
@@ -270,8 +274,9 @@ describe('members service', () => {
       program: Program.COMPUTER_SCIENCE,
       role: Role.MEMBER,
     };
+    const memberId = 1;
 
-    const memberId = (await createMember({ ...dto })).id;
+    await createMember({ ...dto });
     await removeMember(memberId);
 
     try {
