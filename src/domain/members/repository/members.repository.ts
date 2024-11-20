@@ -9,7 +9,7 @@ export async function saveMember(param: {
   program: Program;
   role: Role;
 }) {
-  return await prismaClient.members.create({ data: param });
+  await prismaClient.members.create({ data: param });
 }
 
 export async function getMembers() {

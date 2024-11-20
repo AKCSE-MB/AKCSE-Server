@@ -4,7 +4,6 @@ import {
   saveMember,
   getMembers,
   getMemberById,
-  getMembersByConditions,
   updateMember,
   deleteMember,
 } from '@domain/members/repository/members.repository';
@@ -24,8 +23,11 @@ describe('members repository', () => {
       program: Program.COMPUTER_SCIENCE,
       role: Role.MEMBER,
     };
+    const memberId = 1;
 
-    const res = await saveMember({ ...dto });
+    await saveMember({ ...dto });
+
+    const res = await getMemberById(memberId);
 
     expect(res).not.toBeNull();
   });
@@ -63,9 +65,11 @@ describe('members repository', () => {
       program: Program.COMPUTER_SCIENCE,
       role: Role.MEMBER,
     };
+    const memberId = 1;
 
-    const resSave = await saveMember({ ...dto });
-    const res = await getMemberById(resSave.id);
+    await saveMember({ ...dto });
+
+    const res = await getMemberById(memberId);
 
     expect(res).not.toBeNull();
   });
@@ -87,8 +91,6 @@ describe('members repository', () => {
       role: Role.MEMBER,
     };
 
-    const member = await saveMember({ ...dto });
-
     const expected = {
       score: 10,
       numAttend: 1,
@@ -98,11 +100,15 @@ describe('members repository', () => {
       role: Role.ADMIN,
     };
 
-    const res = await updateMember(member.id, { ...expected });
+    const memberId = 1;
+
+    await saveMember({ ...dto });
+
+    const res = await updateMember(memberId, { ...expected });
 
     expect(res).not.toBeNull();
 
-    expect(res.id).toEqual(member.id);
+    expect(res.id).toEqual(memberId);
 
     expect(res.score).toEqual(10);
     expect(res.numAttend).toEqual(1);
@@ -121,9 +127,11 @@ describe('members repository', () => {
       program: Program.COMPUTER_SCIENCE,
       role: Role.MEMBER,
     };
+    const memberId = 1;
 
-    const memberId = (await saveMember({ ...dto })).id;
+    await saveMember({ ...dto });
     await deleteMember(memberId);
+
     const res = await getMemberById(memberId);
 
     expect(res).toBeNull();
