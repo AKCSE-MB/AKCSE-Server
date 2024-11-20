@@ -87,12 +87,10 @@ export async function editMember(
 }
 
 export async function removeMember(id: number) {
-  const member = await getMember(id);
-
   return await deleteMember(id);
 }
 
-export async function createLeaderboard() {
+export async function getLeaderboard() {
   const members = await getAllMembers();
   const sortedMembers = members.sort((a, b) => b.score - a.score);
   const first = 0;

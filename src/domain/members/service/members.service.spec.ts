@@ -8,7 +8,7 @@ import {
   searchMember,
   editMember,
   removeMember,
-  createLeaderboard,
+  getLeaderboard,
 } from '@domain/members/service/members.service';
 import prismaClient from '@common/database/prisma';
 import { Program, Role } from '@domain/members/members.enum';
@@ -214,7 +214,7 @@ describe('members service', () => {
 
     await createMember({ ...dto2 });
 
-    const res = await createLeaderboard();
+    const res = await getLeaderboard();
     const expectedNumMembers = 5;
 
     expect(res).not.toEqual([]);
@@ -226,7 +226,7 @@ describe('members service', () => {
   });
 
   it('no members, should return an empty array', async () => {
-    const res = await createLeaderboard();
+    const res = await getLeaderboard();
 
     expect(res).toEqual([]);
   });
