@@ -83,16 +83,7 @@ export async function editMember(
     );
   }
 
-  const data: any = {};
-
-  if (param.score !== undefined) data.score = param.score;
-  if (param.numAttend !== undefined) data.numAttend = param.numAttend;
-  if (param.name !== undefined) data.name = param.name;
-  if (param.username !== undefined) data.username = param.username;
-  if (param.program !== undefined) data.program = param.program;
-  if (param.role !== undefined) data.role = param.role;
-
-  return await updateMember(id, data);
+  return await updateMember(id, param);
 }
 
 export async function removeMember(id: number) {
@@ -111,7 +102,6 @@ export async function removeMember(id: number) {
 export async function createLeaderboard() {
   const members = await getAllMembers();
   const sortedMembers = members.sort((a, b) => a.score - b.score);
-
   const first = 0;
   const numMembers = 5;
 
