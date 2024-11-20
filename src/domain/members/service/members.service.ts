@@ -4,7 +4,6 @@ import {
   saveMember,
   getMembers,
   getMemberById,
-  getMembersByConditions,
   updateMember,
   deleteMember,
 } from '@domain/members/repository/members.repository';
