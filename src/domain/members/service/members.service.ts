@@ -109,5 +109,11 @@ export async function removeMember(id: number) {
 }
 
 export async function createLeaderboard() {
-  return await getTopMembers();
+  const members = await getAllMembers();
+  const sortedMembers = members.sort((a, b) => a.score - b.score);
+
+  const first = 0;
+  const numMembers = 5;
+
+  return sortedMembers.slice(first, numMembers);
 }
