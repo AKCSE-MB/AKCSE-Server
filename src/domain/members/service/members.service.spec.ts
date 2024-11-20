@@ -10,6 +10,8 @@ import {
 } from '@domain/members/service/members.service';
 import prismaClient from '@common/database/prisma';
 import { Program, Role } from '@domain/members/members.enum';
+import { CallerWrongUsageException } from '@root/src/common/exception/internal.exception';
+import { ErrorSubCategoryEnum } from '@root/src/common/exception/enum';
 
 describe('members service', () => {
   beforeEach(async () => {
@@ -102,14 +104,7 @@ describe('members service', () => {
     expect(res.updatedAt).toEqual(resNew.updatedAt);
   });
 
-  it('member does not exist, should be null', async () => {
-    const memberId = 100;
-    const res = await getMember(memberId);
-
-    expect(res).toBeNull;
-  });
-
-  it('should return a member', async () => {
+  it('should return a member since at least one search key is valid', async () => {
     const dto = {
       score: 0,
       numAttend: 0,
@@ -120,8 +115,6 @@ describe('members service', () => {
     };
 
     const param = {
-      score: 10,
-      numAttend: 1,
       name: 'testName1',
       username: 'test1',
       program: Program.COMPUTER_SCIENCE,
@@ -181,7 +174,7 @@ describe('members service', () => {
       name: 'Name2',
       username: '2',
       program: 'Stat',
-      role: 'Mem',
+      role: 'Adm',
     };
 
     await createMember({ ...dto });
@@ -268,7 +261,7 @@ describe('members service', () => {
     expect(res.role).toEqual(expected.role);
   });
 
-  it('should not be able to return a member after deletion', async () => {
+  it('should throw an error with the message since the deleted member cannot be retreived', async () => {
     const dto = {
       score: 0,
       numAttend: 0,
@@ -280,8 +273,13 @@ describe('members service', () => {
 
     const memberId = (await createMember({ ...dto })).id;
     await removeMember(memberId);
-    const res = getMember(memberId);
 
-    expect(res).toBeNull();
+    try {
+      const res = await getMember(memberId);
+    } catch (error) {
+      expect(error).toBeInstanceOf(CallerWrongUsageException);
+      expect(error.message).toBe('no such member');
+      expect(error.name).toBe(ErrorSubCategoryEnum.INVALID_INPUT);
+    }
   });
 });
