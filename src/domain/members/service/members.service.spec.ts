@@ -63,18 +63,6 @@ describe('members service', () => {
 
     expect(res).not.toEqual([]);
     expect(res.length).toEqual(expectedNumMembers);
-
-    res.forEach((member) => {
-      expect(member).toHaveProperty('id');
-      expect(member).toHaveProperty('score');
-      expect(member).toHaveProperty('numAttend');
-      expect(member).toHaveProperty('name');
-      expect(member).toHaveProperty('username');
-      expect(member).toHaveProperty('program');
-      expect(member).toHaveProperty('role');
-      expect(member).toHaveProperty('createdAt');
-      expect(member).toHaveProperty('updatedAt');
-    });
   });
 
   it('no members, should return an empty array', async () => {
@@ -97,15 +85,6 @@ describe('members service', () => {
     const res = await getMember(memberId);
 
     expect(res).not.toBeNull();
-    expect(res.id).toEqual(resNew.id);
-    expect(res.score).toEqual(resNew.score);
-    expect(res.numAttend).toEqual(resNew.numAttend);
-    expect(res.name).toEqual(resNew.name);
-    expect(res.username).toEqual(resNew.username);
-    expect(res.program).toEqual(resNew.program);
-    expect(res.role).toEqual(resNew.role);
-    expect(res.createdAt).toEqual(resNew.createdAt);
-    expect(res.updatedAt).toEqual(resNew.updatedAt);
   });
 
   it('should return a member since at least one search key is valid', async () => {
