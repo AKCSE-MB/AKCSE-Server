@@ -1,5 +1,5 @@
 import { CallerWrongUsageException } from '@common/exception/internal.exception';
-import { ErrorSubCategoryEnum } from '@root/src/common/exception/enum';
+import { ErrorSubCategoryEnum } from '@common/exception/enum';
 import {
   saveMember,
   getMembers,
