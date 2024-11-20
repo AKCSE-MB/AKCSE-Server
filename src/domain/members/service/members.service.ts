@@ -80,7 +80,7 @@ export async function editMember(
   if (!member) {
     throw new CallerWrongUsageException(
       ErrorSubCategoryEnum.INVALID_INPUT,
-      'invalid id or data',
+      'invalid update data',
     );
   }
 
@@ -95,7 +95,7 @@ export async function removeMember(id: number) {
 
 export async function createLeaderboard() {
   const members = await getAllMembers();
-  const sortedMembers = members.sort((a, b) => a.score - b.score);
+  const sortedMembers = members.sort((a, b) => b.score - a.score);
   const first = 0;
   const numMembers = 5;
 
