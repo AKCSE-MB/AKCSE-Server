@@ -29,7 +29,7 @@ export async function createMember(param: {
 }
 
 export async function getAllMembers() {
-  return getMembers();
+  return await getMembers();
 }
 
 export async function getMember(id: number) {
