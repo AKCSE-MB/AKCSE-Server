@@ -74,7 +74,6 @@ export async function editMember(
     role?: Role;
   },
 ) {
-  const memberId = (await getMemberById(id))?.id;
   const member = updateMember(id, param);
 
   if (!member) {
