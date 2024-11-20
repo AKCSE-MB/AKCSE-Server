@@ -258,12 +258,8 @@ describe('members service', () => {
     await createMember({ ...dto });
     await removeMember(memberId);
 
-    try {
-      const res = await getMember(memberId);
-    } catch (error) {
-      expect(error).toBeInstanceOf(CallerWrongUsageException);
-      expect(error.message).toBe('no such member');
-      expect(error.name).toBe(ErrorSubCategoryEnum.INVALID_INPUT);
-    }
+    await expect(getMember(memberId)).rejects.toThrowError(
+      CallerWrongUsageException,
+    );
   });
 });
