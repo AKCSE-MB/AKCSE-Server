@@ -74,16 +74,17 @@ export async function editMember(
     role?: Role;
   },
 ) {
-  const member = await getMemberById(id);
+  const memberId = (await getMemberById(id))?.id;
+  const member = updateMember(id, param);
 
   if (!member) {
     throw new CallerWrongUsageException(
       ErrorSubCategoryEnum.INVALID_INPUT,
-      'no such member',
+      'invalid id or data',
     );
   }
 
-  return await updateMember(id, param);
+  return member;
 }
 
 export async function removeMember(id: number) {
