@@ -1,3 +1,5 @@
+import { CallerWrongUsageException } from '@common/exception/internal.exception';
+import { ErrorSubCategoryEnum } from '@root/src/common/exception/enum';
 import { truncateTables } from '@root/jest.setup';
 import {
   getAllMembers,
@@ -10,8 +12,6 @@ import {
 } from '@domain/members/service/members.service';
 import prismaClient from '@common/database/prisma';
 import { Program, Role } from '@domain/members/members.enum';
-import { CallerWrongUsageException } from '@root/src/common/exception/internal.exception';
-import { ErrorSubCategoryEnum } from '@root/src/common/exception/enum';
 
 describe('members service', () => {
   beforeEach(async () => {

@@ -7,7 +7,7 @@ import {
   getMembersByConditions,
   updateMember,
   deleteMember,
-} from '../repository/members.repository';
+} from '@domain/members/repository/members.repository';
 import { Program, Role } from '@domain/members/members.enum';
 
 export async function createMember(param: {
