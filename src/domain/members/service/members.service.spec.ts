@@ -1,5 +1,4 @@
 import { CallerWrongUsageException } from '@common/exception/internal.exception';
-import { ErrorSubCategoryEnum } from '@common/exception/enum';
 import { truncateTables } from '@root/jest.setup';
 import {
   getAllMembers,
