@@ -46,15 +46,15 @@ model Members {
 
 model Events {
   id                  Int       @id @default(autoincrement())
-  title               String    @map("title")
-  description         String    @map("description")
+  title               String    @map("title") @db.VarChar(50)
+  description         String    @map("description") @db.VarChar(300)
   fee                 Float     @map("fee")
-  date                String    @map("date")
+  date                DateTime  @db.Date @map("date")
   startTime           DateTime  @db.Time @map("start_time")
   endTime             DateTime  @db.Time @map("end_time")
-  location            String    @map("location")
-  signUpDeadline      String    @map("sign_up_deadline")
-  rsvpLink            String    @map("rsvp_link")
+  location            String    @map("location") @db.VarChar(30)
+  signUpDeadline      DateTime  @map("sign_up_deadline")
+  rsvpLink            String    @map("rsvp_link") @db.VarChar(256)
   createdAt           DateTime  @default(now()) @map("created_at")
   updatedAt           DateTime  @updatedAt @map("updated_at")
 }
