@@ -44,6 +44,21 @@ model Members {
   @@map("members")
 }
 
+model Events {
+  id                  Int       @id @default(autoincrement())
+  title               String    @map("title")
+  description         String    @map("description")
+  fee                 Float     @map("fee")
+  date                String    @map("date")
+  startTime           DateTime  @db.Time @map("start_time")
+  endTime             DateTime  @db.Time @map("end_time")
+  location            String    @map("location")
+  signUpDeadline      String    @map("sign_up_deadline")
+  rsvpLink            String    @map("rsvp_link")
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime  @updatedAt @map("updated_at")
+}
+
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model spatial_ref_sys {
   srid      Int     @id
