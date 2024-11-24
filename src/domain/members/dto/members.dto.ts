@@ -1,5 +1,4 @@
-// Needed when creating a new member
-export interface CreateMembersDTO {
+export interface MemberCreateRequestDTO {
   score: number;
   numAttend: number;
   name: string;
@@ -29,7 +28,7 @@ export interface MembersResponseDTO {
   updatedAt: Date;
 }
 
-export interface topMemberDTO {
+export interface TopMemberResponseDTO {
   id: number;
   username: string;
   score: number;
