@@ -25,6 +25,8 @@ export interface MembersResponseDTO {
   username: string;
   program: string;
   role: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface topMemberDTO {
