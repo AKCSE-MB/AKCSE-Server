@@ -15,7 +15,7 @@ import {
   MemberUpdateRequestDTO,
   MembersResponseDTO,
   TopMembersResponseDTO,
-} from '../dto/members.dto';
+} from '@domain/members/dto/members.dto';
 import {
   getAllMembers,
   getMember,
@@ -23,7 +23,7 @@ import {
   editMember,
   removeMember,
   createLeaderboard,
-} from '../service/members.service';
+} from '@domain/members/service/members.service';
 import { BaseResponseDto } from '@root/src/common/dto/base.dto';
 
 @Controller('v1/members')
