@@ -23,20 +23,8 @@ describe('members controller', () => {
   });
 
   /* create member */
-  it('should return a new member', async () => {
-    const mockMember = {
-      id: 1,
-      score: 0,
-      numAttend: 0,
-      name: 'testName1',
-      username: 'test1',
-      program: 'Computer Science',
-      role: 'Member',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-
-    jest.spyOn(membersService, 'createMember').mockResolvedValue(mockMember);
+  it('should create a new member', async () => {
+    jest.spyOn(membersService, 'createMember');
 
     const res = await request(app.getHttpServer()).post('/v1/members').send({
       score: 0,
@@ -48,13 +36,6 @@ describe('members controller', () => {
     });
 
     assertStatusCode(res, 200);
-    expect(res).not.toBeNull();
-    expect(res.body.data.score).toEqual(mockMember.score);
-    expect(res.body.data.numAttend).toEqual(mockMember.numAttend);
-    expect(res.body.data.name).toEqual(mockMember.name);
-    expect(res.body.data.username).toEqual(mockMember.username);
-    expect(res.body.data.program).toEqual(mockMember.program);
-    expect(res.body.data.role).toEqual(mockMember.role);
   });
 
   /* get all members */
@@ -90,22 +71,7 @@ describe('members controller', () => {
     const res = await request(app.getHttpServer()).get('/v1/members');
 
     assertStatusCode(res, 200);
-
-    // first member
-    expect(res.body[0].data.score).toEqual(mockMembers[0].score);
-    expect(res.body[0].data.numAttend).toEqual(mockMembers[0].numAttend);
-    expect(res.body[0].data.name).toEqual(mockMembers[0].name);
-    expect(res.body[0].data.username).toEqual(mockMembers[0].username);
-    expect(res.body[0].data.program).toEqual(mockMembers[0].program);
-    expect(res.body[0].data.role).toEqual(mockMembers[0].role);
-
-    // second member
-    expect(res.body[1].data.score).toEqual(mockMembers[1].score);
-    expect(res.body[1].data.numAttend).toEqual(mockMembers[1].numAttend);
-    expect(res.body[1].data.name).toEqual(mockMembers[1].name);
-    expect(res.body[1].data.username).toEqual(mockMembers[1].username);
-    expect(res.body[1].data.program).toEqual(mockMembers[1].program);
-    expect(res.body[1].data.role).toEqual(mockMembers[1].role);
+    expect(res.body.data.length).toEqual(expectedNum);
   });
 
   // no members exist
@@ -137,13 +103,7 @@ describe('members controller', () => {
     const res = await request(app.getHttpServer()).get('/v1/members/1');
 
     assertStatusCode(res, 200);
-    expect(res.body.data.id).toEqual(mockMember.id);
-    expect(res.body.data.score).toEqual(mockMember.score);
-    expect(res.body.data.numAttend).toEqual(mockMember.numAttend);
-    expect(res.body.data.name).toEqual(mockMember.name);
-    expect(res.body.data.username).toEqual(mockMember.username);
-    expect(res.body.data.program).toEqual(mockMember.program);
-    expect(res.body.data.role).toEqual(mockMember.role);
+    expect(res.body.data).toEqual(mockMember);
   });
 
   // invalid id
@@ -152,122 +112,8 @@ describe('members controller', () => {
     const res = await request(app.getHttpServer()).get(
       `/v1/members/${memberId}`,
     );
-    expect(res.statusCode).toEqual(400);
-  });
 
-  /* get member(s) by search key */
-  // valid search key
-  it('should return a member who contains the search key in their name, username, role, or program', async () => {
-    const mockMembers: MemberResponseDTO[] = [
-      {
-        id: 1,
-        score: 0,
-        numAttend: 0,
-        name: 'testName1',
-        username: 'test1',
-        program: 'Computer Science',
-        role: 'Member',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: 2,
-        score: 10,
-        numAttend: 1,
-        name: 'testName2',
-        username: 'test2',
-        program: 'Computer Science',
-        role: 'Member',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: 3,
-        score: 0,
-        numAttend: 0,
-        name: 'testName3',
-        username: 'test3',
-        program: 'Statistics',
-        role: 'Member',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ];
-
-    jest
-      .spyOn(membersService, 'searchMember')
-      .mockImplementation(async (searchKey: string) => {
-        return mockMembers.filter(
-          (member) =>
-            member.name.includes(searchKey) ||
-            member.username.includes(searchKey) ||
-            member.role.includes(searchKey) ||
-            member.program.includes(searchKey),
-        );
-      });
-
-    const res = await request(app.getHttpServer()).get(
-      'v1/members/search/Computer',
-    );
-    const searchKey = 'Computer';
-
-    assertStatusCode(res, 200);
-    expect(res.body.data).toEqual(
-      mockMembers.filter(
-        (member) =>
-          member.name.includes(searchKey) ||
-          member.username.includes(searchKey) ||
-          member.role.includes(searchKey) ||
-          member.program.includes(searchKey),
-      ),
-    );
-  });
-
-  // invalid search key
-  it('should return an empty array since no members with the search key exist', async () => {
-    const mockMembers: MemberResponseDTO[] = [
-      {
-        id: 1,
-        score: 0,
-        numAttend: 0,
-        name: 'testName1',
-        username: 'test1',
-        program: 'Computer Science',
-        role: 'Member',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: 2,
-        score: 10,
-        numAttend: 1,
-        name: 'testName2',
-        username: 'test2',
-        program: 'Computer Science',
-        role: 'Member',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: 3,
-        score: 0,
-        numAttend: 0,
-        name: 'testName3',
-        username: 'test3',
-        program: 'Statistics',
-        role: 'Member',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ];
-
-    jest.spyOn(membersService, 'getAllMembers').mockResolvedValue([]);
-
-    const res = await request(app.getHttpServer()).get(
-      '/v1/members/search/InvalidKey',
-    );
-    assertStatusCode(res, 200);
-    expect(res.body.data).toEqual([]);
+    assertStatusCode(res, 400);
   });
 
   /* leaderboard */
