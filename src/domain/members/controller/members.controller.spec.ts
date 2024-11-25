@@ -66,7 +66,9 @@ describe('members controller', () => {
       },
     ];
 
-    jest.spyOn(membersService, 'getAllMembers').mockResolvedValue(mockMembers);
+    jest
+      .spyOn(membersService, 'getAllMembers')
+      .mockResolvedValueOnce(mockMembers);
 
     const res = await request(app.getHttpServer()).get('/v1/members');
 
