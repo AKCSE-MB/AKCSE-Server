@@ -1,4 +1,4 @@
-import { Program, Role } from '../members.enum';
+import { Program, Role } from '@domain/members/members.enum';
 
 export interface MemberCreateRequestDTO {
   score: number;
