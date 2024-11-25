@@ -9,7 +9,7 @@ export async function saveMember(param: {
   program: Program;
   role: Role;
 }) {
-  return await prismaClient.members.create({ data: param });
+  await prismaClient.members.create({ data: param });
 }
 
 export async function getMembers() {
@@ -24,36 +24,6 @@ export async function getMemberById(id: number) {
   });
 }
 
-export async function getMembersByConditions(param: {
-  name?: string;
-  username?: string;
-  role?: string;
-  program?: string;
-}) {
-  const conditions = {};
-  if (param.name && param.name.length >= 1) {
-    conditions['name'] = { contains: param.name };
-  }
-
-  if (param.username && param.username.length >= 1) {
-    conditions['username'] = { contains: param.username };
-  }
-
-  if (param.role && param.role.length >= 1) {
-    conditions['role'] = { contains: param.role };
-  }
-
-  if (param.program && param.program.length >= 1) {
-    conditions['program'] = { contains: param.program };
-  }
-
-  return await prismaClient.members.findMany({
-    where: {
-      OR: Object.keys(conditions).map((key) => ({ [key]: conditions[key] })),
-    },
-  });
-}
-
 export async function updateMember(
   id: number,
   param: {
@@ -61,8 +31,8 @@ export async function updateMember(
     numAttend?: number;
     name?: string;
     username?: string;
-    program?: string;
-    role?: string;
+    program?: Program;
+    role?: Role;
   },
 ) {
   return await prismaClient.members.update({
