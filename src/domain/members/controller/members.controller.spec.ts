@@ -76,9 +76,10 @@ describe('members controller', () => {
 
   // no members exist
   it('should return an empty array if no members exist', async () => {
-    jest.spyOn(membersService, 'getAllMembers').mockResolvedValue([]);
+    jest.spyOn(membersService, 'getAllMembers').mockResolvedValueOnce([]);
 
     const res = await request(app.getHttpServer()).get('/v1/members');
+
     assertStatusCode(res, 200);
     expect(res.body).toEqual([]);
   });
@@ -195,7 +196,7 @@ describe('members controller', () => {
 
   // no members exist
   it('should return an empty array if no members exist', async () => {
-    jest.spyOn(membersService, 'getAllMembers').mockResolvedValue([]);
+    jest.spyOn(membersService, 'getAllMembers').mockResolvedValueOnce([]);
 
     const res = await request(app.getHttpServer()).get(
       '/v1/members/leaderboard/top5',
@@ -231,7 +232,9 @@ describe('members controller', () => {
       updatedAt: new Date(),
     };
 
-    jest.spyOn(membersService, 'editMember').mockResolvedValue(mockMemberPost);
+    jest
+      .spyOn(membersService, 'editMember')
+      .mockResolvedValueOnce(mockMemberPost);
 
     const res = await request(app.getHttpServer()).put('/v1/members/1').send({
       score: 100,
@@ -266,7 +269,9 @@ describe('members controller', () => {
       updatedAt: new Date(),
     };
 
-    jest.spyOn(membersService, 'removeMember').mockResolvedValue(mockMember);
+    jest
+      .spyOn(membersService, 'removeMember')
+      .mockResolvedValueOnce(mockMember);
 
     const res = await request(app.getHttpServer()).delete('/v1/members/1');
 
