@@ -33,13 +33,13 @@ export interface MembersResponseDTO {
   numAttend: number;
   name: string;
   username: string;
-  program: Program;
-  role: Role;
+  program: string;
+  role: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
-export interface TopMemberResponseDTO {
+export interface TopMembersResponseDTO {
   id: number;
   username: string;
   score: number;
