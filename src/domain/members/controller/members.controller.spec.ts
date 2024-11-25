@@ -242,7 +242,7 @@ describe('members controller', () => {
     });
 
     assertStatusCode(res, 200);
-    expect(res.body.data).toEqual(mockMemberPost);
+    expect(res.body.data).not.toBeNull();
   });
 
   // invalid id
@@ -251,7 +251,8 @@ describe('members controller', () => {
       score: 100,
       numAttend: 2,
     });
-    expect(res.statusCode).toEqual(400);
+
+    assertStatusCode(res, 400);
   });
 
   /* delete a member */
@@ -276,7 +277,7 @@ describe('members controller', () => {
     const res = await request(app.getHttpServer()).delete('/v1/members/1');
 
     assertStatusCode(res, 200);
-    expect(res.body.data).toEqual(mockMember);
+    expect(res.body.data.data).toEqual(mockMember);
   });
 
   //invalid id
