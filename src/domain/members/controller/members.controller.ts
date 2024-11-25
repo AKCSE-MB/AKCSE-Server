@@ -20,7 +20,6 @@ import {
   getAllMembers,
   getMember,
   createMember,
-  searchMember,
   editMember,
   removeMember,
   createLeaderboard,
@@ -70,27 +69,9 @@ export class MembersController {
   @HttpCode(200)
   async getMember(
     @TypedParam('id') id: number,
-  ): Promise<BaseResponseDto<MemberResponseDTO>> {
-    const member = await getMember(id);
-    return new BaseResponseDto(member);
-  }
-
-  /**
-   * @tag members
-   * @summary get a member with the passed search key
-   * @security bearer
-   */
-  @TypedRoute.Get('search/:searchKey')
-  @HttpCode(200)
-  async searchMember(
-    @TypedParam('searchKey') searchKey: string,
-  ): Promise<BaseResponseDto<MemberResponseDTO>[]> {
-    const members = await searchMember(searchKey);
-    const memberArr: BaseResponseDto<MemberResponseDTO>[] = members.map(
-      (member) => new BaseResponseDto(member),
-    );
-
-    return memberArr;
+  ): Promise<BaseResponseDto<MembersResponseDTO>> {
+    const res = await getMember(id);
+    return new BaseResponseDto(res);
   }
 
   /**
