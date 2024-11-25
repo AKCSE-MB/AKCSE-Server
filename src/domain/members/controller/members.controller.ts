@@ -11,9 +11,10 @@ import {
 import { HttpExceptionFilter } from '@common/exception/exception.filter';
 import { TypedBody, TypedRoute, TypedParam } from '@nestia/core';
 import {
-  MemberRequestDTO,
-  MemberResponseDTO,
-  TopMemberDTO,
+  MemberCreateRequestDTO,
+  MemberUpdateRequestDTO,
+  MembersResponseDTO,
+  TopMemberResponseDTO,
 } from '../dto/members.dto';
 import {
   getAllMembers,
@@ -114,7 +115,7 @@ export class MembersController {
   @HttpCode(200)
   async updateMember(
     @TypedParam('id') id: number,
-    @TypedBody() memberData: MemberResponseDTO,
+    @TypedBody() memberData: MemberUpdateRequestDTO,
   ) {
     await editMember(id, memberData);
   }
