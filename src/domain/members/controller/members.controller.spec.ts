@@ -70,6 +70,7 @@ describe('members controller', () => {
       .spyOn(membersService, 'getAllMembers')
       .mockResolvedValueOnce(mockMembers);
 
+    const expectedNum = 2;
     const res = await request(app.getHttpServer()).get('/v1/members');
 
     assertStatusCode(res, 200);
@@ -83,7 +84,7 @@ describe('members controller', () => {
     const res = await request(app.getHttpServer()).get('/v1/members');
 
     assertStatusCode(res, 200);
-    expect(res.body).toEqual([]);
+    expect(res.body.data).toEqual([]);
   });
 
   /* get a member by id */
@@ -103,7 +104,9 @@ describe('members controller', () => {
 
     jest.spyOn(membersService, 'getMember').mockResolvedValueOnce(mockMember);
 
-    const res = await request(app.getHttpServer()).get('/v1/members/1');
+    const res = await request(app.getHttpServer()).get(
+      `/v1/members/${mockMember.id}`,
+    );
 
     assertStatusCode(res, 200);
     expect(res.body.data).toEqual(mockMember);
@@ -238,10 +241,12 @@ describe('members controller', () => {
       .spyOn(membersService, 'editMember')
       .mockResolvedValueOnce(mockMemberPost);
 
-    const res = await request(app.getHttpServer()).put('/v1/members/1').send({
-      score: 100,
-      numAttend: 2,
-    });
+    const res = await request(app.getHttpServer())
+      .put(`/v1/members/${mockMemberPost.id}`)
+      .send({
+        score: mockMemberPost.score,
+        numAttend: mockMemberPost.numAttend,
+      });
 
     assertStatusCode(res, 200);
     expect(res.body.data).not.toBeNull();
@@ -249,10 +254,13 @@ describe('members controller', () => {
 
   // invalid id
   it('inavlid request, should return 400 bad request', async () => {
-    const res = await request(app.getHttpServer()).put('/v1/members/999').send({
-      score: 100,
-      numAttend: 2,
-    });
+    const memberId = 100;
+    const res = await request(app.getHttpServer())
+      .put(`/v1/members/${memberId}`)
+      .send({
+        score: 100,
+        numAttend: 2,
+      });
 
     assertStatusCode(res, 400);
   });
@@ -276,7 +284,9 @@ describe('members controller', () => {
       .spyOn(membersService, 'removeMember')
       .mockResolvedValueOnce(mockMember);
 
-    const res = await request(app.getHttpServer()).delete('/v1/members/1');
+    const res = await request(app.getHttpServer()).delete(
+      `/v1/members/${mockMember.id}`,
+    );
 
     assertStatusCode(res, 200);
     expect(res.body.data.data).toEqual(mockMember);
@@ -284,7 +294,11 @@ describe('members controller', () => {
 
   //invalid id
   it('invalid request, should return 400 bad request', async () => {
-    const res = await request(app.getHttpServer()).delete('/v1/members/1');
-    expect(res.statusCode).toEqual(400);
+    const memberId = 100;
+    const res = await request(app.getHttpServer()).delete(
+      `/v1/members/${memberId}`,
+    );
+
+    assertStatusCode(res, 400);
   });
 });
