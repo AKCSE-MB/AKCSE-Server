@@ -22,7 +22,6 @@ describe('members controller', () => {
     await app.init();
   });
 
-  /* create member */
   it('should create a new member', async () => {
     jest.spyOn(membersService, 'createMember');
 
@@ -38,8 +37,6 @@ describe('members controller', () => {
     assertStatusCode(res, 200);
   });
 
-  /* get all members */
-  // members exist
   it('should return all members', async () => {
     const mockMembers: MembersResponseDTO[] = [
       {
@@ -77,7 +74,6 @@ describe('members controller', () => {
     expect(res.body.data.length).toEqual(expectedNum);
   });
 
-  // no members exist
   it('should return an empty array if no members exist', async () => {
     jest.spyOn(membersService, 'getAllMembers').mockResolvedValueOnce([]);
 
@@ -87,8 +83,6 @@ describe('members controller', () => {
     expect(res.body.data).toEqual([]);
   });
 
-  /* get a member by id */
-  // valid id
   it('should return a member with the id of 1', async () => {
     const mockMember: MembersResponseDTO = {
       id: 1,
@@ -112,7 +106,6 @@ describe('members controller', () => {
     expect(res.body.data).toEqual(mockMember);
   });
 
-  // invalid id
   it('invalid request, should return 400 bad request', async () => {
     const memberId = 100;
     const res = await request(app.getHttpServer()).get(
@@ -122,8 +115,6 @@ describe('members controller', () => {
     assertStatusCode(res, 400);
   });
 
-  /* leaderboard */
-  // members exist
   it('should return the top 5 (max) members based on their score', async () => {
     const mockMembers: MembersResponseDTO[] = [
       {
@@ -183,9 +174,8 @@ describe('members controller', () => {
       },
     ];
 
-    // only 5 members exist, should return those 5 in the order of descending scores
     jest
-      .spyOn(membersService, 'createLeaderboard')
+      .spyOn(membersService, 'getLeaderboard')
       .mockImplementation(async () => {
         return mockMembers.sort((a, b) => b.score - a.score).slice(0, 5);
       });
@@ -199,9 +189,8 @@ describe('members controller', () => {
     );
   });
 
-  // no members exist
   it('should return an empty array if no members exist', async () => {
-    jest.spyOn(membersService, 'getAllMembers').mockResolvedValueOnce([]);
+    jest.spyOn(membersService, 'getLeaderboard').mockResolvedValueOnce([]);
 
     const res = await request(app.getHttpServer()).get(
       '/v1/members/leaderboard/top5',
@@ -210,8 +199,6 @@ describe('members controller', () => {
     expect(res.body.data).toEqual([]);
   });
 
-  /* update a member */
-  // valid id
   it('should return the updated member', async () => {
     const mockMemberPre: MembersResponseDTO = {
       id: 1,
@@ -252,7 +239,6 @@ describe('members controller', () => {
     expect(res.body.data).not.toBeNull();
   });
 
-  // invalid id
   it('inavlid request, should return 400 bad request', async () => {
     const memberId = 100;
     const res = await request(app.getHttpServer())
@@ -265,8 +251,6 @@ describe('members controller', () => {
     assertStatusCode(res, 400);
   });
 
-  /* delete a member */
-  // valid id
   it('should return the deleted member', async () => {
     const mockMember: MembersResponseDTO = {
       id: 1,
@@ -292,7 +276,6 @@ describe('members controller', () => {
     expect(res.body.data.data).toEqual(mockMember);
   });
 
-  //invalid id
   it('invalid request, should return 400 bad request', async () => {
     const memberId = 100;
     const res = await request(app.getHttpServer()).delete(

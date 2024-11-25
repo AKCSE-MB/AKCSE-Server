@@ -22,7 +22,7 @@ import {
   createMember,
   editMember,
   removeMember,
-  createLeaderboard,
+  getLeaderboard,
 } from '@domain/members/service/members.service';
 import { BaseResponseDto } from '@root/src/common/dto/base.dto';
 
@@ -79,7 +79,7 @@ export class MembersController {
   @TypedRoute.Get('/leaderboard/top5')
   @HttpCode(200)
   async getLeaderboard(): Promise<BaseResponseDto<TopMembersResponseDTO>[]> {
-    const topMembers = await createLeaderboard();
+    const topMembers = await getLeaderboard();
     const leaderboard: BaseResponseDto<TopMembersResponseDTO>[] =
       topMembers.map((member) => new BaseResponseDto(member));
 
