@@ -14,7 +14,7 @@ import {
   MemberCreateRequestDTO,
   MemberUpdateRequestDTO,
   MembersResponseDTO,
-  TopMemberResponseDTO,
+  TopMembersResponseDTO,
 } from '../dto/members.dto';
 import {
   getAllMembers,
@@ -48,9 +48,9 @@ export class MembersController {
    */
   @TypedRoute.Get()
   @HttpCode(200)
-  async getMembers(): Promise<BaseResponseDto<MemberResponseDTO>[]> {
-    const members = await getAllMembers();
-    const memberArr: BaseResponseDto<MemberResponseDTO>[] = members.map(
+  async getMembers(): Promise<BaseResponseDto<MembersResponseDTO>[]> {
+    const res = await getAllMembers();
+    const memberArr: BaseResponseDto<MembersResponseDTO>[] = res.map(
       (member) => new BaseResponseDto(member),
     );
 
@@ -78,11 +78,10 @@ export class MembersController {
    */
   @TypedRoute.Get('/leaderboard/top5')
   @HttpCode(200)
-  async getLeaderboard(): Promise<BaseResponseDto<TopMemberDTO>[]> {
+  async getLeaderboard(): Promise<BaseResponseDto<TopMembersResponseDTO>[]> {
     const topMembers = await createLeaderboard();
-    const leaderboard: BaseResponseDto<TopMemberDTO>[] = topMembers.map(
-      (member) => new BaseResponseDto(member),
-    );
+    const leaderboard: BaseResponseDto<TopMembersResponseDTO>[] =
+      topMembers.map((member) => new BaseResponseDto(member));
 
     return leaderboard;
   }
@@ -96,10 +95,10 @@ export class MembersController {
   @HttpCode(200)
   async updateMember(
     @TypedParam('id') id: number,
-    @TypedBody() memberData: MemberUpdateDTO,
-  ): Promise<BaseResponseDto<MemberResponseDTO>> {
-    const updated = await editMember(id, memberData);
-    return new BaseResponseDto(updated);
+    @TypedBody() memberData: MemberUpdateRequestDTO,
+  ): Promise<BaseResponseDto<MembersResponseDTO>> {
+    const res = await editMember(id, memberData);
+    return new BaseResponseDto(res);
   }
 
   /**
@@ -111,8 +110,8 @@ export class MembersController {
   @HttpCode(200)
   async deleteMember(
     @TypedParam('id') id: number,
-  ): Promise<BaseResponseDto<MemberResponseDTO>> {
-    const deleted = await removeMember(id);
-    return new BaseResponseDto(deleted);
+  ): Promise<BaseResponseDto<MembersResponseDTO>> {
+    const res = await removeMember(id);
+    return new BaseResponseDto(res);
   }
 }
