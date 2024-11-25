@@ -5,7 +5,8 @@ import { appModuleFixture, assertStatusCode } from '@root/jest.setup';
 import { MembersModule } from '@domain/members/members.module';
 import { ConfigurationService } from '@domain/configuration/configuration.service';
 import * as membersService from '@domain/members/service/members.service';
-import { MemberResponseDTO } from '../dto/members.dto';
+import { Program, Role } from '@domain/members/members.enum';
+import { MembersResponseDTO } from '@domain/members/dto/members.dto';
 
 describe('members controller', () => {
   let app: INestApplication;
