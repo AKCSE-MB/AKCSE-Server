@@ -41,7 +41,7 @@ describe('members controller', () => {
   /* get all members */
   // members exist
   it('should return all members', async () => {
-    const mockMembers: MemberResponseDTO[] = [
+    const mockMembers: MembersResponseDTO[] = [
       {
         id: 1,
         score: 0,
@@ -86,7 +86,7 @@ describe('members controller', () => {
   /* get a member by id */
   // valid id
   it('should return a member with the id of 1', async () => {
-    const mockMember: MemberResponseDTO = {
+    const mockMember: MembersResponseDTO = {
       id: 1,
       score: 0,
       numAttend: 0,
@@ -119,7 +119,7 @@ describe('members controller', () => {
   /* leaderboard */
   // members exist
   it('should return the top 5 (max) members based on their score', async () => {
-    const mockMembers: MemberResponseDTO[] = [
+    const mockMembers: MembersResponseDTO[] = [
       {
         id: 1,
         score: 10,
@@ -207,7 +207,7 @@ describe('members controller', () => {
   /* update a member */
   // valid id
   it('should return the updated member', async () => {
-    const mockMemberPre: MemberResponseDTO = {
+    const mockMemberPre: MembersResponseDTO = {
       id: 1,
       score: 0,
       numAttend: 0,
@@ -219,7 +219,7 @@ describe('members controller', () => {
       updatedAt: new Date(),
     };
 
-    const mockMemberPost: MemberResponseDTO = {
+    const mockMemberPost: MembersResponseDTO = {
       id: 1,
       score: 100,
       numAttend: 2,
@@ -254,7 +254,7 @@ describe('members controller', () => {
   /* delete a member */
   // valid id
   it('should return the deleted member', async () => {
-    const mockMember: MemberResponseDTO = {
+    const mockMember: MembersResponseDTO = {
       id: 1,
       score: 0,
       numAttend: 0,
