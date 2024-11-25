@@ -1,10 +1,12 @@
+import { Program, Role } from '../members.enum';
+
 export interface MemberCreateRequestDTO {
   score: number;
   numAttend: number;
   name: string;
   username: string;
-  program: string;
-  role: string;
+  program: Program;
+  role: Role;
 }
 
 export interface MemberUpdateRequestDTO {
@@ -12,8 +14,8 @@ export interface MemberUpdateRequestDTO {
   numAttend?: number;
   name?: string;
   username?: string;
-  program?: string;
-  role?: string;
+  program?: Program;
+  role?: Role;
 }
 
 export interface MembersResponseDTO {
@@ -22,8 +24,8 @@ export interface MembersResponseDTO {
   numAttend: number;
   name: string;
   username: string;
-  program: string;
-  role: string;
+  program: Program;
+  role: Role;
   createdAt: Date;
   updatedAt: Date;
 }
