@@ -37,11 +37,8 @@ export class MembersController {
    */
   @TypedRoute.Post()
   @HttpCode(200)
-  async addMember(
-    @TypedBody() memberData: MemberRequestDTO,
-  ): Promise<BaseResponseDto<MemberResponseDTO>> {
-    const member = await createMember(memberData);
-    return new BaseResponseDto(member);
+  async addMember(@TypedBody() memberData: MemberCreateRequestDTO) {
+    await createMember(memberData);
   }
 
   /**
