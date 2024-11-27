@@ -34,14 +34,29 @@ model Members {
   id                    Int     @id @default(autoincrement())
   score                 Int     @map("score")
   numAttend             Int     @map("num_attend")
-  name                  String  @map("name") @db.VarChar(256)
-  username              String  @map("username") @db.VarChar(256)
-  program               String  @map("program") @db.VarChar(256)
-  role                  String  @map("role") @db.VarChar(256)
+  name                  String  @map("name") @db.VarChar(25)
+  username              String  @map("username") @db.VarChar(25)
+  program               String  @map("program") @db.VarChar(25)
+  role                  String  @map("role") @db.VarChar(10)
   createdAt             DateTime @default(now()) @map("created_at")
   updatedAt             DateTime @updatedAt @map("updated_at")
 
   @@map("members")
+}
+
+model Events {
+  id                  Int       @id @default(autoincrement())
+  title               String    @map("title") @db.VarChar(50)
+  description         String    @map("description") @db.VarChar(300)
+  fee                 Float     @map("fee")
+  date                DateTime  @db.Date @map("date")
+  startTime           DateTime  @db.Time @map("start_time")
+  endTime             DateTime  @db.Time @map("end_time")
+  location            String    @map("location") @db.VarChar(30)
+  signUpDeadline      DateTime  @map("sign_up_deadline")
+  rsvpLink            String    @map("rsvp_link") @db.VarChar(256)
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime  @updatedAt @map("updated_at")
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
