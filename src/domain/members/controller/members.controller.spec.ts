@@ -200,19 +200,7 @@ describe('members controller', () => {
   });
 
   it('should return the updated member', async () => {
-    const mockMemberPre: MembersResponseDTO = {
-      id: 1,
-      score: 0,
-      numAttend: 0,
-      name: 'testName1',
-      username: 'test1',
-      program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-
-    const mockMemberPost: MembersResponseDTO = {
+    const mockMember: MembersResponseDTO = {
       id: 1,
       score: 100,
       numAttend: 2,
@@ -224,16 +212,11 @@ describe('members controller', () => {
       updatedAt: new Date(),
     };
 
-    jest
-      .spyOn(membersService, 'editMember')
-      .mockResolvedValueOnce(mockMemberPost);
+    jest.spyOn(membersService, 'editMember').mockResolvedValueOnce(mockMember);
 
     const res = await request(app.getHttpServer())
-      .put(`/v1/members/${mockMemberPost.id}`)
-      .send({
-        score: mockMemberPost.score,
-        numAttend: mockMemberPost.numAttend,
-      });
+      .put(`/v1/members/${mockMember.id}`)
+      .send({});
 
     assertStatusCode(res, 200);
     expect(res.body.data).not.toBeNull();
