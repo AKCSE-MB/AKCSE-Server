@@ -71,7 +71,7 @@ describe('members controller', () => {
     const res = await request(app.getHttpServer()).get('/v1/members');
 
     assertStatusCode(res, 200);
-    expect(res.body.data.length).toEqual(expectedNum);
+    expect(res.body.length).toEqual(expectedNum);
   });
 
   it('should return an empty array if no members exist', async () => {
@@ -80,7 +80,7 @@ describe('members controller', () => {
     const res = await request(app.getHttpServer()).get('/v1/members');
 
     assertStatusCode(res, 200);
-    expect(res.body.data).toEqual([]);
+    expect(res.body).toEqual([]);
   });
 
   it('should return a member with the id of 1', async () => {
@@ -196,7 +196,7 @@ describe('members controller', () => {
       '/v1/members/leaderboard/top5',
     );
     assertStatusCode(res, 200);
-    expect(res.body.data).toEqual([]);
+    expect(res.body).toEqual([]);
   });
 
   it('should return the updated member', async () => {
