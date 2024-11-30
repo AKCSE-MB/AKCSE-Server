@@ -1,12 +1,17 @@
 import { TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 import { INestApplication } from '@nestjs/common';
-import { appModuleFixture, assertStatusCode } from '@root/jest.setup';
+import {
+  appModuleFixture,
+  assertStatusCode,
+  truncateTables,
+} from '@root/jest.setup';
 import { MembersModule } from '@domain/members/members.module';
 import { ConfigurationService } from '@domain/configuration/configuration.service';
 import * as membersService from '@domain/members/service/members.service';
 import { Program, Role } from '@domain/members/members.enum';
 import { MembersResponseDTO } from '@domain/members/dto/members.dto';
+import prismaClient from '@common/database/prisma';
 
 describe('members controller', () => {
   let app: INestApplication;
@@ -35,6 +40,8 @@ describe('members controller', () => {
     });
 
     assertStatusCode(res, 200);
+
+    await truncateTables(prismaClient, ['members']);
   });
 
   it('should return all members', async () => {
