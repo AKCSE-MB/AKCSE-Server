@@ -23,8 +23,8 @@ export interface MemberUpdateRequestDTO {
   numAttend?: number;
   name?: string;
   username?: string;
-  program?: string;
-  role?: string;
+  program?: Program;
+  role?: Role;
 }
 
 export interface MembersResponseDTO {
