@@ -1,22 +1,29 @@
-import { TestingModule } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 import { INestApplication } from '@nestjs/common';
-import { appModuleFixture, assertStatusCode } from '@root/jest.setup';
+import { assertStatusCode } from '@root/jest.setup';
 import { MembersModule } from '@domain/members/members.module';
 import { ConfigurationService } from '@domain/configuration/configuration.service';
 import * as membersService from '@domain/members/service/members.service';
 import { Program, Role } from '@domain/members/members.enum';
 import { MembersResponseDTO } from '@domain/members/dto/members.dto';
+import { AuthGuard } from '@common/auth/auth.guard';
+import { ConfigurationModule } from '@domain/configuration/configuration.module';
 
 describe('members controller', () => {
   let app: INestApplication;
   let configService: ConfigurationService;
+
   beforeAll(async () => {
-    const module = (await appModuleFixture(
-      [],
-      [],
-      [MembersModule],
-    )) as TestingModule;
+    const module: TestingModule = await Test.createTestingModule({
+      imports: [ConfigurationModule, MembersModule],
+    })
+      .overrideGuard(AuthGuard)
+      .useValue({
+        canActivate: jest.fn(() => true),
+      })
+      .compile();
+
     app = module.createNestApplication();
     configService = module.get<ConfigurationService>(ConfigurationService);
     await app.init();
