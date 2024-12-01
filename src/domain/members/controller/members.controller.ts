@@ -24,7 +24,7 @@ import {
   removeMember,
   getLeaderboard,
 } from '@domain/members/service/members.service';
-import { BaseResponseDto } from '@root/src/common/dto/base.dto';
+import { BaseResponseDto } from '@common/dto/base.dto';
 
 @Controller('v1/members')
 @UseFilters(new HttpExceptionFilter())
