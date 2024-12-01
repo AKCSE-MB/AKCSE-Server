@@ -116,7 +116,7 @@ describe('members controller', () => {
   });
 
   it('should return the top 5 (max) members based on their score', async () => {
-    const mockMembers: MembersResponseDTO[] = [
+    const mockLeaderboard: MembersResponseDTO[] = [
       {
         id: 1,
         score: 10,
@@ -178,9 +178,7 @@ describe('members controller', () => {
 
     jest
       .spyOn(membersService, 'getLeaderboard')
-      .mockImplementation(async () => {
-        return mockMembers.sort((a, b) => b.score - a.score).slice(0, 5);
-      });
+      .mockResolvedValueOnce(mockLeaderboard);
 
     const res = await request(app.getHttpServer()).get(
       '/v1/members/leaderboard/top5',
