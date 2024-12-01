@@ -7,6 +7,7 @@ import {
   Post,
   Put,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { HttpExceptionFilter } from '@common/exception/exception.filter';
 import { TypedBody, TypedRoute, TypedParam } from '@nestia/core';
@@ -25,6 +26,7 @@ import {
   getLeaderboard,
 } from '@domain/members/service/members.service';
 import { BaseResponseDto } from '@common/dto/base.dto';
+import { AuthGuard } from '@common/auth/auth.guard';
 
 @Controller('v1/members')
 @UseFilters(new HttpExceptionFilter())
@@ -35,6 +37,7 @@ export class MembersController {
    * @summary get the top 5 members by score to create the leaderboard
    * @security bearer
    */
+  @UseGuards(AuthGuard)
   @TypedRoute.Post()
   @HttpCode(200)
   async addMember(@TypedBody() memberData: MemberCreateRequestDTO) {
@@ -46,6 +49,7 @@ export class MembersController {
    * @summary get all registered members
    * @security bearer
    */
+  @UseGuards(AuthGuard)
   @TypedRoute.Get()
   @HttpCode(200)
   async getMembers(): Promise<BaseResponseDto<MembersResponseDTO>[]> {
@@ -62,6 +66,7 @@ export class MembersController {
    * @summary get a member with the passed id
    * @security bearer
    */
+  @UseGuards(AuthGuard)
   @TypedRoute.Get('/:id')
   @HttpCode(200)
   async getMember(
@@ -76,6 +81,7 @@ export class MembersController {
    * @summary get top 5 members with the highest scores
    * @security bearer
    */
+  @UseGuards(AuthGuard)
   @TypedRoute.Get('/leaderboard/top5')
   @HttpCode(200)
   async getLeaderboard(): Promise<BaseResponseDto<TopMembersResponseDTO>[]> {
@@ -91,6 +97,7 @@ export class MembersController {
    * @summary Update an existing member's details
    * @security bearer
    */
+  @UseGuards(AuthGuard)
   @TypedRoute.Put('/:id')
   @HttpCode(200)
   async updateMember(
@@ -106,6 +113,7 @@ export class MembersController {
    * @summary Delete a member
    * @security bearer
    */
+  @UseGuards(AuthGuard)
   @TypedRoute.Delete('/:id')
   @HttpCode(200)
   async deleteMember(
