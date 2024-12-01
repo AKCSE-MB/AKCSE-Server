@@ -3,10 +3,6 @@ import {
   HttpCode,
   Injectable,
   UseFilters,
-  Get,
-  Post,
-  Put,
-  Delete,
   UseGuards,
 } from '@nestjs/common';
 import { HttpExceptionFilter } from '@common/exception/exception.filter';
