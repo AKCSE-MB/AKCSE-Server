@@ -30,7 +30,7 @@ import { AuthGuard } from '@common/auth/auth.guard';
 export class MembersController {
   /**
    * @tag members
-   * @summary get the top 5 members by score to create the leaderboard
+   * @summary create a new member
    * @security bearer
    */
   @UseGuards(AuthGuard)
