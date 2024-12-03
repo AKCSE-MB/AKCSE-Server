@@ -59,6 +59,22 @@ export class MembersController {
 
   /**
    * @tag members
+   * @summary get top 5 members with the highest scores
+   * @security bearer
+   */
+  @UseGuards(AuthGuard)
+  @TypedRoute.Get('/leaderboard')
+  @HttpCode(200)
+  async getLeaderboard(): Promise<BaseResponseDto<TopMembersResponseDTO>[]> {
+    const topMembers = await getLeaderboard();
+    const leaderboard: BaseResponseDto<TopMembersResponseDTO>[] =
+      topMembers.map((member) => new BaseResponseDto(member));
+
+    return leaderboard;
+  }
+
+  /**
+   * @tag members
    * @summary get a member with the passed id
    * @security bearer
    */
@@ -70,22 +86,6 @@ export class MembersController {
   ): Promise<BaseResponseDto<MembersResponseDTO>> {
     const res = await getMember(id);
     return new BaseResponseDto(res);
-  }
-
-  /**
-   * @tag members
-   * @summary get top 5 members with the highest scores
-   * @security bearer
-   */
-  @UseGuards(AuthGuard)
-  @TypedRoute.Get('/leaderboard/top5')
-  @HttpCode(200)
-  async getLeaderboard(): Promise<BaseResponseDto<TopMembersResponseDTO>[]> {
-    const topMembers = await getLeaderboard();
-    const leaderboard: BaseResponseDto<TopMembersResponseDTO>[] =
-      topMembers.map((member) => new BaseResponseDto(member));
-
-    return leaderboard;
   }
 
   /**
