@@ -78,7 +78,7 @@ describe('members controller', () => {
     const res = await request(app.getHttpServer()).get('/v1/members');
 
     assertStatusCode(res, 200);
-    expect(res.body.length).toEqual(expectedNum);
+    expect(res.body.data.length).toEqual(expectedNum);
   });
 
   it('should return an empty array if no members exist', async () => {
@@ -87,7 +87,7 @@ describe('members controller', () => {
     const res = await request(app.getHttpServer()).get('/v1/members');
 
     assertStatusCode(res, 200);
-    expect(res.body).toEqual([]);
+    expect(res.body.data).toEqual([]);
   });
 
   it('should return a member with the id of 1', async () => {
@@ -188,20 +188,22 @@ describe('members controller', () => {
       .mockResolvedValueOnce(mockLeaderboard);
 
     const res = await request(app.getHttpServer()).get(
-      '/v1/members/leaderboard/top5',
+      '/v1/members/leaderboard',
     );
+
     assertStatusCode(res, 200);
-    expect(res.body.length).toEqual(expectedNum);
+    expect(res.body.data.length).toEqual(expectedNum);
   });
 
   it('should return an empty array if no members exist', async () => {
     jest.spyOn(membersService, 'getLeaderboard').mockResolvedValueOnce([]);
 
     const res = await request(app.getHttpServer()).get(
-      '/v1/members/leaderboard/top5',
+      '/v1/members/leaderboard',
     );
+
     assertStatusCode(res, 200);
-    expect(res.body).toEqual([]);
+    expect(res.body.data).toEqual([]);
   });
 
   it('should return the updated member', async () => {
