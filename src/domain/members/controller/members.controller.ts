@@ -45,7 +45,6 @@ export class MembersController {
    * @summary get all registered members
    * @security bearer
    */
-  @UseGuards(AuthGuard)
   @TypedRoute.Get()
   @HttpCode(200)
   async getMembers(): Promise<BaseResponseDto<MembersResponseDTO>[]> {
@@ -62,7 +61,6 @@ export class MembersController {
    * @summary get top 5 members with the highest scores
    * @security bearer
    */
-  @UseGuards(AuthGuard)
   @TypedRoute.Get('/leaderboard')
   @HttpCode(200)
   async getLeaderboard(): Promise<BaseResponseDto<TopMembersResponseDTO>[]> {
@@ -78,7 +76,6 @@ export class MembersController {
    * @summary get a member with the passed id
    * @security bearer
    */
-  @UseGuards(AuthGuard)
   @TypedRoute.Get('/:id')
   @HttpCode(200)
   async getMember(
