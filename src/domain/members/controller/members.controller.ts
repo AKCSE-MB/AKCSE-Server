@@ -29,7 +29,7 @@ import { AuthGuard } from '@common/auth/auth.guard';
 @Injectable()
 export class MembersController {
   /**
-   * @tag members
+   * @tag create
    * @summary create a new member
    * @security bearer
    */
@@ -41,7 +41,7 @@ export class MembersController {
   }
 
   /**
-   * @tag members
+   * @tag get
    * @summary get all registered members
    * @security bearer
    */
@@ -58,7 +58,7 @@ export class MembersController {
   }
 
   /**
-   * @tag members
+   * @tag get
    * @summary get top 5 members with the highest scores
    * @security bearer
    */
@@ -74,7 +74,7 @@ export class MembersController {
   }
 
   /**
-   * @tag members
+   * @tag get
    * @summary get a member with the passed id
    * @security bearer
    */
@@ -89,7 +89,7 @@ export class MembersController {
   }
 
   /**
-   * @tag member
+   * @tag udpate
    * @summary Update an existing member's details
    * @security bearer
    */
@@ -105,7 +105,7 @@ export class MembersController {
   }
 
   /**
-   * @tag leaderboard
+   * @tag delete
    * @summary Delete a member
    * @security bearer
    */
