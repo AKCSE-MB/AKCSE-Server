@@ -18,15 +18,6 @@ export interface MemberUpdateRequestDTO {
   role?: Role;
 }
 
-export interface MemberUpdateRequestDTO {
-  score?: number;
-  numAttend?: number;
-  name?: string;
-  username?: string;
-  program?: Program;
-  role?: Role;
-}
-
 export interface MembersResponseDTO {
   id: number;
   score: number;
