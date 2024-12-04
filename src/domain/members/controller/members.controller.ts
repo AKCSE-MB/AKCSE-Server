@@ -47,13 +47,9 @@ export class MembersController {
    */
   @TypedRoute.Get()
   @HttpCode(200)
-  async getMembers(): Promise<BaseResponseDto<MembersResponseDTO>[]> {
+  async getMembers(): Promise<BaseResponseDto<MembersResponseDTO[]>> {
     const res = await getAllMembers();
-    const memberArr: BaseResponseDto<MembersResponseDTO>[] = res.map(
-      (member) => new BaseResponseDto(member),
-    );
-
-    return memberArr;
+    return new BaseResponseDto(res);
   }
 
   /**
@@ -63,12 +59,9 @@ export class MembersController {
    */
   @TypedRoute.Get('/leaderboard')
   @HttpCode(200)
-  async getLeaderboard(): Promise<BaseResponseDto<TopMembersResponseDTO>[]> {
-    const topMembers = await getLeaderboard();
-    const leaderboard: BaseResponseDto<TopMembersResponseDTO>[] =
-      topMembers.map((member) => new BaseResponseDto(member));
-
-    return leaderboard;
+  async getLeaderboard(): Promise<BaseResponseDto<TopMembersResponseDTO[]>> {
+    const res = await getLeaderboard();
+    return new BaseResponseDto(res);
   }
 
   /**
