@@ -1,45 +1,47 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 import { INestApplication } from '@nestjs/common';
-import { assertStatusCode } from '@root/jest.setup';
+import { appModuleFixture, assertStatusCode } from '@root/jest.setup';
 import { MembersModule } from '@domain/members/members.module';
-import { ConfigurationService } from '@domain/configuration/configuration.service';
 import * as membersService from '@domain/members/service/members.service';
 import { Program, Role } from '@domain/members/members.enum';
 import { MembersResponseDTO } from '@domain/members/dto/members.dto';
-import { AuthGuard } from '@common/auth/auth.guard';
-import { ConfigurationModule } from '@domain/configuration/configuration.module';
+import { createUserToken } from '@root/jest.setup';
 
 describe('members controller', () => {
   let app: INestApplication;
-  let configService: ConfigurationService;
+  let token: string;
+  const userId = 1;
+  const secretKey = 'secret-access-test-token';
+  const tokenOptions = {};
 
   beforeAll(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      imports: [ConfigurationModule, MembersModule],
-    })
-      .overrideGuard(AuthGuard)
-      .useValue({
-        canActivate: jest.fn(() => true),
-      })
-      .compile();
+    const module = (await appModuleFixture(
+      [],
+      [],
+      [MembersModule],
+    )) as TestingModule;
 
     app = module.createNestApplication();
-    configService = module.get<ConfigurationService>(ConfigurationService);
     await app.init();
+
+    token = createUserToken(userId, secretKey, tokenOptions);
   });
 
   it('should create a new member', async () => {
     jest.spyOn(membersService, 'createMember').mockImplementation();
 
-    const res = await request(app.getHttpServer()).post('/v1/members').send({
-      score: 0,
-      numAttend: 0,
-      name: 'testName1',
-      username: 'test1',
-      program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
-    });
+    const res = await request(app.getHttpServer())
+      .post('/v1/members')
+      .send({
+        score: 0,
+        numAttend: 0,
+        name: 'testName1',
+        username: 'test1',
+        program: Program.COMPUTER_SCIENCE,
+        role: Role.MEMBER,
+      })
+      .set('Authorization', `Bearer ${token}`);
 
     assertStatusCode(res, 200);
   });
@@ -223,7 +225,8 @@ describe('members controller', () => {
 
     const res = await request(app.getHttpServer())
       .put(`/v1/members/${mockMember.id}`)
-      .send({});
+      .send({})
+      .set('Authorization', `Bearer ${token}`);
 
     assertStatusCode(res, 200);
     expect(res.body).not.toBeNull();
@@ -236,7 +239,8 @@ describe('members controller', () => {
       .send({
         score: 100,
         numAttend: 2,
-      });
+      })
+      .set('Authorization', `Bearer ${token}`);
 
     assertStatusCode(res, 400);
   });
@@ -258,9 +262,9 @@ describe('members controller', () => {
       .spyOn(membersService, 'removeMember')
       .mockResolvedValueOnce(mockMember);
 
-    const res = await request(app.getHttpServer()).delete(
-      `/v1/members/${mockMember.id}`,
-    );
+    const res = await request(app.getHttpServer())
+      .delete(`/v1/members/${mockMember.id}`)
+      .set('Authorization', `Bearer ${token}`);
 
     assertStatusCode(res, 200);
     expect(res.body.data).not.toBeNull();
@@ -268,9 +272,9 @@ describe('members controller', () => {
 
   it('invalid request, should return 400 bad request', async () => {
     const memberId = 100;
-    const res = await request(app.getHttpServer()).delete(
-      `/v1/members/${memberId}`,
-    );
+    const res = await request(app.getHttpServer())
+      .delete(`/v1/members/${memberId}`)
+      .set('Authorization', `Bearer ${token}`);
 
     assertStatusCode(res, 400);
   });
