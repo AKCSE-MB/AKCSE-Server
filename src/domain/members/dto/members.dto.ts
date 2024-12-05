@@ -9,14 +9,8 @@ export interface MemberCreateRequestDTO {
   role: Role;
 }
 
-export interface MemberUpdateRequestDTO {
-  score?: number;
-  numAttend?: number;
-  name?: string;
-  username?: string;
-  program?: Program;
-  role?: Role;
-}
+export interface MemberUpdateRequestDTO
+  extends Partial<MemberCreateRequestDTO> {}
 
 export interface MembersResponseDTO {
   id: number;
@@ -30,9 +24,8 @@ export interface MembersResponseDTO {
   updatedAt: Date;
 }
 
-export interface TopMembersResponseDTO {
-  id: number;
-  username: string;
-  score: number;
-  numAttend: number;
-}
+export interface TopMembersResponseDTO
+  extends Omit<
+    MembersResponseDTO,
+    'name' | 'program' | 'role' | 'createdAt' | 'updatedAt'
+  > {}
