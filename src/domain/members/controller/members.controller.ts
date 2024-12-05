@@ -29,19 +29,22 @@ import { AuthGuard } from '@common/auth/auth.guard';
 @Injectable()
 export class MembersController {
   /**
-   * @tag create
+   * @tag members
    * @summary create a new member
    * @security bearer
    */
   @UseGuards(AuthGuard)
   @TypedRoute.Post()
   @HttpCode(200)
-  async addMember(@TypedBody() memberData: MemberCreateRequestDTO) {
+  async addMember(
+    @TypedBody() memberData: MemberCreateRequestDTO,
+  ): Promise<BaseResponseDto<object>> {
     await createMember(memberData);
+    return new BaseResponseDto({ state: 'success' });
   }
 
   /**
-   * @tag get
+   * @tag members
    * @summary get all registered members
    * @security bearer
    */
@@ -53,7 +56,7 @@ export class MembersController {
   }
 
   /**
-   * @tag get
+   * @tag members
    * @summary get top 5 members with the highest scores
    * @security bearer
    */
@@ -65,7 +68,7 @@ export class MembersController {
   }
 
   /**
-   * @tag get
+   * @tag members
    * @summary get a member with the passed id
    * @security bearer
    */
@@ -79,7 +82,7 @@ export class MembersController {
   }
 
   /**
-   * @tag udpate
+   * @tag members
    * @summary Update an existing member's details
    * @security bearer
    */
@@ -95,7 +98,7 @@ export class MembersController {
   }
 
   /**
-   * @tag delete
+   * @tag members
    * @summary Delete a member
    * @security bearer
    */
