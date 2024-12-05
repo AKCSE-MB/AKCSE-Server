@@ -1,4 +1,4 @@
-import { TestingModule } from '@nestjs/testing';
+import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 import { INestApplication } from '@nestjs/common';
 import { appModuleFixture, assertStatusCode } from '@root/jest.setup';
@@ -7,13 +7,10 @@ import * as membersService from '@domain/members/service/members.service';
 import { Program, Role } from '@domain/members/members.enum';
 import { MembersResponseDTO } from '@domain/members/dto/members.dto';
 import { createUserToken } from '@root/jest.setup';
-
+import { ConfigurationService } from '@domain/configuration/configuration.service';
 describe('members controller', () => {
   let app: INestApplication;
-  let token: string;
-  const userId = 1;
-  const secretKey = 'secret-access-test-token';
-  const tokenOptions = {};
+  let configService: ConfigurationService;
 
   beforeAll(async () => {
     const module = (await appModuleFixture(
@@ -22,17 +19,21 @@ describe('members controller', () => {
       [MembersModule],
     )) as TestingModule;
 
+    configService = module.get<ConfigurationService>(ConfigurationService);
     app = module.createNestApplication();
     await app.init();
-
-    token = createUserToken(userId, secretKey, tokenOptions);
   });
 
   it('should create a new member', async () => {
     jest.spyOn(membersService, 'createMember').mockImplementation();
 
+    const userId = 1;
+    const key = configService.getTokenData().accessTokenSecret;
+    const token = createUserToken(userId, key, { expiresIn: '1h' });
+
     const res = await request(app.getHttpServer())
       .post('/v1/members')
+      .set('Authorization', `Bearer ${token}`)
       .send({
         score: 0,
         numAttend: 0,
@@ -40,14 +41,13 @@ describe('members controller', () => {
         username: 'test1',
         program: Program.COMPUTER_SCIENCE,
         role: Role.MEMBER,
-      })
-      .set('Authorization', `Bearer ${token}`);
+      });
 
     assertStatusCode(res, 200);
   });
 
   it('should return all members', async () => {
-    const mockMembers: MembersResponseDTO[] = [
+    const data = [
       {
         id: 1,
         score: 0,
@@ -72,9 +72,7 @@ describe('members controller', () => {
       },
     ];
 
-    jest
-      .spyOn(membersService, 'getAllMembers')
-      .mockResolvedValueOnce(mockMembers);
+    jest.spyOn(membersService, 'getAllMembers').mockResolvedValueOnce(data);
 
     const expectedNum = 2;
     const res = await request(app.getHttpServer()).get('/v1/members');
@@ -93,7 +91,7 @@ describe('members controller', () => {
   });
 
   it('should return a member with the id of 1', async () => {
-    const mockMember: MembersResponseDTO = {
+    const data = {
       id: 1,
       score: 0,
       numAttend: 0,
@@ -105,10 +103,10 @@ describe('members controller', () => {
       updatedAt: new Date(),
     };
 
-    jest.spyOn(membersService, 'getMember').mockResolvedValueOnce(mockMember);
+    jest.spyOn(membersService, 'getMember').mockResolvedValueOnce(data);
 
     const res = await request(app.getHttpServer()).get(
-      `/v1/members/${mockMember.id}`,
+      `/v1/members/${data.id}`,
     );
 
     assertStatusCode(res, 200);
@@ -125,7 +123,7 @@ describe('members controller', () => {
   });
 
   it('should return the top 5 (max) members based on their score', async () => {
-    const mockLeaderboard: MembersResponseDTO[] = [
+    const data = [
       {
         id: 1,
         score: 10,
@@ -185,9 +183,7 @@ describe('members controller', () => {
 
     const expectedNum = 5;
 
-    jest
-      .spyOn(membersService, 'getLeaderboard')
-      .mockResolvedValueOnce(mockLeaderboard);
+    jest.spyOn(membersService, 'getLeaderboard').mockResolvedValueOnce(data);
 
     const res = await request(app.getHttpServer()).get(
       '/v1/members/leaderboard',
@@ -209,44 +205,7 @@ describe('members controller', () => {
   });
 
   it('should return the updated member', async () => {
-    const mockMember: MembersResponseDTO = {
-      id: 1,
-      score: 100,
-      numAttend: 2,
-      name: 'testName1',
-      username: 'test1',
-      program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
-
-    jest.spyOn(membersService, 'editMember').mockResolvedValueOnce(mockMember);
-
-    const res = await request(app.getHttpServer())
-      .put(`/v1/members/${mockMember.id}`)
-      .send({})
-      .set('Authorization', `Bearer ${token}`);
-
-    assertStatusCode(res, 200);
-    expect(res.body).not.toBeNull();
-  });
-
-  it('inavlid request, should return 400 bad request', async () => {
-    const memberId = 100;
-    const res = await request(app.getHttpServer())
-      .put(`/v1/members/${memberId}`)
-      .send({
-        score: 100,
-        numAttend: 2,
-      })
-      .set('Authorization', `Bearer ${token}`);
-
-    assertStatusCode(res, 400);
-  });
-
-  it('should return the deleted member', async () => {
-    const mockMember: MembersResponseDTO = {
+    const data = {
       id: 1,
       score: 0,
       numAttend: 0,
@@ -257,13 +216,57 @@ describe('members controller', () => {
       createdAt: new Date(),
       updatedAt: new Date(),
     };
+    const userId = 1;
+    const key = configService.getTokenData().accessTokenSecret;
+    const token = createUserToken(userId, key, { expiresIn: '1h' });
 
-    jest
-      .spyOn(membersService, 'removeMember')
-      .mockResolvedValueOnce(mockMember);
+    jest.spyOn(membersService, 'editMember').mockResolvedValueOnce(data);
 
     const res = await request(app.getHttpServer())
-      .delete(`/v1/members/${mockMember.id}`)
+      .put(`/v1/members/${data.id}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({});
+
+    assertStatusCode(res, 200);
+    expect(res.body).not.toBeNull();
+  });
+
+  it('inavlid request, should return 400 bad request', async () => {
+    const userId = 1;
+    const key = configService.getTokenData().accessTokenSecret;
+    const token = createUserToken(userId, key, { expiresIn: '1h' });
+    const memberId = 100;
+    const res = await request(app.getHttpServer())
+      .put(`/v1/members/${memberId}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        score: 100,
+        numAttend: 2,
+      });
+
+    assertStatusCode(res, 400);
+  });
+
+  it('should return the deleted member', async () => {
+    const data = {
+      id: 1,
+      score: 0,
+      numAttend: 0,
+      name: 'testName1',
+      username: 'test1',
+      program: Program.COMPUTER_SCIENCE,
+      role: Role.MEMBER,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    const userId = 1;
+    const key = configService.getTokenData().accessTokenSecret;
+    const token = createUserToken(userId, key, { expiresIn: '1h' });
+
+    jest.spyOn(membersService, 'removeMember').mockResolvedValueOnce(data);
+
+    const res = await request(app.getHttpServer())
+      .delete(`/v1/members/${data.id}`)
       .set('Authorization', `Bearer ${token}`);
 
     assertStatusCode(res, 200);
@@ -271,6 +274,9 @@ describe('members controller', () => {
   });
 
   it('invalid request, should return 400 bad request', async () => {
+    const userId = 1;
+    const key = configService.getTokenData().accessTokenSecret;
+    const token = createUserToken(userId, key, { expiresIn: '1h' });
     const memberId = 100;
     const res = await request(app.getHttpServer())
       .delete(`/v1/members/${memberId}`)
