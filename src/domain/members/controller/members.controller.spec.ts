@@ -1,11 +1,10 @@
-import { Test, TestingModule } from '@nestjs/testing';
+import { TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 import { INestApplication } from '@nestjs/common';
 import { appModuleFixture, assertStatusCode } from '@root/jest.setup';
 import { MembersModule } from '@domain/members/members.module';
 import * as membersService from '@domain/members/service/members.service';
 import { Program, Role } from '@domain/members/members.enum';
-import { MembersResponseDTO } from '@domain/members/dto/members.dto';
 import { createUserToken } from '@root/jest.setup';
 import { ConfigurationService } from '@domain/configuration/configuration.service';
 describe('members controller', () => {
