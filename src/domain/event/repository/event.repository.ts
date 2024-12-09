@@ -1,7 +1,23 @@
 import prismaClient from '@common/database/prisma';
 
+export interface EventRecord {
+  id: number;
+  title: string;
+  description: string;
+  fee: number;
+  startDateTime: Date;
+  endDateTime: Date;
+  location: string;
+  signUpDeadline: Date;
+  rsvpLink: string;
+  imageUrl: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export async function getEvents() {
-  return await prismaClient.events.findMany();
+  const records = await prismaClient.events.findMany();
+  return transformRecordToModel(records);
 }
 
 export async function saveEvents(
@@ -34,4 +50,30 @@ export async function saveEvent(param: {
   updatedAt: Date;
 }) {
   return saveEvents([param]);
+}
+
+export function transformRecordToModel(
+  records: {
+    id: number;
+    title: string;
+    description: string;
+    fee: number;
+    startDateTime: Date;
+    endDateTime: Date;
+    location: string;
+    signUpDeadline: Date;
+    rsvpLink: string | null;
+    imageUrl: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+  }[],
+): EventRecord[] {
+  return records.map((record) => {
+    const { rsvpLink, imageUrl, ...rest } = record;
+    return {
+      ...rest,
+      rsvpLink: rsvpLink || '',
+      imageUrl: imageUrl || '',
+    };
+  });
 }
