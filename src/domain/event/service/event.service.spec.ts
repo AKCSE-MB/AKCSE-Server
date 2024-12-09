@@ -3,7 +3,7 @@ import { getAkcseEvents } from '@domain/event/service/event.service';
 import prismaClient from '@common/database/prisma';
 import { saveEvent } from '@domain/event/repository/event.repository';
 
-describe('account service', () => {
+describe('event service', () => {
   beforeEach(async () => {
     await truncateTables(prismaClient, ['events']);
   });

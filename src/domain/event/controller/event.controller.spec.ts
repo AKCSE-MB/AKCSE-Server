@@ -6,7 +6,7 @@ import { ConfigurationService } from '@domain/configuration/configuration.servic
 import * as eventService from '@domain/event/service/event.service';
 import { EventModule } from '@domain/event/event.module';
 
-describe('account controller', () => {
+describe('event controller', () => {
   let app: INestApplication;
   let configService: ConfigurationService;
   beforeAll(async () => {

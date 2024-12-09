@@ -1,4 +1,10 @@
-import { Controller, HttpCode, Injectable, UseFilters } from '@nestjs/common';
+import {
+  Controller,
+  HttpCode,
+  Injectable,
+  UseFilters,
+  UseGuards,
+} from '@nestjs/common';
 import { HttpExceptionFilter } from '@common/exception/exception.filter';
 import { TypedRoute } from '@nestia/core';
 import { BaseResponseDto } from '@common/dto/base.dto';
@@ -12,6 +18,7 @@ export class EventController {
   /**
    * @tag event
    * @summary get event
+   * @security bearer
    */
   @TypedRoute.Get('/')
   @HttpCode(200)

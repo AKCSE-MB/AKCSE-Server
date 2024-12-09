@@ -19,7 +19,6 @@ export class AccountController {
   /**
    * @tag account
    * @summary create token for user
-   * @security bearer
    */
   @TypedRoute.Post('/tokens')
   @HttpCode(200)
