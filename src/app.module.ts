@@ -4,11 +4,13 @@ import { LoggingModule } from '@src/common/logging/logging.module';
 import { ConfigurationModule } from '@domain/configuration/configuration.module';
 import { AccountModule } from '@domain/account/account.module';
 import { validate } from '@src/env.validation';
+import { EventModule } from '@domain/event/event.module';
 
 @Module({
   imports: [
     ConfigurationModule,
     AccountModule,
+    EventModule,
     ConfigModule.forRoot({
       cache: true,
       isGlobal: true,

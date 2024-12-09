@@ -99,7 +99,6 @@ describe('members repository', () => {
       program: Program.MATHEMATICS,
       role: Role.ADMIN,
     };
-
     const memberId = 1;
 
     await saveMember({ ...dto });
