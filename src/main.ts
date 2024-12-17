@@ -12,7 +12,7 @@ async function bootstrap() {
   const docs = require('../../packages/api/swagger.json');
   docs.servers = [
     {
-      url: `${url}`,
+      url: `${url}:${port}`,
     },
   ];
   SwaggerModule.setup('api', app, docs);
