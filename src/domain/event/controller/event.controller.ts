@@ -17,8 +17,7 @@ import { GetEventsOutput } from '@domain/event/dto/event.dto';
 export class EventController {
   /**
    * @tag event
-   * @summary get event
-   * @security bearer
+   * @summary get events
    */
   @TypedRoute.Get('/')
   @HttpCode(200)
