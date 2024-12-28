@@ -46,7 +46,6 @@ export class MembersController {
   /**
    * @tag members
    * @summary get all registered members
-   * @security bearer
    */
   @TypedRoute.Get()
   @HttpCode(200)
@@ -58,7 +57,6 @@ export class MembersController {
   /**
    * @tag members
    * @summary get top 5 members with the highest scores
-   * @security bearer
    */
   @TypedRoute.Get('/leaderboard')
   @HttpCode(200)
@@ -70,7 +68,6 @@ export class MembersController {
   /**
    * @tag members
    * @summary get a member with the passed id
-   * @security bearer
    */
   @TypedRoute.Get('/:id')
   @HttpCode(200)
