@@ -31,41 +31,32 @@ model Tokens {
 }
 
 model Members {
-  id                    Int     @id @default(autoincrement())
-  score                 Int     @map("score") @default(0)
-  numAttend             Int     @map("num_attend") @default(0)
-  name                  String  @map("name") @db.VarChar(25)
-  username              String  @map("username") @db.VarChar(25)
-  program               String  @map("program") @db.VarChar(25)
-  role                  String  @map("role") @db.VarChar(10)
-  createdAt             DateTime @default(now()) @map("created_at")
-  updatedAt             DateTime @updatedAt @map("updated_at")
+  id        Int      @id @default(autoincrement())
+  score     Int      @default(0) @map("score")
+  numAttend Int      @default(0) @map("num_attend")
+  name      String   @map("name") @db.VarChar(25)
+  username  String   @map("username") @db.VarChar(25)
+  program   String   @map("program") @db.VarChar(25)
+  role      String   @map("role") @db.VarChar(10)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("members")
 }
 
 model Events {
-  id                  Int       @id @default(autoincrement())
-  title               String    @map("title") @db.VarChar(50)
-  description         String    @map("description") @db.VarChar(300)
-  fee                 Float     @map("fee") @default(0)
-  startDateTime       DateTime  @map("start_date_time")
-  endDateTime         DateTime  @map("end_date_time")
-  location            String    @map("location") @db.VarChar(30)
-  signUpDeadline      DateTime  @map("sign_up_deadline")
-  rsvpLink            String?   @map("rsvp_link") @db.VarChar(256)
-  imageUrl            String?   @map("image_url") @db.VarChar(512)
-  createdAt           DateTime  @default(now()) @map("created_at")
-  updatedAt           DateTime  @updatedAt @map("updated_at")
+  id             Int      @id @default(autoincrement())
+  title          String   @map("title") @db.VarChar(50)
+  description    String   @map("description") @db.VarChar(300)
+  fee            Float    @default(0) @map("fee")
+  startDateTime  DateTime @map("start_date_time") @db.Timestamp(1)
+  endDateTime    DateTime @map("end_date_time") @db.Timestamp(1)
+  location       String   @map("location") @db.VarChar(30)
+  signUpDeadline DateTime @map("sign_up_deadline") @db.Timestamp(1)
+  rsvpLink       String?  @map("rsvp_link") @db.VarChar(256)
+  imageUrl       String?  @map("image_url") @db.VarChar(512)
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
 
   @@map("events")
-}
-
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
-model spatial_ref_sys {
-  srid      Int     @id
-  auth_name String? @db.VarChar(256)
-  auth_srid Int?
-  srtext    String? @db.VarChar(2048)
-  proj4text String? @db.VarChar(2048)
 }
