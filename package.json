@@ -12,6 +12,7 @@
         "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\""
     },
     "dependencies": {
+        "@dev-taeho/akcse_mb": "0.1.1",
         "@sentry/nextjs": "^7.84.0",
         "@svgr/webpack": "^8.1.0",
         "@tanstack/query-sync-storage-persister": "^4.33.0",
