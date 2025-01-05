@@ -1,26 +1,17 @@
 import styled from 'styled-components';
 
 export const MainContent = styled.main`
-  padding: 40px 40px 80px;
-  background-color: aliceblue;
-  
-  & button:nth-child(2) {
-    margin-top: 36px;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 100px;
 `;
 
-export const NavContainer = styled.div`
-  position: fixed;
+export const ButtonContainer = styled.div`
   display: flex;
-  max-width: 360px;
-  width: 100%;
-  bottom: 0;
-
-  & > button {
-    flex-grow: 1;
-  }
-
-  @media screen and (max-width: 768px) {
-    max-width: 100%;
-  }
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 100px;
 `;

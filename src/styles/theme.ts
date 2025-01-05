@@ -5,6 +5,8 @@ const colors = {
   black: '#000000',
   primary: {
     y90: '#FF7002',
+    brown: '#662E0B',
+    dark_brown: '#222524',
   },
   secondary: {
     o90: '#C13001',
