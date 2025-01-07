@@ -9,7 +9,6 @@ import {
 } from '@domain/resources/repository/resources.repository';
 
 export async function createResource(param: {
-  id: number;
   title: string;
   description: string;
   courseList: string[];
@@ -20,7 +19,6 @@ export async function createResource(param: {
   academicCalendarUrl: string;
 }) {
   await saveResource({
-    id: param.id,
     title: param.title,
     description: param.description,
     courseList: param.courseList,
@@ -73,6 +71,6 @@ export async function editResource(
   return resource;
 }
 
-export async function removeMember(id: number) {
+export async function removeResource(id: number) {
   return await deleteResource(id);
 }

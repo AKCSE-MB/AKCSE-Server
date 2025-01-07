@@ -1,7 +1,6 @@
 import prismaClient from '@common/database/prisma';
 
 export async function saveResource(param: {
-  id: number;
   title: string;
   description: string;
   courseList: string[];
@@ -38,13 +37,12 @@ export async function updateResource(
     academicCalendarUrl?: string;
   },
 ) {
-  return await prismaClient.members.update({
+  return await prismaClient.resources.update({
     where: {
       id: id,
     },
     data: {
       ...param,
-      updatedAt: new Date(),
     },
   });
 }
