@@ -59,7 +59,7 @@ export async function editResource(
     academicCalendarUrl?: string;
   },
 ) {
-  const resource = updateResource(id, param);
+  const resource = await updateResource(id, param);
 
   if (!resource) {
     throw new CallerWrongUsageException(

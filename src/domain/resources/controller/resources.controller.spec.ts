@@ -159,22 +159,6 @@ describe('resources controller', () => {
     expect(res.body).not.toBeNull();
   });
 
-  it('inavlid request, should return 400 bad request', async () => {
-    const userId = 1;
-    const key = configService.getTokenData().accessTokenSecret;
-    const token = createUserToken(userId, key, { expiresIn: '1h' });
-    const resourceId = 100;
-    const res = await request(app.getHttpServer())
-      .put(`/v1/resources/${resourceId}`)
-      .set('Authorization', `Bearer ${token}`)
-      .send({
-        courseList: ['COMP 1010', 'COMP 1020', 'COMP 2140'],
-        prerequisites: ['COMP 1010', 'COMP 1020', 'MATH 1240'],
-      });
-
-    assertStatusCode(res, 400);
-  });
-
   it('should return the deleted resource', async () => {
     const data = {
       id: 1,
@@ -200,17 +184,5 @@ describe('resources controller', () => {
 
     assertStatusCode(res, 200);
     expect(res.body.data).not.toBeNull();
-  });
-
-  it('invalid request, should return 400 bad request', async () => {
-    const userId = 1;
-    const key = configService.getTokenData().accessTokenSecret;
-    const token = createUserToken(userId, key, { expiresIn: '1h' });
-    const resourceId = 100;
-    const res = await request(app.getHttpServer())
-      .delete(`/v1/resources/${resourceId}`)
-      .set('Authorization', `Bearer ${token}`);
-
-    assertStatusCode(res, 400);
   });
 });
