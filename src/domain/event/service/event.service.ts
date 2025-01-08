@@ -5,24 +5,8 @@ import {
 import { ErrorSubCategoryEnum } from '@root/src/common/exception/enum';
 import { CallerWrongUsageException } from '@root/src/common/exception/internal.exception';
 
-interface EventRecord {
-  id: number;
-  title: string;
-  description: string;
-  fee: number;
-  startDateTime: Date;
-  endDateTime: Date;
-  location: string;
-  signUpDeadline: Date;
-  rsvpLink: string;
-  imageUrl: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
 export async function getAkcseEvents() {
-  const records = await getEvents();
-  return records.map((record) => transformRecordToModel(record));
+  return await getEvents();
 }
 
 export async function getAkcseEventById(id: number) {
@@ -31,31 +15,9 @@ export async function getAkcseEventById(id: number) {
   if (!record) {
     throw new CallerWrongUsageException(
       ErrorSubCategoryEnum.INVALID_INPUT,
-      'no such member',
+      'no such event',
     );
   }
 
-  return transformRecordToModel(record);
-}
-
-function transformRecordToModel(record: {
-  id: number;
-  title: string;
-  description: string;
-  fee: number;
-  startDateTime: Date;
-  endDateTime: Date;
-  location: string;
-  signUpDeadline: Date;
-  rsvpLink: string | null;
-  imageUrl: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-}): EventRecord {
-  const { rsvpLink, imageUrl, ...rest } = record;
-  return {
-    ...rest,
-    rsvpLink: rsvpLink || '',
-    imageUrl: imageUrl || '',
-  };
+  return record;
 }
