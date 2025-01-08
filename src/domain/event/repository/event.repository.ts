@@ -5,7 +5,7 @@ export async function getEvents() {
 }
 
 export async function getEventById(id: number) {
-  return await prismaClient.events.findFirst({
+  return await prismaClient.events.findUnique({
     where: {
       id: id,
     },
