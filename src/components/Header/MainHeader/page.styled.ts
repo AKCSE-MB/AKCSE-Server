@@ -23,17 +23,17 @@ export const TitleContainer = styled.div`
 
   h1,
   h2 {
-    color: ${({ theme }) => theme.colors.primary.dark_brown};
+    color: ${({ theme }) => theme.colors.dark_brown};
   }
 
   h1 {
     font-weight: bolder;
-    font-size: large;
+    font-size: x-large;
   }
 
   h2 {
     font-weight: normal;
-    font-size: small;
+    font-size: medium;
   }
 `;
 
@@ -84,12 +84,18 @@ export const MenuItem = styled.div`
   font-size: medium;
 
   &:hover {
-    color: ${({ theme }) => theme.colors.primary.brown};
+    color: ${({ theme }) => theme.colors.brown};
   }
 `;
 
-export const Title = styled.h1``;
+export const Title = styled.h1`
+  font-weight: bolder;
+  font-size: xx-large;
+`;
 
-export const SubTitle = styled.h2``;
+export const SubTitle = styled.h2`
+  font-weight: bold;
+  font-size: large;
+`;
 
 export const ButtonContainer = styled.div``;

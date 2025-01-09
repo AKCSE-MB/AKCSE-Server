@@ -15,13 +15,13 @@ export const TextInput = styled.input`
   font-size: 1rem;
   background-color: white;
   color: black;
-  border: 2px solid ${({ theme }) => theme.colors.primary.dark_brown};
+  border: 2px solid ${({ theme }) => theme.colors.dark_brown};
   cursor: text;
 `;
 
 export const StyledLabel = styled.label`
   justify-content: left;
-  color: ${({ theme }) => theme.colors.primary.dark_brown};
+  color: ${({ theme }) => theme.colors.dark_brown};
   font-weight: bold;
   font-size: medium;
   margin-bottom: 5px;

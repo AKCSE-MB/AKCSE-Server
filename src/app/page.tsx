@@ -29,7 +29,9 @@ export default function Home() {
           <DefaultButton onClick={() => push('/')}>HOME</DefaultButton>
           <DefaultButton onClick={() => push('/')}>EVENTS</DefaultButton>
           <DefaultButton onClick={() => push('/')}>RESOURCES</DefaultButton>
-          <DefaultButton onClick={() => push('/')}>LEADERBOARD</DefaultButton>
+          <DefaultButton onClick={() => push('/leaderboard')}>
+            LEADERBOARD
+          </DefaultButton>
           {isLoggedIn ? (
             <div>
               <DefaultButton onClick={logout}>Log Out</DefaultButton>

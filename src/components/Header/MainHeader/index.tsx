@@ -38,7 +38,7 @@ export default function Header({ title, subTitle, BackBtn }: Props) {
 
   const handleLeaderboardClick = () => {
     toggleMenu();
-    push('/');
+    push('/leaderboard');
   };
 
   const handleLoginClick = () => {

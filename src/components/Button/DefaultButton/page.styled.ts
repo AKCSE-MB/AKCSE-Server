@@ -6,7 +6,7 @@ export const Button = styled.button`
   justify-content: center;
   padding: 10px 20px;
   font-size: 1rem;
-  background-color: ${({ theme }) => theme.colors.primary.dark_brown};
+  background-color: ${({ theme }) => theme.colors.dark_brown};
   width: fit-content;
   color: white;
   border: none;
@@ -14,7 +14,7 @@ export const Button = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.primary.brown};
+    background-color: ${({ theme }) => theme.colors.brown};
   }
 
   &:disabled {
