@@ -55,7 +55,20 @@ export async function editMember(
     role?: Role;
   },
 ) {
-  const member = updateMember(id, param);
+  const member = await getMember(id);
+
+  if (!member) {
+    throw new CallerWrongUsageException(
+      ErrorSubCategoryEnum.INVALID_INPUT,
+      'no such member',
+    );
+  }
+
+  return await updateMember(id, param);
+}
+
+export async function removeMember(id: number) {
+  const member = await getMember(id);
 
   if (!member) {
     throw new CallerWrongUsageException(
@@ -64,10 +77,6 @@ export async function editMember(
     );
   }
 
-  return member;
-}
-
-export async function removeMember(id: number) {
   return await deleteMember(id);
 }
 
