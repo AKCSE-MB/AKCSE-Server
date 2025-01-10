@@ -50,6 +50,11 @@ describe('event repository', () => {
     expect(res).toHaveLength(1);
   });
 
+  it('should return an empty array', async () => {
+    const res = await getEvents();
+    expect(res).toEqual([]);
+  });
+
   it('should return an event with the passed id', async () => {
     const data = {
       title: 'test-title',
