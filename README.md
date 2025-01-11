@@ -1,7 +1,4 @@
-## Description
-
-AKCSE-MB-Client
-
+# AKCSE-Client
 
 ## Getting Started
 
