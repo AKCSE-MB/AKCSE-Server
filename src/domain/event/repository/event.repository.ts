@@ -27,7 +27,9 @@ export async function getEventById(id: number) {
     },
   });
 
-  return record ? transformRecordToModel(record) : null;
+  if (!record) return null;
+
+  return transformRecordToModel(record);
 }
 
 export async function saveEvents(
