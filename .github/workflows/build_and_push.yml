@@ -44,7 +44,7 @@ jobs:
           NPMRC_PATH: ${{ env.npmrc_path }}
         run: |
           docker buildx build \
-            --file ./Dockerfile \
+            --file ./docker/Dockerfile \
             --tag $REGISTRY/$REPOSITORY:$IMAGE_TAG \
             --cache-from "type=registry,ref=$REGISTRY/$REPOSITORY:$IMAGE_TAG" \
             --secret id=npmrc,src=$NPMRC_PATH \
