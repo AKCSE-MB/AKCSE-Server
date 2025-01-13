@@ -49,12 +49,7 @@ model Resources {
   id                        Int       @id @default(autoincrement()) 
   title                     String    @map("title") @db.VarChar(50) 
   description               String    @map("description") @db.VarChar(300) 
-  courseList                String[]  @map("course_list")
-  prerequisites             String[]  @map("prerequisites")
-  expectedDuration          Int       @map("expected_duration")
-  aproxTuitionInternational Int?      @map("aprox_tuition_international")
-  aproxTuitionDomestic      Int       @map("aprox_tuition_domestic")
-  academicCalendarUrl       String?   @map("academic_calendar_url")
+  academicCalendarUrl       String?   @map("academic_calendar_url") @db.VarChar(300) 
   
   @@map("resources") 
 }

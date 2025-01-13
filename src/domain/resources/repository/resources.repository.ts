@@ -3,11 +3,6 @@ import prismaClient from '@common/database/prisma';
 export async function saveResource(param: {
   title: string;
   description: string;
-  courseList: string[];
-  prerequisites: string[];
-  expectedDuration: number;
-  aproxTuitionInternational: number;
-  aproxTuitionDomestic: number;
   academicCalendarUrl: string;
 }) {
   await prismaClient.resources.create({ data: param });
@@ -29,11 +24,6 @@ export async function updateResource(
   id: number,
   param: {
     description?: string;
-    courseList?: string[];
-    prerequisites?: string[];
-    expectedDuration?: number;
-    aproxTuitionInternational?: number;
-    aproxTuitionDomestic?: number;
     academicCalendarUrl?: string;
   },
 ) {

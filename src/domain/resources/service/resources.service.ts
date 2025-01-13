@@ -11,21 +11,11 @@ import {
 export async function createResource(param: {
   title: string;
   description: string;
-  courseList: string[];
-  prerequisites: string[];
-  expectedDuration: number;
-  aproxTuitionInternational: number;
-  aproxTuitionDomestic: number;
   academicCalendarUrl: string;
 }) {
   await saveResource({
     title: param.title,
     description: param.description,
-    courseList: param.courseList,
-    prerequisites: param.prerequisites,
-    expectedDuration: param.expectedDuration,
-    aproxTuitionInternational: param.aproxTuitionInternational,
-    aproxTuitionDomestic: param.aproxTuitionDomestic,
     academicCalendarUrl: param.academicCalendarUrl,
   });
 }
@@ -51,11 +41,6 @@ export async function editResource(
   id: number,
   param: {
     description?: string;
-    courseList?: string[];
-    prerequisites?: string[];
-    expectedDuration?: number;
-    aproxTuitionInternational?: number;
-    aproxTuitionDomestic?: number;
     academicCalendarUrl?: string;
   },
 ) {

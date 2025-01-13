@@ -37,11 +37,6 @@ describe('resources controller', () => {
         id: 1,
         title: 'Computer Science',
         description: 'Description',
-        courseList: ['COMP 1010', 'COMP 1020', 'COMP 2140'],
-        prerequisites: ['COMP 1010', 'COMP 1020', 'MATH 1240'],
-        expectedDuration: 4,
-        aproxTuitionInternational: 22600,
-        aproxTuitionDomestic: 6500,
         academicCalendarUrl:
           'https://catalog.umanitoba.ca/undergraduate-studies/science/computer-science/computer-science-bsc-major/',
       });
@@ -55,11 +50,6 @@ describe('resources controller', () => {
         id: 1,
         title: 'Computer Science',
         description: 'Description',
-        courseList: ['COMP 1010', 'COMP 1020', 'COMP 2140'],
-        prerequisites: ['COMP 1010', 'COMP 1020', 'MATH 1240'],
-        expectedDuration: 4,
-        aproxTuitionInternational: 22600,
-        aproxTuitionDomestic: 6500,
         academicCalendarUrl:
           'https://catalog.umanitoba.ca/undergraduate-studies/science/computer-science/computer-science-bsc-major/',
       },
@@ -67,11 +57,6 @@ describe('resources controller', () => {
         id: 2,
         title: 'Computer Science2',
         description: 'Description2',
-        courseList: ['COMP 1010', 'COMP 1020', 'COMP 2140'],
-        prerequisites: ['COMP 1010', 'COMP 1020', 'MATH 1240'],
-        expectedDuration: 4,
-        aproxTuitionInternational: 22600,
-        aproxTuitionDomestic: 6500,
         academicCalendarUrl:
           'https://catalog.umanitoba.ca/undergraduate-studies/science/computer-science/computer-science-bsc-major/',
       },
@@ -100,11 +85,6 @@ describe('resources controller', () => {
       id: 1,
       title: 'Computer Science',
       description: 'Description',
-      courseList: ['COMP 1010', 'COMP 1020', 'COMP 2140'],
-      prerequisites: ['COMP 1010', 'COMP 1020', 'MATH 1240'],
-      expectedDuration: 4,
-      aproxTuitionInternational: 22600,
-      aproxTuitionDomestic: 6500,
       academicCalendarUrl:
         'https://catalog.umanitoba.ca/undergraduate-studies/science/computer-science/computer-science-bsc-major/',
     };
@@ -133,11 +113,6 @@ describe('resources controller', () => {
       id: 1,
       title: 'Computer Science',
       description: 'Description',
-      courseList: ['COMP 1010', 'COMP 1020', 'COMP 2140'],
-      prerequisites: ['COMP 1010', 'COMP 1020', 'MATH 1240'],
-      expectedDuration: 4,
-      aproxTuitionInternational: 22600,
-      aproxTuitionDomestic: 6500,
       academicCalendarUrl:
         'https://catalog.umanitoba.ca/undergraduate-studies/science/computer-science/computer-science-bsc-major/',
     };
@@ -151,8 +126,8 @@ describe('resources controller', () => {
       .put(`/v1/resources/${data.id}`)
       .set('Authorization', `Bearer ${token}`)
       .send({
-        courseList: ['COMP 1010', 'COMP 1020', 'COMP 2140', 'COMP 2160'],
-        prerequisites: ['COMP 1010', 'COMP 1020', 'MATH 1240', 'MATH 1500'],
+        title: 'Computer Science2',
+        description: 'Description2',
       });
 
     assertStatusCode(res, 200);
@@ -164,11 +139,6 @@ describe('resources controller', () => {
       id: 1,
       title: 'Computer Science',
       description: 'Description',
-      courseList: ['COMP 1010', 'COMP 1020', 'COMP 2140'],
-      prerequisites: ['COMP 1010', 'COMP 1020', 'MATH 1240'],
-      expectedDuration: 4,
-      aproxTuitionInternational: 22600,
-      aproxTuitionDomestic: 6500,
       academicCalendarUrl:
         'https://catalog.umanitoba.ca/undergraduate-studies/science/computer-science/computer-science-bsc-major/',
     };
