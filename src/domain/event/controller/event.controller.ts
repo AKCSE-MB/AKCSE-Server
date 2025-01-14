@@ -35,7 +35,7 @@ export class EventController {
    */
   @TypedRoute.Get('/:id')
   @HttpCode(200)
-  async getEventByID(
+  async getEventById(
     @TypedParam('id') id: number,
   ): Promise<BaseResponseDto<GetEventsOutput>> {
     const res = await getAkcseEventById(id);
