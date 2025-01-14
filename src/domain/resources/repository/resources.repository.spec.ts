@@ -74,7 +74,7 @@ describe('resource repository', () => {
     expect(res).toBeNull;
   });
 
-  it('should return a resource with an updated title, description, courseList, prerequisites, expectedDuration, aproxTuitionInternational, aproxTuitionDomestic, and academicCalendarUrl', async () => {
+  it('should return a resource with an updated title, description, and academicCalendarUrl', async () => {
     const dto = {
       title: 'Computer Science',
       description: 'Description',
@@ -96,9 +96,7 @@ describe('resource repository', () => {
     const res = await updateResource(resourceId, { ...expected });
 
     expect(res).not.toBeNull();
-
     expect(res.id).toEqual(resourceId);
-
     expect(res.title).toEqual(expected.title);
     expect(res.description).toEqual(expected.description);
     expect(res.academicCalendarUrl).toEqual(expected.academicCalendarUrl);

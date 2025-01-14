@@ -72,7 +72,7 @@ describe('resources service', () => {
     expect(res).not.toBeNull();
   });
 
-  it('should return a resource with an updated title, description, courseList, prerequisites, expectedDuration, aproxTuitionInternational, aproxTuitionDomestic, and academicCalendarUrl', async () => {
+  it('should return a resource with an updated title, description, and academicCalendarUrl', async () => {
     const dto = {
       title: 'Computer Science',
       description: 'Description',
@@ -103,11 +103,6 @@ describe('resources service', () => {
     const dto = {
       title: 'Computer Science',
       description: 'Description',
-      courseList: ['COMP 1010', 'COMP 1020', 'COMP 2140'],
-      prerequisites: ['COMP 1010', 'COMP 1020', 'MATH 1240'],
-      expectedDuration: 4,
-      aproxTuitionInternational: 22600,
-      aproxTuitionDomestic: 6500,
       academicCalendarUrl:
         'https://catalog.umanitoba.ca/undergraduate-studies/science/computer-science/computer-science-bsc-major/',
     };
