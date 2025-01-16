@@ -89,9 +89,9 @@ export class MembersController {
   async updateMember(
     @TypedParam('id') id: number,
     @TypedBody() memberData: MemberUpdateRequestDTO,
-  ): Promise<BaseResponseDto<MembersResponseDTO>> {
-    const res = await editMember(id, memberData);
-    return new BaseResponseDto(res);
+  ): Promise<BaseResponseDto<object>> {
+    await editMember(id, memberData);
+    return new BaseResponseDto({ state: 'success' });
   }
 
   /**
@@ -104,8 +104,8 @@ export class MembersController {
   @HttpCode(200)
   async deleteMember(
     @TypedParam('id') id: number,
-  ): Promise<BaseResponseDto<MembersResponseDTO>> {
-    const res = await removeMember(id);
-    return new BaseResponseDto(res);
+  ): Promise<BaseResponseDto<object>> {
+    await removeMember(id);
+    return new BaseResponseDto({ state: 'success' });
   }
 }

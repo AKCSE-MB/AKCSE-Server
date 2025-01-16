@@ -35,7 +35,7 @@ export async function updateMember(
     role?: Role;
   },
 ) {
-  return await prismaClient.members.update({
+  await prismaClient.members.update({
     where: {
       id: id,
     },
@@ -47,7 +47,7 @@ export async function updateMember(
 }
 
 export async function deleteMember(id: number) {
-  return await prismaClient.members.delete({
+  await prismaClient.members.delete({
     where: {
       id: id,
     },
