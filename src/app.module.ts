@@ -6,6 +6,7 @@ import { AccountModule } from '@domain/account/account.module';
 import { MembersModule } from '@domain/members/members.module';
 import { validate } from '@src/env.validation';
 import { EventModule } from '@domain/event/event.module';
+import { ResourcesModule } from '@domain/resources/resources.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { EventModule } from '@domain/event/event.module';
     AccountModule,
     EventModule,
     MembersModule,
+    ResourcesModule,
     ConfigModule.forRoot({
       cache: true,
       isGlobal: true,
