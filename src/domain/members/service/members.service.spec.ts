@@ -149,9 +149,10 @@ describe('members service', () => {
     };
 
     await createMember({ ...dto });
-
     const memberId = 1;
-    const res = await editMember(memberId, { ...expected });
+
+    await editMember(memberId, { ...expected });
+    const res = await getMember(memberId);
 
     expect(res).not.toBeNull();
     expect(res.id).toEqual(memberId);

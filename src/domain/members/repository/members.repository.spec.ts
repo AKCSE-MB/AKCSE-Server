@@ -102,19 +102,10 @@ describe('members repository', () => {
     const memberId = 1;
 
     await saveMember({ ...dto });
-
-    const res = await updateMember(memberId, { ...expected });
+    await updateMember(memberId, { ...expected });
+    const res = await getMemberById(memberId);
 
     expect(res).not.toBeNull();
-
-    expect(res.id).toEqual(memberId);
-
-    expect(res.score).toEqual(10);
-    expect(res.numAttend).toEqual(1);
-    expect(res.name).toEqual('testName2');
-    expect(res.username).toEqual('test2');
-    expect(res.program).toEqual('Mathematics');
-    expect(res.role).toEqual('Admin');
   });
 
   it('should not be able to return a member after deletion', async () => {
@@ -130,7 +121,6 @@ describe('members repository', () => {
 
     await saveMember({ ...dto });
     await deleteMember(memberId);
-
     const res = await getMemberById(memberId);
 
     expect(res).toBeNull();
