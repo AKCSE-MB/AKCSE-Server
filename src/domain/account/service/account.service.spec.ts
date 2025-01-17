@@ -1,6 +1,7 @@
 import { truncateTables } from '@root/jest.setup';
 import * as accountService from '@domain/account/service/account.service';
 import prismaClient from '@common/database/prisma';
+import { Role } from '../account.enum';
 
 describe('account service', () => {
   beforeEach(async () => {
@@ -10,7 +11,7 @@ describe('account service', () => {
   it('should return auth entity', async () => {
     const dto = {
       identification: 'test',
-      password: 'pwd',
+      role: Role.MEMBER,
     };
     await accountService.createAccount({ ...dto });
 
@@ -21,7 +22,7 @@ describe('account service', () => {
   it('should create token', async () => {
     const dto = {
       identification: 'test',
-      password: 'pwd',
+      role: Role.MEMBER,
     };
 
     await accountService.createAccount({ ...dto });
