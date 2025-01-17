@@ -42,18 +42,6 @@ export function findAccessToken(accessToken: string) {
   return pipe(accessToken, getToken);
 }
 
-async function checkPassword(entity: AccountEntity, password: string) {
-  const isMatched = await bcrypt.compare(password, entity.password);
-  if (isMatched) {
-    return;
-  }
-
-  throw new CallerWrongUsageException(
-    ErrorSubCategoryEnum.INVALID_INPUT,
-    'identification or password is not matched',
-  );
-}
-
 export async function createToken(param: CreateTokenRequest) {
   const identification = await getKakaoUserData(param.code);
   const entity = await getAccount(identification);
