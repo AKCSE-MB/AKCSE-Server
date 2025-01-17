@@ -64,7 +64,7 @@ export async function editMember(
     );
   }
 
-  return await updateMember(id, param);
+  await updateMember(id, param);
 }
 
 export async function removeMember(id: number) {
@@ -77,7 +77,7 @@ export async function removeMember(id: number) {
     );
   }
 
-  return await deleteMember(id);
+  await deleteMember(id);
 }
 
 export async function getLeaderboard() {
