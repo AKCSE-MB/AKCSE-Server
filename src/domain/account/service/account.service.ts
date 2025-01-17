@@ -12,6 +12,8 @@ import * as jwt from 'jsonwebtoken';
 import { add } from 'date-fns';
 import { pipe } from 'fp-ts/lib/function';
 import { saveToken } from '@domain/account/repository/token.repository';
+import { getKakaoUserData } from '@root/src/third_party/kakao/kakao';
+import { CreateTokenRequest } from '../dto/account.dto';
 
 export type AccountEntity = Awaited<ReturnType<typeof getAccount>>;
 export async function getAccount(identification: string) {
@@ -52,13 +54,10 @@ async function checkPassword(entity: AccountEntity, password: string) {
   );
 }
 
-export async function createToken(param: {
-  identification: string;
-  password: string;
-}) {
-  const entity = await getAccount(param.identification);
+export async function createToken(param: CreateTokenRequest) {
+  const identification = await getKakaoUserData(param.code);
+  const entity = await getAccount(identification);
 
-  await checkPassword(entity, param.password);
   const tokens = makeTokens({ userId: entity.id });
   await saveToken({
     accountId: entity.id,
