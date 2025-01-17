@@ -14,6 +14,7 @@ import { pipe } from 'fp-ts/lib/function';
 import { saveToken } from '@domain/account/repository/token.repository';
 import { getKakaoUserData } from '@root/src/third_party/kakao/kakao';
 import { CreateTokenRequest } from '../dto/account.dto';
+import { Role } from '../account.enum';
 
 export type AccountEntity = Awaited<ReturnType<typeof getAccount>>;
 export async function getAccount(identification: string) {
@@ -29,12 +30,11 @@ export async function getAccount(identification: string) {
 
 export async function createAccount(param: {
   identification: string;
-  password: string;
+  role: Role;
 }) {
-  const password = await encryptValue(param.password);
   await saveAccount({
     identification: param.identification,
-    password,
+    role: param.role,
   });
 }
 
@@ -52,10 +52,6 @@ export async function createToken(param: CreateTokenRequest) {
     ...tokens,
   });
   return tokens;
-}
-
-async function encryptValue(value: string) {
-  return bcrypt.hash(value, 10);
 }
 
 function makeTokens(payload: { userId: number }) {
