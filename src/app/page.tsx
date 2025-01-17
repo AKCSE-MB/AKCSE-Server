@@ -27,7 +27,7 @@ export default function Home() {
 
         <S.ButtonContainer>
           <DefaultButton onClick={() => push('/')}>HOME</DefaultButton>
-          <DefaultButton onClick={() => push('/')}>EVENTS</DefaultButton>
+          <DefaultButton onClick={() => push('/events')}>EVENTS</DefaultButton>
           <DefaultButton onClick={() => push('/')}>RESOURCES</DefaultButton>
           <DefaultButton onClick={() => push('/leaderboard')}>
             LEADERBOARD

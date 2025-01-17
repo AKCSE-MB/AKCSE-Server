@@ -28,7 +28,7 @@ export default function Header({ title, subTitle, BackBtn }: Props) {
 
   const handleEventsClick = () => {
     toggleMenu();
-    push('/');
+    push('/events');
   };
 
   const handleResourcesClick = () => {

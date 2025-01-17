@@ -3,6 +3,7 @@ import { DefaultTheme } from 'styled-components';
 const colors = {
   white: '#ffffff',
   black: '#000000',
+  blue: '#0000EE',
   ivory: '#f9f9f9',
   brown: '#662E0B',
   dark_ivory: '#f7ebcd',

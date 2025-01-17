@@ -2,11 +2,13 @@ import styled from 'styled-components';
 
 export const HeaderWrapper = styled.div`
   position: fixed;
-  top: 25px;
+  top: 0px;
+  padding-top: 30px;
   z-index: 1;
   display: flex;
   flex-direction: column;
   width: 360px;
+  background: ${({ theme }) => theme.colors.ivory};
 
   @media screen and (max-width: 768px) {
     max-width: 100%;
@@ -20,6 +22,7 @@ export const HeaderWrapper = styled.div`
 export const TitleContainer = styled.div`
   font-family: 'Pretendard', serif;
   text-align: center;
+  padding-bottom: 30px;
 
   h1,
   h2 {
@@ -47,7 +50,6 @@ export const MenuButton = styled.button`
 `;
 
 export const BackButton = styled.button`
-  margin-top: 10px;
   height: 48px;
   width: 48px;
   background: none;
@@ -62,7 +64,7 @@ export const SideMenu = styled.div`
   height: 100%;
   width: 250px;
   background-color: ${({ theme }) => theme.colors.white};
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 2px 0 5px ${({ theme }) => theme.colors.gray};
   z-index: 10;
   padding: 16px;
   display: flex;
