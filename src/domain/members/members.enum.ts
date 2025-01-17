@@ -7,8 +7,3 @@ export enum Program {
   PHARMACY = 'Pharmacy',
   STATISTICS = 'Statistics',
 }
-
-export enum Role {
-  MEMBER = 'Member',
-  ADMIN = 'Admin',
-}

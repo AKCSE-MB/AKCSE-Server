@@ -7,7 +7,7 @@ import {
   updateMember,
   deleteMember,
 } from '@domain/members/repository/members.repository';
-import { Program, Role } from '@domain/members/members.enum';
+import { Program } from '@domain/members/members.enum';
 
 export async function createMember(param: {
   score: number;
@@ -15,7 +15,6 @@ export async function createMember(param: {
   name: string;
   username: string;
   program: Program;
-  role: Role;
 }) {
   await saveMember({
     score: param.score,
@@ -23,7 +22,6 @@ export async function createMember(param: {
     name: param.name,
     username: param.username,
     program: param.program,
-    role: param.role,
   });
 }
 
@@ -52,7 +50,6 @@ export async function editMember(
     name?: string;
     username?: string;
     program?: Program;
-    role?: Role;
   },
 ) {
   const member = await getMember(id);

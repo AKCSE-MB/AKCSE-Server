@@ -7,7 +7,7 @@ import {
   updateMember,
   deleteMember,
 } from '@domain/members/repository/members.repository';
-import { Program, Role } from '@domain/members/members.enum';
+import { Program } from '@domain/members/members.enum';
 
 describe('members repository', () => {
   beforeEach(async () => {
@@ -21,7 +21,6 @@ describe('members repository', () => {
       name: 'testName1',
       username: 'test1',
       program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
     };
     const memberId = 1;
 
@@ -39,7 +38,6 @@ describe('members repository', () => {
       name: 'testName',
       username: 'test',
       program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
     };
 
     await saveMember({ ...dto });
@@ -63,7 +61,6 @@ describe('members repository', () => {
       name: 'testName1',
       username: 'test1',
       program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
     };
     const memberId = 1;
 
@@ -81,14 +78,13 @@ describe('members repository', () => {
     expect(res).toBeNull;
   });
 
-  it('should return a member with an updated score, numAttend, name, username, program, and role', async () => {
+  it('should return a member with an updated score, numAttend, name, username, and program', async () => {
     const dto = {
       score: 0,
       numAttend: 0,
       name: 'testName1',
       username: 'test1',
       program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
     };
 
     const expected = {
@@ -97,7 +93,6 @@ describe('members repository', () => {
       name: 'testName2',
       username: 'test2',
       program: Program.MATHEMATICS,
-      role: Role.ADMIN,
     };
     const memberId = 1;
 
@@ -115,7 +110,6 @@ describe('members repository', () => {
       name: 'testName1',
       username: 'test1',
       program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
     };
     const memberId = 1;
 

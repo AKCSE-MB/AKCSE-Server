@@ -4,7 +4,7 @@ import { INestApplication } from '@nestjs/common';
 import { appModuleFixture, assertStatusCode } from '@root/jest.setup';
 import { MembersModule } from '@domain/members/members.module';
 import * as membersService from '@domain/members/service/members.service';
-import { Program, Role } from '@domain/members/members.enum';
+import { Program } from '@domain/members/members.enum';
 import { createUserToken } from '@root/jest.setup';
 import { ConfigurationService } from '@domain/configuration/configuration.service';
 describe('members controller', () => {
@@ -43,7 +43,6 @@ describe('members controller', () => {
         name: 'testName1',
         username: 'test1',
         program: Program.COMPUTER_SCIENCE,
-        role: Role.MEMBER,
       });
 
     assertStatusCode(res, 200);
@@ -58,7 +57,6 @@ describe('members controller', () => {
         name: 'testName1',
         username: 'test1',
         program: Program.COMPUTER_SCIENCE,
-        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -69,7 +67,6 @@ describe('members controller', () => {
         name: 'testName2',
         username: 'test2',
         program: Program.COMPUTER_SCIENCE,
-        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -101,7 +98,6 @@ describe('members controller', () => {
       name: 'testName1',
       username: 'test1',
       program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -134,7 +130,6 @@ describe('members controller', () => {
         name: 'testName1',
         username: 'test1',
         program: Program.COMPUTER_SCIENCE,
-        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -145,7 +140,6 @@ describe('members controller', () => {
         name: 'testName2',
         username: 'test2',
         program: Program.COMPUTER_SCIENCE,
-        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -156,7 +150,6 @@ describe('members controller', () => {
         name: 'testName3',
         username: 'test3',
         program: Program.STATISTICS,
-        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -167,7 +160,6 @@ describe('members controller', () => {
         name: 'testName4',
         username: 'test4',
         program: Program.STATISTICS,
-        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -178,7 +170,6 @@ describe('members controller', () => {
         name: 'testName5',
         username: 'test5',
         program: Program.STATISTICS,
-        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
