@@ -17,7 +17,19 @@ export interface EventRecord {
 
 export async function getEvents() {
   const records = await prismaClient.events.findMany();
-  return transformRecordToModel(records);
+  return records.map((record) => transformRecordToModel(record));
+}
+
+export async function getEventById(id: number) {
+  const record = await prismaClient.events.findUnique({
+    where: {
+      id: id,
+    },
+  });
+
+  if (!record) return null;
+
+  return transformRecordToModel(record);
 }
 
 export async function saveEvents(
@@ -52,28 +64,24 @@ export async function saveEvent(param: {
   return saveEvents([param]);
 }
 
-export function transformRecordToModel(
-  records: {
-    id: number;
-    title: string;
-    description: string;
-    fee: number;
-    startDateTime: Date;
-    endDateTime: Date;
-    location: string;
-    signUpDeadline: Date;
-    rsvpLink: string | null;
-    imageUrl: string | null;
-    createdAt: Date;
-    updatedAt: Date;
-  }[],
-): EventRecord[] {
-  return records.map((record) => {
-    const { rsvpLink, imageUrl, ...rest } = record;
-    return {
-      ...rest,
-      rsvpLink: rsvpLink || '',
-      imageUrl: imageUrl || '',
-    };
-  });
+function transformRecordToModel(record: {
+  id: number;
+  title: string;
+  description: string;
+  fee: number;
+  startDateTime: Date;
+  endDateTime: Date;
+  location: string;
+  signUpDeadline: Date;
+  rsvpLink: string | null;
+  imageUrl: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+}): EventRecord {
+  const { rsvpLink, imageUrl, ...rest } = record;
+  return {
+    ...rest,
+    rsvpLink: rsvpLink || '',
+    imageUrl: imageUrl || '',
+  };
 }
