@@ -21,20 +21,19 @@ describe('account controller', () => {
   });
 
   it('should return tokens', async () => {
-    jest.spyOn(accountService, 'createToken').mockImplementation(async () => {
-      return {
-        accessToken: '',
-        refreshToken: '',
-        accessTokenExpiredAt: new Date(),
-        refreshTokenExpiredAt: new Date(),
-      };
-    });
+    const data = {
+      accessToken: '',
+      refreshToken: '',
+      accessTokenExpiredAt: new Date(),
+      refreshTokenExpiredAt: new Date(),
+    };
+
+    jest.spyOn(accountService, 'createToken').mockResolvedValueOnce(data);
 
     const res = await request(app.getHttpServer())
       .post('/v1/account/tokens')
       .send({
-        identification: 'test',
-        password: 'pwd',
+        code: 'code',
       });
 
     assertStatusCode(res, 200);
