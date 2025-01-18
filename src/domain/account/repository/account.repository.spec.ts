@@ -8,6 +8,7 @@ import {
 } from '@domain/account/repository/account.repository';
 import { pipe } from 'fp-ts/lib/function';
 import * as TE from 'fp-ts/TaskEither';
+import { Role } from '../account.enum';
 
 describe('account repository', () => {
   beforeEach(async () => {
@@ -27,7 +28,7 @@ describe('account repository', () => {
   it('should save account', async () => {
     const data = {
       identification: 'some@email.com',
-      password: 'one-way-decoded-password',
+      role: Role.MEMBER,
     };
     await saveAccount(data);
     const account = await getIdentification(data.identification);
@@ -38,7 +39,7 @@ describe('account repository', () => {
     const data = [
       {
         identification: 'some@email.com',
-        password: 'one-way-decoded-password',
+        role: Role.MEMBER,
       },
     ];
     await saveAccounts(data);

@@ -12,6 +12,9 @@ import * as jwt from 'jsonwebtoken';
 import { add } from 'date-fns';
 import { pipe } from 'fp-ts/lib/function';
 import { saveToken } from '@domain/account/repository/token.repository';
+import { getKakaoUserData } from '@root/src/third_party/kakao/kakao';
+import { CreateTokenRequest } from '../dto/account.dto';
+import { Role } from '../account.enum';
 
 export type AccountEntity = Awaited<ReturnType<typeof getAccount>>;
 export async function getAccount(identification: string) {
@@ -27,12 +30,11 @@ export async function getAccount(identification: string) {
 
 export async function createAccount(param: {
   identification: string;
-  password: string;
+  role: Role;
 }) {
-  const password = await encryptValue(param.password);
   await saveAccount({
     identification: param.identification,
-    password,
+    role: param.role,
   });
 }
 
@@ -40,35 +42,16 @@ export function findAccessToken(accessToken: string) {
   return pipe(accessToken, getToken);
 }
 
-async function checkPassword(entity: AccountEntity, password: string) {
-  const isMatched = await bcrypt.compare(password, entity.password);
-  if (isMatched) {
-    return;
-  }
+export async function createToken(param: CreateTokenRequest) {
+  const identification = await getKakaoUserData(param.code);
+  const entity = await getAccount(identification);
 
-  throw new CallerWrongUsageException(
-    ErrorSubCategoryEnum.INVALID_INPUT,
-    'identification or password is not matched',
-  );
-}
-
-export async function createToken(param: {
-  identification: string;
-  password: string;
-}) {
-  const entity = await getAccount(param.identification);
-
-  await checkPassword(entity, param.password);
   const tokens = makeTokens({ userId: entity.id });
   await saveToken({
     accountId: entity.id,
     ...tokens,
   });
   return tokens;
-}
-
-async function encryptValue(value: string) {
-  return bcrypt.hash(value, 10);
 }
 
 function makeTokens(payload: { userId: number }) {

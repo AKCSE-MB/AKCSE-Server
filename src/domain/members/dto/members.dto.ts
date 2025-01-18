@@ -1,4 +1,4 @@
-import { Program, Role } from '@domain/members/members.enum';
+import { Program } from '@domain/members/members.enum';
 
 export interface MemberCreateRequestDTO {
   score: number;
@@ -6,7 +6,6 @@ export interface MemberCreateRequestDTO {
   name: string;
   username: string;
   program: Program;
-  role: Role;
 }
 
 export interface MemberUpdateRequestDTO
@@ -19,7 +18,6 @@ export interface MembersResponseDTO {
   name: string;
   username: string;
   program: string;
-  role: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -27,5 +25,5 @@ export interface MembersResponseDTO {
 export interface TopMembersResponseDTO
   extends Omit<
     MembersResponseDTO,
-    'name' | 'program' | 'role' | 'createdAt' | 'updatedAt'
+    'name' | 'program' | 'createdAt' | 'updatedAt'
   > {}

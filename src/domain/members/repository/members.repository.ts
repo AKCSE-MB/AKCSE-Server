@@ -1,5 +1,5 @@
 import prismaClient from '@common/database/prisma';
-import { Program, Role } from '@domain/members/members.enum';
+import { Program } from '@domain/members/members.enum';
 
 export async function saveMember(param: {
   score: number;
@@ -7,7 +7,6 @@ export async function saveMember(param: {
   name: string;
   username: string;
   program: Program;
-  role: Role;
 }) {
   await prismaClient.members.create({ data: param });
 }
@@ -32,7 +31,6 @@ export async function updateMember(
     name?: string;
     username?: string;
     program?: Program;
-    role?: Role;
   },
 ) {
   await prismaClient.members.update({

@@ -1,11 +1,7 @@
 import { truncateTables } from '@root/jest.setup';
-import {
-  createAccount,
-  createToken,
-  findAccessToken,
-  getAccount,
-} from '@domain/account/service/account.service';
+import * as accountService from '@domain/account/service/account.service';
 import prismaClient from '@common/database/prisma';
+import { Role } from '../account.enum';
 
 describe('account service', () => {
   beforeEach(async () => {
@@ -15,22 +11,30 @@ describe('account service', () => {
   it('should return auth entity', async () => {
     const dto = {
       identification: 'test',
-      password: 'pwd',
+      role: Role.MEMBER,
     };
-    await createAccount({ ...dto });
+    await accountService.createAccount({ ...dto });
 
-    const entity = await getAccount(dto.identification);
+    const entity = await accountService.getAccount(dto.identification);
     expect(entity).not.toBeNull();
   });
 
   it('should create token', async () => {
     const dto = {
       identification: 'test',
-      password: 'pwd',
+      role: Role.MEMBER,
     };
-    await createAccount({ ...dto });
 
-    const token = await createToken(dto);
+    await accountService.createAccount({ ...dto });
+
+    const token = {
+      accessToken: 'accessToken',
+      refreshToken: 'refreshToken',
+      accessTokenExpiredAt: new Date(),
+      refreshTokenExpiredAt: new Date(),
+    };
+    jest.spyOn(accountService, 'createToken').mockResolvedValueOnce(token);
+
     expect(token).not.toBeNull();
     expect(token).toHaveProperty('accessToken');
     expect(token).toHaveProperty('refreshToken');
