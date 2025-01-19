@@ -76,9 +76,8 @@ export class ResourcesController {
   async updateResource(
     @TypedParam('id') id: number,
     @TypedBody() resourceData: ResourceUpdateDTO,
-  ): Promise<BaseResponseDto<ResourceResponseDTO>> {
+  ): Promise<void> {
     const res = await editResource(id, resourceData);
-    return new BaseResponseDto(res);
   }
 
   /**
@@ -89,10 +88,7 @@ export class ResourcesController {
   @UseGuards(AuthGuard)
   @TypedRoute.Delete('/:id')
   @HttpCode(200)
-  async deleteResource(
-    @TypedParam('id') id: number,
-  ): Promise<BaseResponseDto<ResourceResponseDTO>> {
+  async deleteResource(@TypedParam('id') id: number): Promise<void> {
     const res = await removeResource(id);
-    return new BaseResponseDto(res);
   }
 }

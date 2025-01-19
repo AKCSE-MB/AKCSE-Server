@@ -131,7 +131,6 @@ describe('resources controller', () => {
       });
 
     assertStatusCode(res, 200);
-    expect(res.body).not.toBeNull();
   });
 
   it('should return the deleted resource', async () => {
@@ -153,6 +152,5 @@ describe('resources controller', () => {
       .set('Authorization', `Bearer ${token}`);
 
     assertStatusCode(res, 200);
-    expect(res.body.data).not.toBeNull();
   });
 });
