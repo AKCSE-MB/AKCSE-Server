@@ -25,6 +25,7 @@ export async function getAccount(identification: string) {
       'no data',
     );
   }
+
   return data;
 }
 
@@ -44,7 +45,14 @@ export function findAccessToken(accessToken: string) {
 
 export async function createToken(param: CreateTokenRequest) {
   const identification = await getKakaoUserData(param.code);
-  const entity = await getAccount(identification);
+  const entity = await getAccount(String(identification)).catch(async () => {
+    const newAccountParam = {
+      identification: String(identification),
+      role: Role.UNKNOWN,
+    };
+    await createAccount(newAccountParam);
+    return getAccount(String(identification));
+  });
 
   const tokens = makeTokens({ userId: entity.id });
   await saveToken({

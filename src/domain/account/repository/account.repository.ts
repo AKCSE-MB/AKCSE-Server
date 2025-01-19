@@ -34,11 +34,16 @@ export async function saveAccounts(
 }
 
 export async function getIdentification(identification: string) {
-  return prismaClient.accounts.findFirst({
+  const res = prismaClient.accounts.findFirst({
     where: {
       identification: identification,
     },
   });
+
+  return {
+    ...res,
+    role: Role,
+  };
 }
 
 export function findAccessToken(accessToken: string) {
