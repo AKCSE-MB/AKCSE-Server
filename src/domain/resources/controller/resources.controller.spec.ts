@@ -23,12 +23,16 @@ describe('resources controller', () => {
     await app.init();
   });
 
+  beforeEach(async () => {
+    jest.clearAllMocks();
+  });
+
   it('should create a new resource', async () => {
     jest.spyOn(resourcesService, 'createResource').mockImplementation();
 
-    const userId = 1;
+    const resourceId = 1;
     const key = configService.getTokenData().accessTokenSecret;
-    const token = createUserToken(userId, key, { expiresIn: '1h' });
+    const token = createUserToken(resourceId, key, { expiresIn: '1h' });
 
     const res = await request(app.getHttpServer())
       .post('/v1/resources')
@@ -109,21 +113,14 @@ describe('resources controller', () => {
   });
 
   it('should return the updated resource', async () => {
-    const data = {
-      id: 1,
-      title: 'Computer Science',
-      description: 'Description',
-      academicCalendarUrl:
-        'https://catalog.umanitoba.ca/undergraduate-studies/science/computer-science/computer-science-bsc-major/',
-    };
-    const userId = 1;
+    const resourceId = 1;
     const key = configService.getTokenData().accessTokenSecret;
-    const token = createUserToken(userId, key, { expiresIn: '1h' });
+    const token = createUserToken(resourceId, key, { expiresIn: '1h' });
 
-    jest.spyOn(resourcesService, 'editResource').mockResolvedValueOnce(data);
+    jest.spyOn(resourcesService, 'editResource').mockImplementation();
 
     const res = await request(app.getHttpServer())
-      .put(`/v1/resources/${data.id}`)
+      .put(`/v1/resources/${resourceId}`)
       .set('Authorization', `Bearer ${token}`)
       .send({
         title: 'Computer Science2',
@@ -134,21 +131,14 @@ describe('resources controller', () => {
   });
 
   it('should return the deleted resource', async () => {
-    const data = {
-      id: 1,
-      title: 'Computer Science',
-      description: 'Description',
-      academicCalendarUrl:
-        'https://catalog.umanitoba.ca/undergraduate-studies/science/computer-science/computer-science-bsc-major/',
-    };
-    const userId = 1;
+    const resourceId = 1;
     const key = configService.getTokenData().accessTokenSecret;
-    const token = createUserToken(userId, key, { expiresIn: '1h' });
+    const token = createUserToken(resourceId, key, { expiresIn: '1h' });
 
-    jest.spyOn(resourcesService, 'removeResource').mockResolvedValueOnce(data);
+    jest.spyOn(resourcesService, 'removeResource').mockImplementation();
 
     const res = await request(app.getHttpServer())
-      .delete(`/v1/resources/${data.id}`)
+      .delete(`/v1/resources/${resourceId}`)
       .set('Authorization', `Bearer ${token}`);
 
     assertStatusCode(res, 200);
