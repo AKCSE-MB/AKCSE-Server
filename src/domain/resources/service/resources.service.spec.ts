@@ -22,9 +22,7 @@ describe('resources service', () => {
         'https://catalog.umanitoba.ca/undergraduate-studies/science/computer-science/computer-science-bsc-major/',
     };
     const resourceId = 1;
-
     await createResource({ ...dto });
-
     const res = await getResource(resourceId);
 
     expect(res).not.toBeNull();
@@ -44,7 +42,6 @@ describe('resources service', () => {
 
     await createResource({ ...dto });
     await createResource({ ...dto });
-
     const res = await getAllResources();
     const expectedNumResources = 2;
 
@@ -88,7 +85,6 @@ describe('resources service', () => {
     };
 
     await createResource({ ...dto });
-
     const resourceId = 1;
     const res = await editResource(resourceId, { ...expected });
 
@@ -106,8 +102,8 @@ describe('resources service', () => {
       academicCalendarUrl:
         'https://catalog.umanitoba.ca/undergraduate-studies/science/computer-science/computer-science-bsc-major/',
     };
-    const resourceId = 1;
 
+    const resourceId = 1;
     await createResource({ ...dto });
     await removeResource(resourceId);
 

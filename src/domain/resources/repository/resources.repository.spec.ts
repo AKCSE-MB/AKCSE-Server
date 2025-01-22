@@ -20,10 +20,9 @@ describe('resource repository', () => {
       academicCalendarUrl:
         'https://catalog.umanitoba.ca/undergraduate-studies/science/computer-science/computer-science-bsc-major/',
     };
+
     const resourceId = 1;
-
     await saveResource({ ...dto });
-
     const res = await getResourceById(resourceId);
 
     expect(res).not.toBeNull();
@@ -39,7 +38,6 @@ describe('resource repository', () => {
 
     await saveResource({ ...dto });
     await saveResource({ ...dto });
-
     const res = await getResources();
 
     expect(res).not.toEqual([]);
@@ -59,9 +57,7 @@ describe('resource repository', () => {
         'https://catalog.umanitoba.ca/undergraduate-studies/science/computer-science/computer-science-bsc-major/',
     };
     const resourceId = 1;
-
     await saveResource({ ...dto });
-
     const res = await getResourceById(resourceId);
 
     expect(res).not.toBeNull();
@@ -90,9 +86,7 @@ describe('resource repository', () => {
     };
 
     const resourceId = 1;
-
     await saveResource({ ...dto });
-
     const res = await updateResource(resourceId, { ...expected });
 
     expect(res).not.toBeNull();
@@ -110,10 +104,8 @@ describe('resource repository', () => {
         'https://catalog.umanitoba.ca/undergraduate-studies/science/computer-science/computer-science-bsc-major/',
     };
     const resourceId = 1;
-
     await saveResource({ ...dto });
     await deleteResource(resourceId);
-
     const res = await getResourceById(resourceId);
 
     expect(res).toBeNull();
