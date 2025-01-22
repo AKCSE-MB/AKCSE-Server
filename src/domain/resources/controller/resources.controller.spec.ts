@@ -30,9 +30,9 @@ describe('resources controller', () => {
   it('should create a new resource', async () => {
     jest.spyOn(resourcesService, 'createResource').mockImplementation();
 
-    const resourceId = 1;
+    const userId = 1;
     const key = configService.getTokenData().accessTokenSecret;
-    const token = createUserToken(resourceId, key, { expiresIn: '1h' });
+    const token = createUserToken(userId, key, { expiresIn: '1h' });
 
     const res = await request(app.getHttpServer())
       .post('/v1/resources')
@@ -113,9 +113,10 @@ describe('resources controller', () => {
   });
 
   it('should return the updated resource', async () => {
+    const userId = 1;
     const resourceId = 1;
     const key = configService.getTokenData().accessTokenSecret;
-    const token = createUserToken(resourceId, key, { expiresIn: '1h' });
+    const token = createUserToken(userId, key, { expiresIn: '1h' });
 
     jest.spyOn(resourcesService, 'editResource').mockImplementation();
 
@@ -131,9 +132,10 @@ describe('resources controller', () => {
   });
 
   it('should return the deleted resource', async () => {
+    const userId = 1;
     const resourceId = 1;
     const key = configService.getTokenData().accessTokenSecret;
-    const token = createUserToken(resourceId, key, { expiresIn: '1h' });
+    const token = createUserToken(userId, key, { expiresIn: '1h' });
 
     jest.spyOn(resourcesService, 'removeResource').mockImplementation();
 
