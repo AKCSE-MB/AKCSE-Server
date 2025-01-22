@@ -10,7 +10,7 @@ datasource db {
 model Accounts {
   id             Int      @id @default(autoincrement())
   identification String   @map("identification") @db.VarChar(256)
-  password       String   @map("password") @db.VarChar(256)
+  role           String   @map("role") @db.VarChar(10)
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
 
@@ -37,7 +37,6 @@ model Members {
   name      String   @map("name") @db.VarChar(25)
   username  String   @map("username") @db.VarChar(25)
   program   String   @map("program") @db.VarChar(25)
-  role      String   @map("role") @db.VarChar(10)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 

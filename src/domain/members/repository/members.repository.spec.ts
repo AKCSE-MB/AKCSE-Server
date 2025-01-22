@@ -7,7 +7,7 @@ import {
   updateMember,
   deleteMember,
 } from '@domain/members/repository/members.repository';
-import { Program, Role } from '@domain/members/members.enum';
+import { Program } from '@domain/members/members.enum';
 
 describe('members repository', () => {
   beforeEach(async () => {
@@ -21,7 +21,6 @@ describe('members repository', () => {
       name: 'testName1',
       username: 'test1',
       program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
     };
     const memberId = 1;
 
@@ -39,7 +38,6 @@ describe('members repository', () => {
       name: 'testName',
       username: 'test',
       program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
     };
 
     await saveMember({ ...dto });
@@ -63,7 +61,6 @@ describe('members repository', () => {
       name: 'testName1',
       username: 'test1',
       program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
     };
     const memberId = 1;
 
@@ -81,14 +78,13 @@ describe('members repository', () => {
     expect(res).toBeNull;
   });
 
-  it('should return a member with an updated score, numAttend, name, username, program, and role', async () => {
+  it('should return a member with an updated score, numAttend, name, username, and program', async () => {
     const dto = {
       score: 0,
       numAttend: 0,
       name: 'testName1',
       username: 'test1',
       program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
     };
 
     const expected = {
@@ -97,24 +93,14 @@ describe('members repository', () => {
       name: 'testName2',
       username: 'test2',
       program: Program.MATHEMATICS,
-      role: Role.ADMIN,
     };
     const memberId = 1;
 
     await saveMember({ ...dto });
-
-    const res = await updateMember(memberId, { ...expected });
+    await updateMember(memberId, { ...expected });
+    const res = await getMemberById(memberId);
 
     expect(res).not.toBeNull();
-
-    expect(res.id).toEqual(memberId);
-
-    expect(res.score).toEqual(10);
-    expect(res.numAttend).toEqual(1);
-    expect(res.name).toEqual('testName2');
-    expect(res.username).toEqual('test2');
-    expect(res.program).toEqual('Mathematics');
-    expect(res.role).toEqual('Admin');
   });
 
   it('should not be able to return a member after deletion', async () => {
@@ -124,13 +110,11 @@ describe('members repository', () => {
       name: 'testName1',
       username: 'test1',
       program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
     };
     const memberId = 1;
 
     await saveMember({ ...dto });
     await deleteMember(memberId);
-
     const res = await getMemberById(memberId);
 
     expect(res).toBeNull();

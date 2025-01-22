@@ -1,6 +1,5 @@
 export interface CreateTokenRequest {
-  identification: string;
-  password: string;
+  code: string;
 }
 
 export interface TokenDTO {
