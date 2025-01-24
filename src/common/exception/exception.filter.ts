@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { BaseException } from '@common/exception/internal.exception';
+import * as Sentry from '@sentry/nestjs';
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -28,6 +29,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     }
 
     if (exception instanceof BaseException) {
+      Sentry.captureException(exception);
       const status = exception.getStatus();
 
       const detailResponse = {
