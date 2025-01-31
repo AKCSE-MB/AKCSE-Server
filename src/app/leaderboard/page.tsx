@@ -21,30 +21,28 @@ export default function Leaderboard() {
   }, []);
 
   return (
-    <>
-      <S.MainContent>
-        <Header title="AKCSE MANITOBA" subTitle="Young Generations" BackBtn />
+    <S.MainContent>
+      <Header title="AKCSE MANITOBA" subTitle="Young Generations" BackBtn />
 
-        <S.Title>Top 5 Standings</S.Title>
-        <S.Table>
-          <S.TheadContainer>
-            <S.TableRow>
-              <S.TableHeader>Rank</S.TableHeader>
-              <S.TableHeader>Member</S.TableHeader>
-              <S.TableHeader>Score</S.TableHeader>
+      <S.Title>Top 5 Standings</S.Title>
+      <S.Table>
+        <S.TheadContainer>
+          <S.TableRow>
+            <S.TableHeader>Rank</S.TableHeader>
+            <S.TableHeader>Member</S.TableHeader>
+            <S.TableHeader>Score</S.TableHeader>
+          </S.TableRow>
+        </S.TheadContainer>
+        <S.TbodyContainer>
+          {leaderboard.map((member, index) => (
+            <S.TableRow key={member.id}>
+              <S.TableData>{index + 1}</S.TableData>
+              <S.TableData>{member.username}</S.TableData>
+              <S.TableData>{member.score}</S.TableData>
             </S.TableRow>
-          </S.TheadContainer>
-          <S.TbodyContainer>
-            {leaderboard.map((member, index) => (
-              <S.TableRow key={member.id}>
-                <S.TableData>{index + 1}</S.TableData>
-                <S.TableData>{member.username}</S.TableData>
-                <S.TableData>{member.score}</S.TableData>
-              </S.TableRow>
-            ))}
-          </S.TbodyContainer>
-        </S.Table>
-      </S.MainContent>
-    </>
+          ))}
+        </S.TbodyContainer>
+      </S.Table>
+    </S.MainContent>
   );
 }

@@ -28,25 +28,23 @@ export default function Events() {
   };
 
   return (
-    <>
-      <S.MainContainer>
-        <Header title="AKCSE MANITOBA" subTitle="Young Generations" BackBtn />
-        <S.Title>Upcoming Events</S.Title>
+    <S.MainContainer>
+      <Header title="AKCSE MANITOBA" subTitle="Young Generations" BackBtn />
+      <S.Title>Upcoming Events</S.Title>
 
-        <S.EventList>
-          {events.map((event) => (
-            <S.EventCard key={event.id} onClick={() => handleEventClick(event)}>
-              <S.EventImage src={event.imageUrl} alt={event.title} />
-              <S.EventInfo>
-                <S.LocationAndDate>
-                  {event.location} • {getFormattedDate(event.startDateTime)}
-                </S.LocationAndDate>
-                <S.EventTitle>{event.title}</S.EventTitle>
-              </S.EventInfo>
-            </S.EventCard>
-          ))}
-        </S.EventList>
-      </S.MainContainer>
-    </>
+      <S.EventList>
+        {events.map((event) => (
+          <S.EventCard key={event.id} onClick={() => handleEventClick(event)}>
+            <S.EventImage src={event.imageUrl} alt={event.title} />
+            <S.EventInfo>
+              <S.LocationAndDate>
+                {event.location} • {getFormattedDate(event.startDateTime)}
+              </S.LocationAndDate>
+              <S.EventTitle>{event.title}</S.EventTitle>
+            </S.EventInfo>
+          </S.EventCard>
+        ))}
+      </S.EventList>
+    </S.MainContainer>
   );
 }

@@ -1,22 +1,22 @@
 import http from '../http';
 import {
-  CreateTokenRequest,
+  // CreateTokenRequest,
   TokenDTO,
 } from '@dev-taeho/akcse_mb/lib/domain/account/dto/account.dto';
 
+interface CreateTokenRequest {
+  code: string;
+}
+
 interface AuthRepository {
-  postLogin: ({
-    identification,
-    password,
-  }: CreateTokenRequest) => Promise<TokenDTO>;
+  postLogin: ({ code }: CreateTokenRequest) => Promise<TokenDTO>;
 }
 
 const authRepository = (): AuthRepository => {
   return {
-    postLogin: async ({ identification, password }) =>
+    postLogin: async ({ code }) =>
       await http.post<TokenDTO, CreateTokenRequest>('/apis/v1/account/tokens', {
-        identification,
-        password,
+        code,
       }),
   };
 };

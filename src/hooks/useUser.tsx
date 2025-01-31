@@ -6,14 +6,13 @@ import { toast } from 'react-toastify';
 
 interface UseUserReturn {
   isLoggedIn: boolean;
-  login: (identification: string, password: string) => Promise<boolean>;
+  login: (code: string) => Promise<boolean>;
   logout: () => void;
 }
 
 export default function useUser(): UseUserReturn {
   const { push } = useRouter();
   const tokenName = 'token';
-  const loginMsgName = 'loginMsg';
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
@@ -25,7 +24,6 @@ export default function useUser(): UseUserReturn {
     onSuccess: (res) => {
       const token = res.accessToken;
       sessionStorage.setItem(tokenName, token);
-      sessionStorage.setItem(loginMsgName, 'Log In Successful!');
       setIsLoggedIn(true);
       push('/');
     },
@@ -33,24 +31,20 @@ export default function useUser(): UseUserReturn {
       console.error('Login failed:', error);
       setIsLoggedIn(false);
       toast.error('Log In Failed, Please Try Again!');
-
-      return;
     },
   });
 
-  const login = async (
-    identification: string,
-    password: string,
-  ): Promise<boolean> => {
-    await loginMutation.mutateAsync({ identification, password });
+  const login = async (code: string): Promise<boolean> => {
+    // pass the kakao code to request an access code in the server
+    await loginMutation.mutateAsync({ code });
+    toast.success('Log In Successful!');
     return true;
   };
 
   const logout = () => {
     sessionStorage.removeItem(tokenName);
-    sessionStorage.setItem(loginMsgName, 'Log Out Successful!');
     setIsLoggedIn(false);
-    push('/login');
+    toast.success('Log Out Successful!');
   };
 
   return { isLoggedIn, login, logout };

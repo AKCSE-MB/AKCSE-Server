@@ -4,7 +4,7 @@ import * as S from './page.styled';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import useUser from '@/hooks/useUser';
-import { ToastContainer } from 'react-toastify';
+import useKakaoLogin from '@/hooks/useKakaoLogin';
 
 interface Props {
   title: string;
@@ -16,6 +16,7 @@ export default function Header({ title, subTitle, BackBtn }: Props) {
   const { back, push } = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isLoggedIn, logout } = useUser();
+  const { loginHandler } = useKakaoLogin();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -43,7 +44,12 @@ export default function Header({ title, subTitle, BackBtn }: Props) {
 
   const handleLoginClick = () => {
     toggleMenu();
-    push('/login');
+    loginHandler();
+  };
+
+  const handleLogoutClick = () => {
+    toggleMenu();
+    logout();
   };
 
   return (
@@ -79,11 +85,12 @@ export default function Header({ title, subTitle, BackBtn }: Props) {
           <S.MenuItem onClick={handleLeaderboardClick}>Leaderboard</S.MenuItem>
           {isLoggedIn ? (
             <div>
-              <S.MenuItem onClick={logout}>Log Out</S.MenuItem>
-              <ToastContainer />
+              <S.MenuItem onClick={handleLogoutClick}>Log Out</S.MenuItem>
             </div>
           ) : (
-            <S.MenuItem onClick={handleLoginClick}>Log In / Admin</S.MenuItem>
+            <div>
+              <S.MenuItem onClick={handleLoginClick}>Log In / Admin</S.MenuItem>
+            </div>
           )}
         </S.SideMenu>
       )}

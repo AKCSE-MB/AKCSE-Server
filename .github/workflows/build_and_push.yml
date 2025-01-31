@@ -20,6 +20,12 @@ jobs:
           echo "@dev-taeho:registry=https://npm.pkg.github.com" >> $HOME/.npmrc
           echo "npmrc_path=$HOME/.npmrc" >> "$GITHUB_ENV"
 
+      - name: inject env
+        run: |
+          echo "ENV=prod" > .env
+          echo "NEXT_PUBLIC_KAKAO_CLIENT_KEY=${{ secrets.NEXT_PUBLIC_KAKAO_CLIENT_KEY }}" >> .env
+          echo "NEXT_PUBLIC_LOGIN_REDIRECT_URI=${{ secrets.NEXT_PUBLIC_LOGIN_REDIRECT_URI }}" >> .env
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
