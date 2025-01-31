@@ -24,10 +24,8 @@ async function bootstrap() {
 bootstrap();
 
 Sentry.init({
-  dsn: 'https://896ca09a901e7149b78e353c25b1c05a@o4508592871636992.ingest.us.sentry.io/4508700907470848',
+  dsn: process.env.DSN,
   integrations: [nodeProfilingIntegration()],
-  // Tracing
-  tracesSampleRate: 1.0, //  Capture 100% of the transactions
 });
 // Manually call startProfiler and stopProfiler
 // to profile the code in between
