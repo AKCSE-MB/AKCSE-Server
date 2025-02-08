@@ -135,7 +135,7 @@ describe('event service', () => {
     };
     const eventId = 1;
 
-    await saveEvent(data);
+    await saveAkcseEvent(data);
     const res = await getAkcseEventById(eventId);
 
     expect(res).not.toBeNull();
