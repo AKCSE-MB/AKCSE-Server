@@ -106,9 +106,7 @@ describe('members repository', () => {
     const res = await updateMember(memberId, { ...expected });
 
     expect(res).not.toBeNull();
-
     expect(res.id).toEqual(memberId);
-
     expect(res.score).toEqual(10);
     expect(res.numAttend).toEqual(1);
     expect(res.name).toEqual('testName2');

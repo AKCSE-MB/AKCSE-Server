@@ -52,6 +52,39 @@ export async function saveEvent(param: {
   return saveEvents([param]);
 }
 
+export async function updateEvent(
+  id: number,
+  param: {
+    title?: string;
+    description?: string;
+    fee?: number;
+    startDateTime?: Date;
+    endDateTime?: Date;
+    location?: string;
+    signUpDeadline?: Date;
+    rsvpLink?: string;
+    imageUrl?: string;
+  },
+) {
+  return await prismaClient.events.update({
+    where: {
+      id: id,
+    },
+    data: {
+      ...param,
+      updatedAt: new Date(),
+    },
+  });
+}
+
+export async function deleteEvent(id: number) {
+  return await prismaClient.events.delete({
+    where: {
+      id: id,
+    },
+  });
+}
+
 export function transformRecordToModel(
   records: {
     id: number;
