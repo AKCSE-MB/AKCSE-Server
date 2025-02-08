@@ -41,12 +41,12 @@ export const TitleContainer = styled.div`
 `;
 
 export const MenuButton = styled.button`
-  position: absolute;
-  height: 24px;
-  width: 24px;
-  margin-left: 10px;
-  border: none;
-  cursor: pointer;
+  /* position: absolute; */
+  /* height: 24px; */
+  /* width: 24px; */
+  /* margin-left: 10px; */
+  /* border: none; */
+  /* cursor: pointer; */
 `;
 
 export const BackButton = styled.button`

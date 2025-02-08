@@ -1,10 +1,9 @@
-import ARROW from '@/assets/common/logo/arrow.svg';
-import MENU from '@/assets/common/logo/menu.svg';
 import * as S from './page.styled';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import useUser from '@/hooks/useUser';
 import useKakaoLogin from '@/hooks/useKakaoLogin';
+import CHamburgerIcon from '@/components/c-hamburger-icon';
 
 interface Props {
   title: string;
@@ -14,66 +13,52 @@ interface Props {
 
 export default function Header({ title, subTitle, BackBtn }: Props) {
   const { back, push } = useRouter();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
   const { isLoggedIn, logout } = useUser();
   const { loginHandler } = useKakaoLogin();
+  const [active, setAcitve] = useState(true);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const toggleMenu = () => setIsMenuOpen(prev => !prev);
 
   const handleHomeClick = () => {
-    toggleMenu();
+    // toggleMenu();
     push('/');
   };
 
   const handleEventsClick = () => {
-    toggleMenu();
+    // toggleMenu();
     push('/events');
   };
 
   const handleResourcesClick = () => {
-    toggleMenu();
+    // toggleMenu();
     push('/');
   };
 
   const handleLeaderboardClick = () => {
-    toggleMenu();
+    // toggleMenu();
     push('/leaderboard');
   };
 
   const handleLoginClick = () => {
-    toggleMenu();
+    // toggleMenu();
     loginHandler();
   };
 
   const handleLogoutClick = () => {
-    toggleMenu();
+    // toggleMenu();
     logout();
   };
 
   return (
     <>
       <S.HeaderWrapper>
-        <S.MenuButton onClick={toggleMenu}>
-          <MENU />
-        </S.MenuButton>
-
         <S.TitleContainer>
           <S.Title>{title}</S.Title>
 
           {subTitle && <S.SubTitle>{subTitle}</S.SubTitle>}
         </S.TitleContainer>
-
-        {BackBtn ? (
-          <S.ButtonContainer>
-            <S.BackButton onClick={back}>
-              <ARROW />
-            </S.BackButton>
-          </S.ButtonContainer>
-        ) : (
-          <S.ButtonContainer></S.ButtonContainer>
-        )}
+        <CHamburgerIcon active={isMenuOpen} clickEvent={toggleMenu} />
       </S.HeaderWrapper>
 
       {isMenuOpen && (
