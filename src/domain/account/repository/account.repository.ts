@@ -4,6 +4,7 @@ import { ErrorContents } from '@common/exception/internal.exception';
 import * as E from 'fp-ts/Either';
 import * as TE from 'fp-ts/TaskEither';
 import { pipe } from 'fp-ts/lib/function';
+import { Role } from '../account.enum';
 
 type TokenRecord = {
   id: number;
@@ -18,7 +19,7 @@ type TokenRecord = {
 
 export async function saveAccount(param: {
   identification: string;
-  password: string;
+  role: Role;
 }) {
   await saveAccounts([param]);
 }
@@ -26,7 +27,7 @@ export async function saveAccount(param: {
 export async function saveAccounts(
   param: {
     identification: string;
-    password: string;
+    role: Role;
   }[],
 ) {
   return prismaClient.accounts.createMany({ data: param });

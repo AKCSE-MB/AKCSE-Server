@@ -9,7 +9,7 @@ import {
   getLeaderboard,
 } from '@domain/members/service/members.service';
 import prismaClient from '@common/database/prisma';
-import { Program, Role } from '@domain/members/members.enum';
+import { Program } from '@domain/members/members.enum';
 
 describe('members service', () => {
   beforeEach(async () => {
@@ -23,7 +23,6 @@ describe('members service', () => {
       name: 'testName1',
       username: 'test1',
       program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
     };
     const memberId = 1;
 
@@ -38,7 +37,6 @@ describe('members service', () => {
     expect(res).toHaveProperty('name');
     expect(res).toHaveProperty('username');
     expect(res).toHaveProperty('program');
-    expect(res).toHaveProperty('role');
     expect(res).toHaveProperty('createdAt');
     expect(res).toHaveProperty('updatedAt');
   });
@@ -50,7 +48,6 @@ describe('members service', () => {
       name: 'testName',
       username: 'test',
       program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
     };
 
     await createMember({ ...dto });
@@ -75,7 +72,6 @@ describe('members service', () => {
       name: 'testName1',
       username: 'test1',
       program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
     };
 
     await createMember({ ...dto });
@@ -92,7 +88,6 @@ describe('members service', () => {
       name: 'top member',
       username: 'topMember',
       program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
     };
 
     const dto2 = {
@@ -101,7 +96,6 @@ describe('members service', () => {
       name: 'non-top member',
       username: 'nonTopMember',
       program: Program.MATHEMATICS,
-      role: Role.MEMBER,
     };
 
     await createMember({ ...dto1 });
@@ -136,7 +130,6 @@ describe('members service', () => {
       name: 'testName1',
       username: 'test1',
       program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
     };
 
     const expected = {
@@ -145,13 +138,13 @@ describe('members service', () => {
       name: 'testName2',
       username: 'test2',
       program: Program.MATHEMATICS,
-      role: Role.ADMIN,
     };
 
     await createMember({ ...dto });
-
     const memberId = 1;
-    const res = await editMember(memberId, { ...expected });
+
+    await editMember(memberId, { ...expected });
+    const res = await getMember(memberId);
 
     expect(res).not.toBeNull();
     expect(res.id).toEqual(memberId);
@@ -160,7 +153,6 @@ describe('members service', () => {
     expect(res.name).toEqual(expected.name);
     expect(res.username).toEqual(expected.username);
     expect(res.program).toEqual(expected.program);
-    expect(res.role).toEqual(expected.role);
   });
 
   it('should throw an error with the message since the deleted member cannot be retreived', async () => {
@@ -170,7 +162,6 @@ describe('members service', () => {
       name: 'testName1',
       username: 'test1',
       program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
     };
     const memberId = 1;
 

@@ -4,7 +4,7 @@ import { INestApplication } from '@nestjs/common';
 import { appModuleFixture, assertStatusCode } from '@root/jest.setup';
 import { MembersModule } from '@domain/members/members.module';
 import * as membersService from '@domain/members/service/members.service';
-import { Program, Role } from '@domain/members/members.enum';
+import { Program } from '@domain/members/members.enum';
 import { createUserToken } from '@root/jest.setup';
 import { ConfigurationService } from '@domain/configuration/configuration.service';
 describe('members controller', () => {
@@ -23,6 +23,10 @@ describe('members controller', () => {
     await app.init();
   });
 
+  beforeEach(async () => {
+    jest.resetAllMocks();
+  });
+
   it('should create a new member', async () => {
     jest.spyOn(membersService, 'createMember').mockImplementation();
 
@@ -39,7 +43,6 @@ describe('members controller', () => {
         name: 'testName1',
         username: 'test1',
         program: Program.COMPUTER_SCIENCE,
-        role: Role.MEMBER,
       });
 
     assertStatusCode(res, 200);
@@ -54,7 +57,6 @@ describe('members controller', () => {
         name: 'testName1',
         username: 'test1',
         program: Program.COMPUTER_SCIENCE,
-        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -65,7 +67,6 @@ describe('members controller', () => {
         name: 'testName2',
         username: 'test2',
         program: Program.COMPUTER_SCIENCE,
-        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -97,7 +98,6 @@ describe('members controller', () => {
       name: 'testName1',
       username: 'test1',
       program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -130,7 +130,6 @@ describe('members controller', () => {
         name: 'testName1',
         username: 'test1',
         program: Program.COMPUTER_SCIENCE,
-        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -141,7 +140,6 @@ describe('members controller', () => {
         name: 'testName2',
         username: 'test2',
         program: Program.COMPUTER_SCIENCE,
-        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -152,7 +150,6 @@ describe('members controller', () => {
         name: 'testName3',
         username: 'test3',
         program: Program.STATISTICS,
-        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -163,7 +160,6 @@ describe('members controller', () => {
         name: 'testName4',
         username: 'test4',
         program: Program.STATISTICS,
-        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -174,7 +170,6 @@ describe('members controller', () => {
         name: 'testName5',
         username: 'test5',
         program: Program.STATISTICS,
-        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -203,26 +198,15 @@ describe('members controller', () => {
     expect(res.body.data).toEqual([]);
   });
 
-  it('should return the updated member', async () => {
-    const data = {
-      id: 1,
-      score: 0,
-      numAttend: 0,
-      name: 'testName1',
-      username: 'test1',
-      program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+  it('update request should succeed with a status code 200', async () => {
     const userId = 1;
     const key = configService.getTokenData().accessTokenSecret;
     const token = createUserToken(userId, key, { expiresIn: '1h' });
 
-    jest.spyOn(membersService, 'editMember').mockResolvedValueOnce(data);
+    jest.spyOn(membersService, 'editMember').mockImplementation();
 
     const res = await request(app.getHttpServer())
-      .put(`/v1/members/${data.id}`)
+      .put(`/v1/members/${userId}`)
       .set('Authorization', `Bearer ${token}`)
       .send({});
 
@@ -234,7 +218,8 @@ describe('members controller', () => {
     const userId = 1;
     const key = configService.getTokenData().accessTokenSecret;
     const token = createUserToken(userId, key, { expiresIn: '1h' });
-    const memberId = 100;
+    const memberId = 1000;
+
     const res = await request(app.getHttpServer())
       .put(`/v1/members/${memberId}`)
       .set('Authorization', `Bearer ${token}`)
@@ -246,26 +231,16 @@ describe('members controller', () => {
     assertStatusCode(res, 400);
   });
 
-  it('should return the deleted member', async () => {
-    const data = {
-      id: 1,
-      score: 0,
-      numAttend: 0,
-      name: 'testName1',
-      username: 'test1',
-      program: Program.COMPUTER_SCIENCE,
-      role: Role.MEMBER,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    };
+  it('delete request should succeed with ca status code 200', async () => {
     const userId = 1;
     const key = configService.getTokenData().accessTokenSecret;
     const token = createUserToken(userId, key, { expiresIn: '1h' });
+    const memberId = 1;
 
-    jest.spyOn(membersService, 'removeMember').mockResolvedValueOnce(data);
+    jest.spyOn(membersService, 'removeMember').mockImplementation();
 
     const res = await request(app.getHttpServer())
-      .delete(`/v1/members/${data.id}`)
+      .delete(`/v1/members/${memberId}`)
       .set('Authorization', `Bearer ${token}`);
 
     assertStatusCode(res, 200);
@@ -277,6 +252,7 @@ describe('members controller', () => {
     const key = configService.getTokenData().accessTokenSecret;
     const token = createUserToken(userId, key, { expiresIn: '1h' });
     const memberId = 100;
+
     const res = await request(app.getHttpServer())
       .delete(`/v1/members/${memberId}`)
       .set('Authorization', `Bearer ${token}`);

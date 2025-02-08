@@ -48,6 +48,11 @@ describe('members repository', () => {
     expect(res).toHaveLength(1);
   });
 
+  it('should return an empty array', async () => {
+    const res = await getEvents();
+    expect(res).toEqual([]);
+  });
+
   it('should return an event with the passed id', async () => {
     const data = {
       title: 'test-title',
@@ -64,26 +69,6 @@ describe('members repository', () => {
     await saveEvent(data);
     const res = await getEventById(eventId);
     expect(res).not.toBeNull();
-  });
-
-  it('should return events', async () => {
-    const data = [
-      {
-        title: 'test-title',
-        description: 'test-description',
-        fee: 100_000,
-        startDateTime: new Date(),
-        endDateTime: new Date(),
-        location: 'test-location',
-        signUpDeadline: new Date(),
-        updatedAt: new Date(),
-      },
-    ];
-
-    await saveEvents(data);
-    const res = await getEvents();
-    expect(res).not.toBeNull();
-    expect(res).toHaveLength(1);
   });
 
   it('should update events', async () => {

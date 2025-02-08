@@ -1,5 +1,3 @@
-import { CallerWrongUsageException } from '@common/exception/internal.exception';
-import { ErrorSubCategoryEnum } from '@common/exception/enum';
 import {
   getEvents,
   getEventById,
@@ -7,6 +5,8 @@ import {
   updateEvent,
   deleteEvent,
 } from '@domain/event/repository/event.repository';
+import { CallerWrongUsageException } from '@common/exception/internal.exception';
+import { ErrorSubCategoryEnum } from '@common/exception/enum';
 
 export async function getAkcseEvents() {
   return await getEvents();
