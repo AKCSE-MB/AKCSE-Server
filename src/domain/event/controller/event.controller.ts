@@ -1,16 +1,11 @@
-import {
-  Controller,
-  HttpCode,
-  Injectable,
-  UseFilters,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, HttpCode, Injectable, UseFilters } from '@nestjs/common';
 import { HttpExceptionFilter } from '@common/exception/exception.filter';
 import { TypedBody, TypedRoute, TypedParam } from '@nestia/core';
 import { BaseResponseDto } from '@common/dto/base.dto';
 import {
   saveAkcseEvent,
   getAkcseEvents,
+  getAkcseEventById,
   updateAkcseEvent,
   deleteAkcseEvent,
 } from '@domain/event/service/event.service';
@@ -45,6 +40,19 @@ export class EventController {
   @HttpCode(200)
   async getEvents(): Promise<BaseResponseDto<EventsResponstDTO[]>> {
     const res = await getAkcseEvents();
+    return new BaseResponseDto(res);
+  }
+
+  /**
+   * @tag event
+   * @summary get an event with matching ID
+   */
+  @TypedRoute.Get('/:id')
+  @HttpCode(200)
+  async getEventById(
+    @TypedParam('id') id: number,
+  ): Promise<BaseResponseDto<EventsResponstDTO>> {
+    const res = await getAkcseEventById(id);
     return new BaseResponseDto(res);
   }
 

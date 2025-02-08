@@ -20,6 +20,14 @@ export async function getEvents() {
   return transformRecordToModel(records);
 }
 
+export async function getEventById(id: number) {
+  return await prismaClient.events.findFirst({
+    where: {
+      id: id,
+    },
+  });
+}
+
 export async function saveEvents(
   param: {
     title: string;

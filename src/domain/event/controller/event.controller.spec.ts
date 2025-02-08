@@ -26,16 +26,17 @@ describe('event controller', () => {
   });
 
   it('should save events', async () => {
+    jest.spyOn(eventService, 'saveAkcseEvent').mockImplementation();
+
     const userId = 1;
     const key = configService.getTokenData().accessTokenSecret;
     const token = createUserToken(userId, key, { expiresIn: '1h' });
-
-    jest.spyOn(eventService, 'saveAkcseEvent').mockImplementation();
 
     const res = await request(app.getHttpServer())
       .post('/v1/event')
       .set('Authorization', `Bearer ${token}`)
       .send({
+        id: 1,
         title: 'test-title',
         description: 'test-description',
         fee: 100_000,
@@ -43,10 +44,15 @@ describe('event controller', () => {
         endDateTime: new Date(),
         location: 'test-location',
         signUpDeadline: new Date(),
+        rsvpLink: '',
+        imageUrl: '',
+        createdAt: new Date(),
         updatedAt: new Date(),
       });
 
-    assertStatusCode(res, 200);
+    console.log(res);
+
+    expect(res.statusCode).toEqual(200);
   });
 
   it('should return events', async () => {
@@ -57,6 +63,34 @@ describe('event controller', () => {
     const res = await request(app.getHttpServer()).get('/v1/event');
 
     expect(res.statusCode).toEqual(200);
+  });
+
+  it('should return an event with the passed id', async () => {
+    const data = {
+      id: 1,
+      title: 'test-title',
+      description: 'test-description',
+      fee: 100_000,
+      startDateTime: new Date(),
+      endDateTime: new Date(),
+      location: 'test-location',
+      signUpDeadline: new Date(),
+      rsvpLink: '',
+      imageUrl: '',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    jest
+      .spyOn(eventService, 'getAkcseEventById')
+      .mockImplementation(async () => {
+        return data;
+      });
+
+    const res = await request(app.getHttpServer()).get(`/v1/event/${data.id}`);
+
+    expect(res.statusCode).toEqual(200);
+    expect(res.body.data).not.toBeNull();
   });
 
   it('should update events', async () => {
@@ -76,7 +110,7 @@ describe('event controller', () => {
         location: 'new-test-location',
       });
 
-    assertStatusCode(res, 200);
+    expect(res.statusCode).toEqual(200);
   });
 
   it('should delete events', async () => {
@@ -91,6 +125,6 @@ describe('event controller', () => {
       .delete(`/v1/event/${eventId}`)
       .set('Authorization', `Bearer ${token}`);
 
-    assertStatusCode(res, 200);
+    expect(res.statusCode).toEqual(200);
   });
 });

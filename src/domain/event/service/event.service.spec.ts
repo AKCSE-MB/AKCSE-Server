@@ -2,6 +2,7 @@ import { truncateTables } from '@root/jest.setup';
 import {
   saveAkcseEvent,
   getAkcseEvents,
+  getAkcseEventById,
   updateAkcseEvent,
   deleteAkcseEvent,
 } from '@domain/event/service/event.service';
@@ -45,6 +46,25 @@ describe('event service', () => {
     const res = await getAkcseEvents();
     expect(res).not.toBeNull();
     expect(res).toHaveLength(1);
+  });
+
+  it('should return an event with the passed id', async () => {
+    const data = {
+      title: 'test-title',
+      description: 'test-description',
+      fee: 100_000,
+      startDateTime: new Date(),
+      endDateTime: new Date(),
+      location: 'test-location',
+      signUpDeadline: new Date(),
+      updatedAt: new Date(),
+    };
+
+    const eventId = 1;
+    await saveAkcseEvent(data);
+
+    const res = await getAkcseEventById(eventId);
+    expect(res).not.toBeNull();
   });
 
   it('should update event', async () => {
