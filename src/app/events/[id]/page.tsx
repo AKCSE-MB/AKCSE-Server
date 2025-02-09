@@ -1,7 +1,7 @@
 'use client';
 
 import * as S from './page.styled';
-import Header from '@/components/Header/MainHeader';
+import Header from '@/components/Header';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { GetEventsOutput } from '@dev-taeho/akcse_mb/lib/domain/event/dto/event.dto';

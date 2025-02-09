@@ -1,7 +1,7 @@
 'use client';
 
 import * as S from './page.styled';
-import Header from '@/components/Header/MainHeader';
+import Header from '@/components/Header';
 import { getLeaderboard } from '@/apis/members/leaderboard';
 import { useEffect, useState } from 'react';
 import { TopMembersResponseDTO } from '@dev-taeho/akcse_mb/lib/domain/members/dto/members.dto';
