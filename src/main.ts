@@ -26,10 +26,9 @@ bootstrap();
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
   integrations: [nodeProfilingIntegration()],
+  tracesSampleRate: 1.0,
+  profilesSampleRate: 1.0,
 });
-// Manually call startProfiler and stopProfiler
-// to profile the code in between
-Sentry.profiler.startProfiler();
 
 // Starts a transaction that will also be profiled
 Sentry.startSpan(
@@ -40,7 +39,3 @@ Sentry.startSpan(
     // the code executing inside the transaction will be wrapped in a span and profiled
   },
 );
-
-// Calls to stopProfiling are optional - if you don't stop the profiler, it will keep profiling
-// your application until the process exits or stopProfiling is called.
-Sentry.profiler.stopProfiler();
