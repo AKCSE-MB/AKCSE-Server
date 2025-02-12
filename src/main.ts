@@ -24,7 +24,7 @@ async function bootstrap() {
 bootstrap();
 
 Sentry.init({
-  dsn: process.env.DSN,
+  dsn: process.env.SENTRY_DSN,
   integrations: [nodeProfilingIntegration()],
 });
 // Manually call startProfiler and stopProfiler
