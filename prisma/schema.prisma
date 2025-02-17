@@ -33,7 +33,6 @@ model Tokens {
 model Members {
   id        Int      @id @default(autoincrement())
   score     Int      @default(0) @map("score")
-  numAttend Int      @default(0) @map("num_attend")
   name      String   @map("name") @db.VarChar(25)
   username  String   @map("username") @db.VarChar(25)
   program   String   @map("program") @db.VarChar(25)
