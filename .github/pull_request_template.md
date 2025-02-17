@@ -1,8 +1,6 @@
-# 설명
-
-- #ISSUE
+# Description
 -
-
-# 테스트
-
+# Issue
+-
+# Testing
 -

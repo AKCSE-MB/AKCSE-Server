@@ -43,6 +43,16 @@ model Members {
   @@map("members")
 }
 
+
+model Resources { 
+  id                        Int       @id @default(autoincrement()) 
+  title                     String    @map("title") @db.VarChar(50) 
+  description               String    @map("description") @db.VarChar(300) 
+  academicCalendarUrl       String?   @map("academic_calendar_url") @db.VarChar(300) 
+  
+  @@map("resources") 
+}
+
 model Events {
   id             Int      @id @default(autoincrement())
   title          String   @map("title") @db.VarChar(50)

@@ -12,15 +12,29 @@ export async function saveMember(param: {
 }
 
 export async function getMembers() {
-  return await prismaClient.members.findMany();
+  const res = await prismaClient.members.findMany();
+
+  return res?.map((member) => {
+    return {
+      ...member,
+      program: member.program as Program,
+    };
+  });
 }
 
 export async function getMemberById(id: number) {
-  return await prismaClient.members.findFirst({
+  const res = await prismaClient.members.findFirst({
     where: {
       id: id,
     },
   });
+
+  if (!res) return null;
+
+  return {
+    ...res,
+    program: res.program as Program,
+  };
 }
 
 export async function updateMember(
