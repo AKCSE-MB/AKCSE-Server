@@ -175,7 +175,7 @@ describe('members controller', () => {
       },
     ];
 
-    const expectedNum = 5;
+    const expectedNum = 10;
 
     jest.spyOn(membersService, 'getLeaderboard').mockResolvedValueOnce(data);
 

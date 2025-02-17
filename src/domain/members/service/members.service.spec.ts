@@ -107,7 +107,7 @@ describe('members service', () => {
     await createMember({ ...dto2 });
 
     const res = await getLeaderboard();
-    const expectedNumMembers = 5;
+    const expectedNumMembers = 10;
 
     expect(res).not.toEqual([]);
     expect(res.length).toEqual(expectedNumMembers);
