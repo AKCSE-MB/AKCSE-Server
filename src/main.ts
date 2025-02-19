@@ -29,13 +29,3 @@ Sentry.init({
   tracesSampleRate: 1.0,
   profilesSampleRate: 1.0,
 });
-
-// Starts a transaction that will also be profiled
-Sentry.startSpan(
-  {
-    name: 'My First Transaction',
-  },
-  () => {
-    // the code executing inside the transaction will be wrapped in a span and profiled
-  },
-);
