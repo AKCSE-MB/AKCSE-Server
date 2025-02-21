@@ -37,7 +37,7 @@ export async function saveAkcseEvent(param: {
   imageUrl?: string;
   updatedAt: Date;
 }) {
-  return await saveEvent(param);
+  await saveEvent(param);
 }
 
 export async function updateAkcseEvent(

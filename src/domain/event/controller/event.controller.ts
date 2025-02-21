@@ -11,7 +11,7 @@ import {
 } from '@domain/event/service/event.service';
 import {
   EventsCreateDTO,
-  EventsResponstDTO,
+  EventsResponseDTO,
   EventsUpdateDTO,
 } from '@domain/event/dto/event.dto';
 
@@ -38,7 +38,7 @@ export class EventController {
    */
   @TypedRoute.Get('/')
   @HttpCode(200)
-  async getEvents(): Promise<BaseResponseDto<EventsResponstDTO[]>> {
+  async getEvents(): Promise<BaseResponseDto<EventsResponseDTO[]>> {
     const res = await getAkcseEvents();
     return new BaseResponseDto(res);
   }
@@ -51,14 +51,14 @@ export class EventController {
   @HttpCode(200)
   async getEventById(
     @TypedParam('id') id: number,
-  ): Promise<BaseResponseDto<EventsResponstDTO>> {
+  ): Promise<BaseResponseDto<EventsResponseDTO>> {
     const res = await getAkcseEventById(id);
     return new BaseResponseDto(res);
   }
 
   /**
    * @tag event
-   * @summary get events
+   * @summary update events
    */
   @TypedRoute.Put('/:id')
   @HttpCode(200)
@@ -72,7 +72,7 @@ export class EventController {
 
   /**
    * @tag event
-   * @summary get events
+   * @summary delete events
    */
   @TypedRoute.Delete('/:id')
   @HttpCode(200)

@@ -1,4 +1,4 @@
-export interface EventsResponstDTO {
+export interface EventsResponseDTO {
   id: number;
   title: string;
   description: string;

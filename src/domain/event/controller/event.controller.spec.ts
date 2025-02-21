@@ -50,8 +50,6 @@ describe('event controller', () => {
         updatedAt: new Date(),
       });
 
-    console.log(res);
-
     expect(res.statusCode).toEqual(200);
   });
 

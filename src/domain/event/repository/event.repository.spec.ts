@@ -9,7 +9,7 @@ import {
   deleteEvent,
 } from '@domain/event/repository/event.repository';
 
-describe('members repository', () => {
+describe('events repository', () => {
   beforeEach(async () => {
     await truncateTables(prismaClient, ['events']);
   });
