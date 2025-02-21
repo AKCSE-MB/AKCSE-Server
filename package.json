@@ -47,7 +47,9 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^10.4.15",
     "@prisma/client": "^5.1.1",
-    "@sendinblue/client": "^3.3.1",
+    "@sentry/cli": "^2.41.1",
+    "@sentry/nestjs": "^8.51.0",
+    "@sentry/profiling-node": "^8.51.0",
     "@types/bcrypt": "^5.0.0",
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
@@ -135,5 +137,9 @@
       "eslint --fix",
       "prettier --write"
     ]
-  }
+  },
+  "bundleDependencies": [
+    "@sentry/nestjs",
+    "@sentry/profiling-node"
+  ]
 }
