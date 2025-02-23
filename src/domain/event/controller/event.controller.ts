@@ -34,10 +34,12 @@ export class EventController {
    */
   @TypedRoute.Post('/')
   @HttpCode(200)
+  @UseInterceptors(FileInterceptor('image'))
   async addEvents(
     @TypedBody() eventData: EventsCreateDTO,
+    @UploadedFile() image?: Express.Multer.File,
   ): Promise<BaseResponseDto<object>> {
-    await saveAkcseEvent(eventData);
+    await saveAkcseEvent(eventData, image);
     return new BaseResponseDto({ state: 'success' });
   }
 
@@ -71,11 +73,13 @@ export class EventController {
    */
   @TypedRoute.Put('/:id')
   @HttpCode(200)
+  @UseInterceptors(FileInterceptor('image'))
   async updeateEvent(
     @TypedParam('id') id: number,
     @TypedBody() eventData: EventsUpdateDTO,
+    @UploadedFile() image?: Express.Multer.File,
   ): Promise<BaseResponseDto<object>> {
-    await updateAkcseEvent(id, eventData);
+    await updateAkcseEvent(id, eventData, image);
     return new BaseResponseDto({ state: 'success' });
   }
 
