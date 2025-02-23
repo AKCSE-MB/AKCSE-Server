@@ -6,7 +6,11 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { BaseException } from '@common/exception/internal.exception';
+import {
+  BaseException,
+  CallerWrongUsageException,
+} from '@common/exception/internal.exception';
+import * as Sentry from '@sentry/nestjs';
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -39,11 +43,17 @@ export class HttpExceptionFilter implements ExceptionFilter {
         originMessage: exception.message,
       };
 
+      if (!(exception instanceof CallerWrongUsageException)) {
+        Sentry.captureException(exception, { extra: detailResponse });
+      }
+
       response.status(status).json(detailResponse);
       return;
     }
 
     console.error(exception);
+    Sentry.captureException(exception, { extra: request.body });
+
     response.status(400).json({
       statusCode: 400,
       timestamp: new Date().toISOString(),

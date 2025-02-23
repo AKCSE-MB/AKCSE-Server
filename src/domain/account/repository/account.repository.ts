@@ -34,11 +34,29 @@ export async function saveAccounts(
 }
 
 export async function getIdentification(identification: string) {
-  return prismaClient.accounts.findFirst({
+  let res = await prismaClient.accounts.findFirst({
     where: {
       identification: identification,
     },
   });
+
+  if (!res) return null;
+
+  if (Role[res.role] === undefined) {
+    res = await prismaClient.accounts.update({
+      where: {
+        id: res.id,
+      },
+      data: {
+        role: Role.UNKNOWN,
+      },
+    });
+  }
+
+  return {
+    ...res,
+    role: res.role as Role,
+  };
 }
 
 export function findAccessToken(accessToken: string) {

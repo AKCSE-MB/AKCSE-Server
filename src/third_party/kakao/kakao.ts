@@ -10,7 +10,6 @@ export async function getKakaoUserData(code: string) {
         Authorization: `bearer ${accessToken}`,
       },
     });
-    console.log(res?.data?.id);
 
     return res?.data?.id;
   } catch (error) {
