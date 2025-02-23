@@ -9,6 +9,7 @@ import { EventModule } from '@domain/event/event.module';
 import { SentryModule, SentryGlobalFilter } from '@sentry/nestjs/setup';
 import { APP_FILTER } from '@nestjs/core';
 import { ResourcesModule } from '@domain/resources/resources.module';
+import { S3Service } from '@common/utils/s3.util';
 
 @Module({
   imports: [
@@ -26,10 +27,12 @@ import { ResourcesModule } from '@domain/resources/resources.module';
     LoggingModule,
   ],
   providers: [
+    S3Service,
     {
       provide: APP_FILTER,
       useClass: SentryGlobalFilter,
     },
   ],
+  exports: [S3Service],
 })
 export class AppModule {}

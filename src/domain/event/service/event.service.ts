@@ -5,7 +5,7 @@ import {
   updateEvent,
   deleteEvent,
 } from '@domain/event/repository/event.repository';
-import { uploadImageToS3 } from '@common/utils/s3.util';
+import { S3Service } from '@common/utils/s3.util';
 import { CallerWrongUsageException } from '@common/exception/internal.exception';
 import { ErrorSubCategoryEnum } from '@common/exception/enum';
 
@@ -42,7 +42,7 @@ export async function saveAkcseEvent(
   image?: Express.Multer.File,
 ) {
   if (image) {
-    param.imageUrl = await uploadImageToS3(image);
+    param.imageUrl = await this.S3Service.uploadImageToS3(image);
   }
   await saveEvent(param);
 }
@@ -63,7 +63,7 @@ export async function updateAkcseEvent(
   image?: Express.Multer.File,
 ) {
   if (image) {
-    param.imageUrl = await uploadImageToS3(image);
+    param.imageUrl = await this.S3Service.uploadImageToS3(image);
   }
   return await updateEvent(id, param);
 }
