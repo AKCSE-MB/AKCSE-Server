@@ -1,4 +1,13 @@
-import { Controller, HttpCode, Injectable, UseFilters } from '@nestjs/common';
+import {
+  Controller,
+  HttpCode,
+  Injectable,
+  UseFilters,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
+import { Express } from 'express';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { HttpExceptionFilter } from '@common/exception/exception.filter';
 import { TypedBody, TypedRoute, TypedParam } from '@nestia/core';
 import { BaseResponseDto } from '@common/dto/base.dto';
