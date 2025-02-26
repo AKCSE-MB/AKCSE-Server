@@ -81,7 +81,7 @@ describe('members service', () => {
     expect(res).not.toBeNull();
   });
 
-  it('should return up to 5 members with the highest scores', async () => {
+  it('should return up to 10 members with the highest scores', async () => {
     const dto1 = {
       score: 10,
       numAttend: 2,
@@ -98,6 +98,11 @@ describe('members service', () => {
       program: Program.MATHEMATICS,
     };
 
+    await createMember({ ...dto1 });
+    await createMember({ ...dto1 });
+    await createMember({ ...dto1 });
+    await createMember({ ...dto1 });
+    await createMember({ ...dto1 });
     await createMember({ ...dto1 });
     await createMember({ ...dto1 });
     await createMember({ ...dto1 });
