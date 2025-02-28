@@ -121,7 +121,7 @@ describe('members controller', () => {
     assertStatusCode(res, 400);
   });
 
-  it('should return the top 5 (max) members based on their score', async () => {
+  it('should return the top 10 (max) members based on their score', async () => {
     const data = [
       {
         id: 1,
@@ -173,9 +173,59 @@ describe('members controller', () => {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
+      {
+        id: 6,
+        score: 5,
+        numAttend: 0,
+        name: 'testName6',
+        username: 'test6',
+        program: Program.COMPUTER_SCIENCE,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 7,
+        score: 4,
+        numAttend: 1,
+        name: 'testName7',
+        username: 'test7',
+        program: Program.COMPUTER_SCIENCE,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 8,
+        score: 3,
+        numAttend: 0,
+        name: 'testName8',
+        username: 'test8',
+        program: Program.STATISTICS,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 9,
+        score: 2,
+        numAttend: 0,
+        name: 'testName9',
+        username: 'test9',
+        program: Program.STATISTICS,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 10,
+        score: 1,
+        numAttend: 0,
+        name: 'testName10',
+        username: 'test10',
+        program: Program.STATISTICS,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ];
 
-    const expectedNum = 5;
+    const expectedNum = 10;
 
     jest.spyOn(membersService, 'getLeaderboard').mockResolvedValueOnce(data);
 

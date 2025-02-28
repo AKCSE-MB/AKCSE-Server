@@ -81,7 +81,7 @@ export async function getLeaderboard() {
   const members = await getAllMembers();
   const sortedMembers = members.sort((a, b) => b.score - a.score);
   const first = 0;
-  const numMembers = 5;
+  const numMembers = 10;
 
   return sortedMembers.slice(first, numMembers);
 }

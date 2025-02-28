@@ -81,7 +81,7 @@ describe('members service', () => {
     expect(res).not.toBeNull();
   });
 
-  it('should return up to 5 members with the highest scores', async () => {
+  it('should return up to 10 members with the highest scores', async () => {
     const dto1 = {
       score: 10,
       numAttend: 2,
@@ -103,11 +103,16 @@ describe('members service', () => {
     await createMember({ ...dto1 });
     await createMember({ ...dto1 });
     await createMember({ ...dto1 });
+    await createMember({ ...dto1 });
+    await createMember({ ...dto1 });
+    await createMember({ ...dto1 });
+    await createMember({ ...dto1 });
+    await createMember({ ...dto1 });
 
     await createMember({ ...dto2 });
 
     const res = await getLeaderboard();
-    const expectedNumMembers = 5;
+    const expectedNumMembers = 10;
 
     expect(res).not.toEqual([]);
     expect(res.length).toEqual(expectedNumMembers);
