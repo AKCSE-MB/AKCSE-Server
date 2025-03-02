@@ -33,7 +33,7 @@ describe('event controller', () => {
 
     const res = await request(app.getHttpServer()).get('/v1/event/upcoming');
 
-    expect(res.statusCode).toEqual(200);
+    assertStatusCode(res, 200);
   });
 
   it('should return events', async () => {
@@ -43,7 +43,7 @@ describe('event controller', () => {
 
     const res = await request(app.getHttpServer()).get('/v1/event/past');
 
-    expect(res.statusCode).toEqual(200);
+    assertStatusCode(res, 200);
   });
 
   it('should return an event with the passed id', async () => {
