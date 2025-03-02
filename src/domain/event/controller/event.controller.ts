@@ -10,7 +10,8 @@ import { TypedParam, TypedRoute } from '@nestia/core';
 import { BaseResponseDto } from '@common/dto/base.dto';
 import {
   getAkcseEventById,
-  getAkcseEvents,
+  getUpcomingEvents,
+  getPastEvents,
 } from '@domain/event/service/event.service';
 import { GetEventsOutput } from '@domain/event/dto/event.dto';
 
@@ -22,10 +23,21 @@ export class EventController {
    * @tag event
    * @summary get events
    */
-  @TypedRoute.Get('/')
+  @TypedRoute.Get('/upcoming')
   @HttpCode(200)
-  async getEvents(): Promise<BaseResponseDto<GetEventsOutput[]>> {
-    const res = await getAkcseEvents();
+  async getUpcomingEvents(): Promise<BaseResponseDto<GetEventsOutput[]>> {
+    const res = await getUpcomingEvents();
+    return new BaseResponseDto(res);
+  }
+
+  /**
+   * @tag event
+   * @summary get events
+   */
+  @TypedRoute.Get('/past')
+  @HttpCode(200)
+  async getPastEvents(): Promise<BaseResponseDto<GetEventsOutput[]>> {
+    const res = await getPastEvents();
     return new BaseResponseDto(res);
   }
 

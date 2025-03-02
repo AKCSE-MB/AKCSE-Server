@@ -25,11 +25,23 @@ describe('event controller', () => {
   });
 
   it('should return events', async () => {
-    jest.spyOn(eventService, 'getAkcseEvents').mockImplementation(async () => {
+    jest
+      .spyOn(eventService, 'getUpcomingEvents')
+      .mockImplementation(async () => {
+        return [];
+      });
+
+    const res = await request(app.getHttpServer()).get('/v1/event/upcoming');
+
+    expect(res.statusCode).toEqual(200);
+  });
+
+  it('should return events', async () => {
+    jest.spyOn(eventService, 'getPastEvents').mockImplementation(async () => {
       return [];
     });
 
-    const res = await request(app.getHttpServer()).get('/v1/event');
+    const res = await request(app.getHttpServer()).get('/v1/event/past');
 
     expect(res.statusCode).toEqual(200);
   });
