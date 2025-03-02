@@ -25,5 +25,5 @@ export interface MembersResponseDTO {
 export interface TopMembersResponseDTO
   extends Omit<
     MembersResponseDTO,
-    'name' | 'program' | 'createdAt' | 'updatedAt'
+    'username' | 'program' | 'createdAt' | 'updatedAt'
   > {}
