@@ -35,7 +35,6 @@ model Members {
   score     Int      @default(0) @map("score")
   name      String   @map("name") @db.VarChar(25)
   username  String   @map("username") @db.VarChar(25)
-  program   String   @map("program") @db.VarChar(25)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
