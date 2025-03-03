@@ -46,7 +46,6 @@ npx prisma migrate deploy
 ```bash(example)
 npx prisma migrate dev --name add_index_to_created_at
 ```
-
 - after that, new schema and ddl is created
 
 3. all done, if you apply this to other env, try 'apply migrate' on that server
