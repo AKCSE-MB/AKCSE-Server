@@ -9,19 +9,10 @@ import {
 } from '@domain/members/repository/members.repository';
 import { Program } from '@domain/members/members.enum';
 
-export async function createMember(param: {
-  score: number;
-  numAttend: number;
-  name: string;
-  username: string;
-  program: Program;
-}) {
+export async function createMember(param: { score: number; name: string }) {
   await saveMember({
     score: param.score,
-    numAttend: param.numAttend,
     name: param.name,
-    username: param.username,
-    program: param.program,
   });
 }
 
@@ -46,10 +37,7 @@ export async function editMember(
   id: number,
   param: {
     score?: number;
-    numAttend?: number;
     name?: string;
-    username?: string;
-    program?: Program;
   },
 ) {
   const member = await getMember(id);

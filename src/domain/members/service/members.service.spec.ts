@@ -19,10 +19,7 @@ describe('members service', () => {
   it('should return the new member', async () => {
     const dto = {
       score: 0,
-      numAttend: 0,
       name: 'testName1',
-      username: 'test1',
-      program: Program.COMPUTER_SCIENCE,
     };
     const memberId = 1;
 
@@ -33,10 +30,7 @@ describe('members service', () => {
     expect(res).not.toBeNull();
     expect(res).toHaveProperty('id');
     expect(res).toHaveProperty('score');
-    expect(res).toHaveProperty('numAttend');
     expect(res).toHaveProperty('name');
-    expect(res).toHaveProperty('username');
-    expect(res).toHaveProperty('program');
     expect(res).toHaveProperty('createdAt');
     expect(res).toHaveProperty('updatedAt');
   });
@@ -44,10 +38,7 @@ describe('members service', () => {
   it('should return all members', async () => {
     const dto = {
       score: 0,
-      numAttend: 0,
       name: 'testName',
-      username: 'test',
-      program: Program.COMPUTER_SCIENCE,
     };
 
     await createMember({ ...dto });
@@ -68,10 +59,7 @@ describe('members service', () => {
   it('should return a member with the passed id', async () => {
     const dto = {
       score: 0,
-      numAttend: 0,
       name: 'testName1',
-      username: 'test1',
-      program: Program.COMPUTER_SCIENCE,
     };
 
     await createMember({ ...dto });
@@ -84,18 +72,12 @@ describe('members service', () => {
   it('should return up to 10 members with the highest scores', async () => {
     const dto1 = {
       score: 10,
-      numAttend: 2,
       name: 'top member',
-      username: 'topMember',
-      program: Program.COMPUTER_SCIENCE,
     };
 
     const dto2 = {
       score: 0,
-      numAttend: 0,
       name: 'non-top member',
-      username: 'nonTopMember',
-      program: Program.MATHEMATICS,
     };
 
     await createMember({ ...dto1 });
@@ -128,21 +110,15 @@ describe('members service', () => {
     expect(res).toEqual([]);
   });
 
-  it('should return a member with an updated score, numAttend, name, username, program, and role', async () => {
+  it('should return a member with an updated score, name, and role', async () => {
     const dto = {
       score: 0,
-      numAttend: 0,
       name: 'testName1',
-      username: 'test1',
-      program: Program.COMPUTER_SCIENCE,
     };
 
     const expected = {
       score: 10,
-      numAttend: 1,
       name: 'testName2',
-      username: 'test2',
-      program: Program.MATHEMATICS,
     };
 
     await createMember({ ...dto });
@@ -154,19 +130,13 @@ describe('members service', () => {
     expect(res).not.toBeNull();
     expect(res.id).toEqual(memberId);
     expect(res.score).toEqual(expected.score);
-    expect(res.numAttend).toEqual(expected.numAttend);
     expect(res.name).toEqual(expected.name);
-    expect(res.username).toEqual(expected.username);
-    expect(res.program).toEqual(expected.program);
   });
 
   it('should throw an error with the message since the deleted member cannot be retreived', async () => {
     const dto = {
       score: 0,
-      numAttend: 0,
       name: 'testName1',
-      username: 'test1',
-      program: Program.COMPUTER_SCIENCE,
     };
     const memberId = 1;
 
