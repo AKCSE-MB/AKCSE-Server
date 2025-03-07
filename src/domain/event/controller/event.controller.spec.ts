@@ -5,6 +5,7 @@ import { appModuleFixture, assertStatusCode } from '@root/jest.setup';
 import { ConfigurationService } from '@domain/configuration/configuration.service';
 import * as eventService from '@domain/event/service/event.service';
 import { EventModule } from '@domain/event/event.module';
+import { GetEventsOutput } from '@domain/event/dto/event.dto';
 
 describe('event controller', () => {
   let app: INestApplication;
@@ -26,17 +27,15 @@ describe('event controller', () => {
 
   it('should return events', async () => {
     jest
-      .spyOn(eventService, 'getUpcomingEvents')
-      .mockImplementation(async () => {
-        return [];
-      });
+      .spyOn(eventService, 'getAkcseEvents')
+      .mockResolvedValueOnce({ upcoming: [], past: [] });
 
-    const res = await request(app.getHttpServer()).get('/v1/event/upcoming');
+    const res = await request(app.getHttpServer()).get('/v1/event');
 
     assertStatusCode(res, 200);
   });
 
-  it('should return events', async () => {
+  it('should return past events', async () => {
     jest.spyOn(eventService, 'getPastEvents').mockImplementation(async () => {
       return [];
     });

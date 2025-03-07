@@ -5,15 +5,21 @@ import {
 import { ErrorSubCategoryEnum } from '@root/src/common/exception/enum';
 import { CallerWrongUsageException } from '@root/src/common/exception/internal.exception';
 
-export async function getUpcomingEvents() {
-  const events = await getEvents();
+export async function getAkcseEvents() {
+  const data = await getEvents();
   const currDate = new Date();
 
-  const newEvents = events.filter((event) => {
-    return currDate <= event.endDateTime;
+  const upcoming = data.filter((event) => {
+    return event.endDateTime >= currDate;
   });
 
-  return newEvents;
+  const past = data.filter((event) => {
+    return event.endDateTime <= currDate;
+  });
+
+  const events = { upcoming, past };
+
+  return events;
 }
 
 export async function getPastEvents() {

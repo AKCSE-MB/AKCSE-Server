@@ -1,16 +1,10 @@
-import {
-  Controller,
-  HttpCode,
-  Injectable,
-  UseFilters,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, HttpCode, Injectable, UseFilters } from '@nestjs/common';
 import { HttpExceptionFilter } from '@common/exception/exception.filter';
 import { TypedParam, TypedRoute } from '@nestia/core';
 import { BaseResponseDto } from '@common/dto/base.dto';
 import {
   getAkcseEventById,
-  getUpcomingEvents,
+  getAkcseEvents,
   getPastEvents,
 } from '@domain/event/service/event.service';
 import { GetEventsOutput } from '@domain/event/dto/event.dto';
@@ -23,16 +17,18 @@ export class EventController {
    * @tag event
    * @summary get events
    */
-  @TypedRoute.Get('/upcoming')
+  @TypedRoute.Get()
   @HttpCode(200)
-  async getUpcomingEvents(): Promise<BaseResponseDto<GetEventsOutput[]>> {
-    const res = await getUpcomingEvents();
+  async getEvents(): Promise<
+    BaseResponseDto<{ upcoming: GetEventsOutput[]; past: GetEventsOutput[] }>
+  > {
+    const res = await getAkcseEvents();
     return new BaseResponseDto(res);
   }
 
   /**
    * @tag event
-   * @summary get events
+   * @summary get past events
    */
   @TypedRoute.Get('/past')
   @HttpCode(200)
