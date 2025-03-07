@@ -17,10 +17,7 @@ describe('members repository', () => {
   it('should return a new member', async () => {
     const dto = {
       score: 0,
-      numAttend: 0,
       name: 'testName1',
-      username: 'test1',
-      program: Program.COMPUTER_SCIENCE,
     };
     const memberId = 1;
 
@@ -34,10 +31,7 @@ describe('members repository', () => {
   it('should return all members', async () => {
     const dto = {
       score: 0,
-      numAttend: 0,
       name: 'testName',
-      username: 'test',
-      program: Program.COMPUTER_SCIENCE,
     };
 
     await saveMember({ ...dto });
@@ -57,10 +51,7 @@ describe('members repository', () => {
   it('should return a member with the passed id', async () => {
     const dto = {
       score: 0,
-      numAttend: 0,
       name: 'testName1',
-      username: 'test1',
-      program: Program.COMPUTER_SCIENCE,
     };
     const memberId = 1;
 
@@ -78,21 +69,15 @@ describe('members repository', () => {
     expect(res).toBeNull;
   });
 
-  it('should return a member with an updated score, numAttend, name, username, and program', async () => {
+  it('should return a member with an updated score, and name', async () => {
     const dto = {
       score: 0,
-      numAttend: 0,
       name: 'testName1',
-      username: 'test1',
-      program: Program.COMPUTER_SCIENCE,
     };
 
     const expected = {
       score: 10,
-      numAttend: 1,
       name: 'testName2',
-      username: 'test2',
-      program: Program.MATHEMATICS,
     };
     const memberId = 1;
 
@@ -106,10 +91,7 @@ describe('members repository', () => {
   it('should not be able to return a member after deletion', async () => {
     const dto = {
       score: 0,
-      numAttend: 0,
       name: 'testName1',
-      username: 'test1',
-      program: Program.COMPUTER_SCIENCE,
     };
     const memberId = 1;
 

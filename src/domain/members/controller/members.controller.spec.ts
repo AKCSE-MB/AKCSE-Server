@@ -4,7 +4,6 @@ import { INestApplication } from '@nestjs/common';
 import { appModuleFixture, assertStatusCode } from '@root/jest.setup';
 import { MembersModule } from '@domain/members/members.module';
 import * as membersService from '@domain/members/service/members.service';
-import { Program } from '@domain/members/members.enum';
 import { createUserToken } from '@root/jest.setup';
 import { ConfigurationService } from '@domain/configuration/configuration.service';
 describe('members controller', () => {
@@ -39,10 +38,7 @@ describe('members controller', () => {
       .set('Authorization', `Bearer ${token}`)
       .send({
         score: 0,
-        numAttend: 0,
         name: 'testName1',
-        username: 'test1',
-        program: Program.COMPUTER_SCIENCE,
       });
 
     assertStatusCode(res, 200);
@@ -53,20 +49,14 @@ describe('members controller', () => {
       {
         id: 1,
         score: 0,
-        numAttend: 0,
         name: 'testName1',
-        username: 'test1',
-        program: Program.COMPUTER_SCIENCE,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id: 2,
         score: 10,
-        numAttend: 1,
         name: 'testName2',
-        username: 'test2',
-        program: Program.COMPUTER_SCIENCE,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -94,10 +84,7 @@ describe('members controller', () => {
     const data = {
       id: 1,
       score: 0,
-      numAttend: 0,
       name: 'testName1',
-      username: 'test1',
-      program: Program.COMPUTER_SCIENCE,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -126,100 +113,70 @@ describe('members controller', () => {
       {
         id: 1,
         score: 10,
-        numAttend: 0,
         name: 'testName1',
-        username: 'test1',
-        program: Program.COMPUTER_SCIENCE,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id: 2,
         score: 9,
-        numAttend: 1,
         name: 'testName2',
-        username: 'test2',
-        program: Program.COMPUTER_SCIENCE,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id: 3,
         score: 8,
-        numAttend: 0,
         name: 'testName3',
-        username: 'test3',
-        program: Program.STATISTICS,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id: 4,
         score: 7,
-        numAttend: 0,
         name: 'testName4',
-        username: 'test4',
-        program: Program.STATISTICS,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id: 5,
         score: 6,
-        numAttend: 0,
         name: 'testName5',
-        username: 'test5',
-        program: Program.STATISTICS,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id: 6,
         score: 5,
-        numAttend: 0,
         name: 'testName6',
-        username: 'test6',
-        program: Program.COMPUTER_SCIENCE,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id: 7,
         score: 4,
-        numAttend: 1,
         name: 'testName7',
-        username: 'test7',
-        program: Program.COMPUTER_SCIENCE,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id: 8,
         score: 3,
-        numAttend: 0,
         name: 'testName8',
-        username: 'test8',
-        program: Program.STATISTICS,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id: 9,
         score: 2,
-        numAttend: 0,
         name: 'testName9',
-        username: 'test9',
-        program: Program.STATISTICS,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
         id: 10,
         score: 1,
-        numAttend: 0,
         name: 'testName10',
-        username: 'test10',
-        program: Program.STATISTICS,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -275,7 +232,6 @@ describe('members controller', () => {
       .set('Authorization', `Bearer ${token}`)
       .send({
         score: 100,
-        numAttend: 2,
       });
 
     assertStatusCode(res, 400);

@@ -1,25 +1,13 @@
 import prismaClient from '@common/database/prisma';
-import { Program } from '@domain/members/members.enum';
 
-export async function saveMember(param: {
-  score: number;
-  numAttend: number;
-  name: string;
-  username: string;
-  program: Program;
-}) {
+export async function saveMember(param: { score: number; name: string }) {
   await prismaClient.members.create({ data: param });
 }
 
 export async function getMembers() {
   const res = await prismaClient.members.findMany();
 
-  return res?.map((member) => {
-    return {
-      ...member,
-      program: member.program as Program,
-    };
-  });
+  return res;
 }
 
 export async function getMemberById(id: number) {
@@ -31,10 +19,7 @@ export async function getMemberById(id: number) {
 
   if (!res) return null;
 
-  return {
-    ...res,
-    program: res.program as Program,
-  };
+  return res;
 }
 
 export async function updateMember(
@@ -43,8 +28,6 @@ export async function updateMember(
     score?: number;
     numAttend?: number;
     name?: string;
-    username?: string;
-    program?: Program;
   },
 ) {
   await prismaClient.members.update({
