@@ -1,4 +1,4 @@
-export interface GetEventsOutput {
+export interface EventsResponseDTO {
   /**
    * event id
    * example: 0
@@ -63,23 +63,48 @@ export interface GetEventsOutput {
   createdAt: Date;
 
   /**
+   * event rsvp link
+   * example: "https://google.com"
+   * @type string | null
+   */
+  rsvpLink?: string | null;
+
+  /**
+   * event image url
+   * example: "https://picsum.photos/200/300"
+   * @type string | null
+   */
+  imageUrl?: string | null;
+
+  /**
    * event updated at
    * example: "2024-12-27T00:00:00Z"
    * @type string
    */
   updatedAt: Date;
+}
 
-  /**
-   * event rsvp link
-   * example: "rsvpLink"
-   * @type string
-   */
-  rsvpLink: string;
+export interface EventsCreateDTO {
+  title: string;
+  description: string;
+  fee: number;
+  startDateTime: Date;
+  endDateTime: Date;
+  location: string;
+  signUpDeadline: Date;
+  rsvpLink?: string;
+  imageUrl?: string;
+  updatedAt: Date;
+}
 
-  /**
-   * event image url
-   * example: "imageUrl"
-   * @type string
-   */
-  imageUrl: string;
+export interface EventsUpdateDTO {
+  title?: string;
+  description?: string;
+  fee?: number;
+  startDateTime?: Date;
+  endDateTime?: Date;
+  location?: string;
+  signUpDeadline?: Date;
+  rsvpLink?: string;
+  imageUrl?: string;
 }

@@ -17,19 +17,15 @@ export interface EventRecord {
 
 export async function getEvents() {
   const records = await prismaClient.events.findMany();
-  return records.map((record) => transformRecordToModel(record));
+  return transformRecordToModel(records);
 }
 
 export async function getEventById(id: number) {
-  const record = await prismaClient.events.findUnique({
+  return await prismaClient.events.findFirst({
     where: {
       id: id,
     },
   });
-
-  if (!record) return null;
-
-  return transformRecordToModel(record);
 }
 
 export async function saveEvents(
@@ -64,24 +60,61 @@ export async function saveEvent(param: {
   return saveEvents([param]);
 }
 
-function transformRecordToModel(record: {
-  id: number;
-  title: string;
-  description: string;
-  fee: number;
-  startDateTime: Date;
-  endDateTime: Date;
-  location: string;
-  signUpDeadline: Date;
-  rsvpLink: string | null;
-  imageUrl: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-}): EventRecord {
-  const { rsvpLink, imageUrl, ...rest } = record;
-  return {
-    ...rest,
-    rsvpLink: rsvpLink || '',
-    imageUrl: imageUrl || '',
-  };
+export async function updateEvent(
+  id: number,
+  param: {
+    title?: string;
+    description?: string;
+    fee?: number;
+    startDateTime?: Date;
+    endDateTime?: Date;
+    location?: string;
+    signUpDeadline?: Date;
+    rsvpLink?: string;
+    imageUrl?: string;
+  },
+) {
+  return await prismaClient.events.update({
+    where: {
+      id: id,
+    },
+    data: {
+      ...param,
+      updatedAt: new Date(),
+    },
+  });
+}
+
+export async function deleteEvent(id: number) {
+  return await prismaClient.events.delete({
+    where: {
+      id: id,
+    },
+  });
+}
+
+export function transformRecordToModel(
+  records: {
+    id: number;
+    title: string;
+    description: string;
+    fee: number;
+    startDateTime: Date;
+    endDateTime: Date;
+    location: string;
+    signUpDeadline: Date;
+    rsvpLink: string | null;
+    imageUrl: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+  }[],
+): EventRecord[] {
+  return records.map((record) => {
+    const { rsvpLink, imageUrl, ...rest } = record;
+    return {
+      ...rest,
+      rsvpLink: rsvpLink || '',
+      imageUrl: imageUrl || '',
+    };
+  });
 }
