@@ -2,7 +2,6 @@ import { Program } from '@domain/members/members.enum';
 
 export interface MemberCreateRequestDTO {
   score: number;
-  numAttend: number;
   name: string;
 }
 
