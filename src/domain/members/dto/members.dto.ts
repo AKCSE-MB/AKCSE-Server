@@ -14,10 +14,7 @@ export interface MemberUpdateRequestDTO
 export interface MembersResponseDTO {
   id: number;
   score: number;
-  numAttend: number;
   name: string;
-  username: string;
-  program: string;
   createdAt: Date;
   updatedAt: Date;
 }
