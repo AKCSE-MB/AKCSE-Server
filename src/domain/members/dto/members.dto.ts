@@ -4,8 +4,6 @@ export interface MemberCreateRequestDTO {
   score: number;
   numAttend: number;
   name: string;
-  username: string;
-  program: Program;
 }
 
 export interface MemberUpdateRequestDTO

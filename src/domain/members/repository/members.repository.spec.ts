@@ -69,7 +69,7 @@ describe('members repository', () => {
     expect(res).toBeNull;
   });
 
-  it('should return a member with an updated score, numAttend, name, username, and program', async () => {
+  it('should return a member with an updated score, and name', async () => {
     const dto = {
       score: 0,
       name: 'testName1',
