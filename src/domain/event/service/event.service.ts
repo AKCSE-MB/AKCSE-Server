@@ -4,33 +4,29 @@ import {
 } from '@domain/event/repository/event.repository';
 import { ErrorSubCategoryEnum } from '@root/src/common/exception/enum';
 import { CallerWrongUsageException } from '@root/src/common/exception/internal.exception';
+import { groupBy } from 'fxjs/Strict';
 
 export async function getAkcseEvents() {
   const data = await getEvents();
   const currDate = new Date();
 
-  const upcoming = data.filter((event) => {
-    return event.endDateTime >= currDate;
-  });
+  const res = groupBy(
+    ({ endDateTime }) => (endDateTime >= currDate ? 'upcoming' : 'past'),
+    data,
+  );
 
-  const past = data.filter((event) => {
-    return event.endDateTime <= currDate;
-  });
-
-  const events = { upcoming, past };
-
-  return events;
+  return res;
 }
 
 export async function getPastEvents() {
   const events = await getEvents();
   const currDate = new Date();
 
-  const pastEvents = events.filter((event) => {
+  const res = events.filter((event) => {
     return currDate > event.endDateTime;
   });
 
-  return pastEvents;
+  return res;
 }
 
 export async function getAkcseEventById(id: number) {
