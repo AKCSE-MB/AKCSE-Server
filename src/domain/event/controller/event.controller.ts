@@ -7,7 +7,7 @@ import {
   getAkcseEvents,
   getPastEvents,
 } from '@domain/event/service/event.service';
-import { GetEventsOutput } from '@domain/event/dto/event.dto';
+import { EventDetails, GetEventsOutput } from '@domain/event/dto/event.dto';
 
 @Controller('v1/event')
 @UseFilters(new HttpExceptionFilter())
@@ -19,9 +19,7 @@ export class EventController {
    */
   @TypedRoute.Get()
   @HttpCode(200)
-  async getEvents(): Promise<
-    BaseResponseDto<{ upcoming: GetEventsOutput[]; past: GetEventsOutput[] }>
-  > {
+  async getEvents(): Promise<BaseResponseDto<GetEventsOutput>> {
     const res = await getAkcseEvents();
     return new BaseResponseDto(res);
   }
@@ -32,7 +30,7 @@ export class EventController {
    */
   @TypedRoute.Get('/past')
   @HttpCode(200)
-  async getPastEvents(): Promise<BaseResponseDto<GetEventsOutput[]>> {
+  async getPastEvents(): Promise<BaseResponseDto<EventDetails[]>> {
     const res = await getPastEvents();
     return new BaseResponseDto(res);
   }
@@ -45,7 +43,7 @@ export class EventController {
   @HttpCode(200)
   async getEventById(
     @TypedParam('id') id: number,
-  ): Promise<BaseResponseDto<GetEventsOutput>> {
+  ): Promise<BaseResponseDto<EventDetails>> {
     const res = await getAkcseEventById(id);
     return new BaseResponseDto(res);
   }

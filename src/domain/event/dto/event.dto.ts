@@ -1,4 +1,4 @@
-export interface GetEventsOutput {
+export interface EventDetails {
   /**
    * event id
    * example: 0
@@ -82,4 +82,9 @@ export interface GetEventsOutput {
    * @type string
    */
   imageUrl: string;
+}
+
+export interface GetEventsOutput {
+  upcoming: EventDetails[];
+  past: EventDetails[];
 }
