@@ -5,6 +5,7 @@ import { appModuleFixture, assertStatusCode } from '@root/jest.setup';
 import { ConfigurationService } from '@domain/configuration/configuration.service';
 import * as eventService from '@domain/event/service/event.service';
 import { EventModule } from '@domain/event/event.module';
+import { GetEventsOutput } from '@domain/event/dto/event.dto';
 
 describe('event controller', () => {
   let app: INestApplication;
@@ -25,13 +26,23 @@ describe('event controller', () => {
   });
 
   it('should return events', async () => {
-    jest.spyOn(eventService, 'getAkcseEvents').mockImplementation(async () => {
-      return [];
-    });
+    jest
+      .spyOn(eventService, 'getAkcseEvents')
+      .mockResolvedValueOnce({ upcoming: [], past: [] });
 
     const res = await request(app.getHttpServer()).get('/v1/event');
 
-    expect(res.statusCode).toEqual(200);
+    assertStatusCode(res, 200);
+  });
+
+  it('should return past events', async () => {
+    jest.spyOn(eventService, 'getPastEvents').mockImplementation(async () => {
+      return [];
+    });
+
+    const res = await request(app.getHttpServer()).get('/v1/event/past');
+
+    assertStatusCode(res, 200);
   });
 
   it('should return an event with the passed id', async () => {

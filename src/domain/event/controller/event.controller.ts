@@ -1,18 +1,13 @@
-import {
-  Controller,
-  HttpCode,
-  Injectable,
-  UseFilters,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, HttpCode, Injectable, UseFilters } from '@nestjs/common';
 import { HttpExceptionFilter } from '@common/exception/exception.filter';
 import { TypedParam, TypedRoute } from '@nestia/core';
 import { BaseResponseDto } from '@common/dto/base.dto';
 import {
   getAkcseEventById,
   getAkcseEvents,
+  getPastEvents,
 } from '@domain/event/service/event.service';
-import { GetEventsOutput } from '@domain/event/dto/event.dto';
+import { EventDetails, GetEventsOutput } from '@domain/event/dto/event.dto';
 
 @Controller('v1/event')
 @UseFilters(new HttpExceptionFilter())
@@ -22,10 +17,21 @@ export class EventController {
    * @tag event
    * @summary get events
    */
-  @TypedRoute.Get('/')
+  @TypedRoute.Get()
   @HttpCode(200)
-  async getEvents(): Promise<BaseResponseDto<GetEventsOutput[]>> {
+  async getEvents(): Promise<BaseResponseDto<GetEventsOutput>> {
     const res = await getAkcseEvents();
+    return new BaseResponseDto(res);
+  }
+
+  /**
+   * @tag event
+   * @summary get past events
+   */
+  @TypedRoute.Get('/past')
+  @HttpCode(200)
+  async getPastEvents(): Promise<BaseResponseDto<EventDetails[]>> {
+    const res = await getPastEvents();
     return new BaseResponseDto(res);
   }
 
@@ -37,7 +43,7 @@ export class EventController {
   @HttpCode(200)
   async getEventById(
     @TypedParam('id') id: number,
-  ): Promise<BaseResponseDto<GetEventsOutput>> {
+  ): Promise<BaseResponseDto<EventDetails>> {
     const res = await getAkcseEventById(id);
     return new BaseResponseDto(res);
   }

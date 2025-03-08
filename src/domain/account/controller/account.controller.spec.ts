@@ -41,6 +41,6 @@ describe('account controller', () => {
 
   it('invalid request, should return tokens', async () => {
     const res = await request(app.getHttpServer()).post('/v1/account/tokens');
-    expect(res.statusCode).toEqual(400);
+    assertStatusCode(res, 400);
   });
 });

@@ -2,6 +2,7 @@ import { truncateTables } from '@root/jest.setup';
 import {
   getAkcseEventById,
   getAkcseEvents,
+  getPastEvents,
 } from '@domain/event/service/event.service';
 import prismaClient from '@common/database/prisma';
 import { saveEvent } from '@domain/event/repository/event.repository';
@@ -11,21 +12,59 @@ describe('event service', () => {
     await truncateTables(prismaClient, ['events']);
   });
 
-  it('should return event', async () => {
+  afterAll(async () => {
+    await truncateTables(prismaClient, ['events']);
+  });
+
+  it('should return all events', async () => {
+    const data1 = {
+      title: 'test-title',
+      description: 'test-description',
+      fee: 100_000,
+      startDateTime: new Date(2100, 1, 1),
+      endDateTime: new Date(2100, 1, 1),
+      location: 'test-location',
+      signUpDeadline: new Date(),
+      updatedAt: new Date(),
+    };
+
+    const data2 = {
+      title: 'test-title',
+      description: 'test-description',
+      fee: 100_000,
+      startDateTime: new Date(2020, 1, 1),
+      endDateTime: new Date(2020, 1, 1),
+      location: 'test-location',
+      signUpDeadline: new Date(),
+      updatedAt: new Date(),
+    };
+
+    await saveEvent(data1);
+    await saveEvent(data2);
+
+    const res = await getAkcseEvents();
+    const expectedUpcoming = 1;
+    const expectedPast = 1;
+
+    expect(res).not.toBeNull();
+    expect(res.upcoming.length).toEqual(expectedUpcoming);
+    expect(res.past.length).toEqual(expectedPast);
+  });
+
+  it('should return a past event', async () => {
     const data = {
       title: 'test-title',
       description: 'test-description',
       fee: 100_000,
-      startDateTime: new Date(),
-      endDateTime: new Date(),
+      startDateTime: new Date(2020, 1, 1),
+      endDateTime: new Date(2020, 1, 1),
       location: 'test-location',
       signUpDeadline: new Date(),
       updatedAt: new Date(),
     };
 
     await saveEvent(data);
-
-    const res = await getAkcseEvents();
+    const res = await getPastEvents();
     expect(res).not.toBeNull();
   });
 
