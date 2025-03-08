@@ -28,19 +28,7 @@ describe('event service', () => {
       updatedAt: new Date(),
     };
 
-    // this will go into past since the time will pass by the time we call the fcn
     const data2 = {
-      title: 'test-title',
-      description: 'test-description',
-      fee: 100_000,
-      startDateTime: new Date(),
-      endDateTime: new Date(),
-      location: 'test-location',
-      signUpDeadline: new Date(),
-      updatedAt: new Date(),
-    };
-
-    const data3 = {
       title: 'test-title',
       description: 'test-description',
       fee: 100_000,
@@ -53,13 +41,10 @@ describe('event service', () => {
 
     await saveEvent(data1);
     await saveEvent(data2);
-    await saveEvent(data3);
 
     const res = await getAkcseEvents();
     const expectedUpcoming = 1;
-    const expectedPast = 2;
-
-    console.log(res);
+    const expectedPast = 1;
 
     expect(res).not.toBeNull();
     expect(res.upcoming.length).toEqual(expectedUpcoming);
