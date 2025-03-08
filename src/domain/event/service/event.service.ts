@@ -5,6 +5,7 @@ import {
 import { ErrorSubCategoryEnum } from '@root/src/common/exception/enum';
 import { CallerWrongUsageException } from '@root/src/common/exception/internal.exception';
 import { groupBy } from 'fxjs/Strict';
+import { GetEventsOutput } from '@domain/event/dto/event.dto';
 
 export async function getAkcseEvents() {
   const data = await getEvents();
@@ -15,7 +16,10 @@ export async function getAkcseEvents() {
     data,
   );
 
-  return res;
+  return {
+    upcoming: res.upcoming || [],
+    past: res.past || [],
+  } as GetEventsOutput;
 }
 
 export async function getPastEvents() {
