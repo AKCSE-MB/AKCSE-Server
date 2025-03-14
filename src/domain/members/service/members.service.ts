@@ -1,13 +1,12 @@
-import { CallerWrongUsageException } from '@common/exception/internal.exception';
 import { ErrorSubCategoryEnum } from '@common/exception/enum';
+import { CallerWrongUsageException } from '@common/exception/internal.exception';
 import {
-  saveMember,
-  getMembers,
-  getMemberById,
-  updateMember,
   deleteMember,
+  getMemberById,
+  getMembers,
+  saveMember,
+  updateMember,
 } from '@domain/members/repository/members.repository';
-import { Program } from '@domain/members/members.enum';
 
 export async function createMember(param: { score: number; name: string }) {
   await saveMember({
@@ -66,7 +65,12 @@ export async function removeMember(id: number) {
 }
 
 export async function getLeaderboard() {
-  const members = await getAllMembers();
+  const data = await getAllMembers();
+  const members = data.map((m) => {
+    const { accountId, ...rest } = m;
+    return rest;
+  });
+
   const sortedMembers = members.sort((a, b) => b.score - a.score);
   const first = 0;
   const numMembers = 10;
