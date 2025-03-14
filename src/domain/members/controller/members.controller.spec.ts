@@ -1,11 +1,14 @@
-import { TestingModule } from '@nestjs/testing';
-import request from 'supertest';
-import { INestApplication } from '@nestjs/common';
-import { appModuleFixture, assertStatusCode } from '@root/jest.setup';
+import { ConfigurationService } from '@domain/configuration/configuration.service';
 import { MembersModule } from '@domain/members/members.module';
 import * as membersService from '@domain/members/service/members.service';
-import { createUserToken } from '@root/jest.setup';
-import { ConfigurationService } from '@domain/configuration/configuration.service';
+import { INestApplication } from '@nestjs/common';
+import { TestingModule } from '@nestjs/testing';
+import {
+  appModuleFixture,
+  assertStatusCode,
+  createUserToken,
+} from '@root/jest.setup';
+import request from 'supertest';
 describe('members controller', () => {
   let app: INestApplication;
   let configService: ConfigurationService;
@@ -50,6 +53,7 @@ describe('members controller', () => {
         id: 1,
         score: 0,
         name: 'testName1',
+        accountId: '1',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -57,6 +61,7 @@ describe('members controller', () => {
         id: 2,
         score: 10,
         name: 'testName2',
+        accountId: '2',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -85,6 +90,7 @@ describe('members controller', () => {
       id: 1,
       score: 0,
       name: 'testName1',
+      accountId: '1',
       createdAt: new Date(),
       updatedAt: new Date(),
     };
