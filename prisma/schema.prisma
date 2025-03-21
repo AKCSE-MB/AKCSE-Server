@@ -11,6 +11,7 @@ model Accounts {
   id             Int      @id @default(autoincrement())
   identification String   @map("identification") @db.VarChar(256)
   role           String   @map("role") @db.VarChar(10)
+  verification   Boolean  @default(false) @map("verification")
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
 
