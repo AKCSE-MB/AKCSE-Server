@@ -1,11 +1,13 @@
-import { CallerWrongUsageException } from '@common/exception/internal.exception';
+import {
+  UnauthorizedException,
+  CallerWrongUsageException,
+} from '@common/exception/internal.exception';
 import {
   getIdentification,
   getToken,
   saveAccount,
 } from '@domain/account/repository/account.repository';
 import { ErrorSubCategoryEnum } from '@common/exception/enum';
-import bcrypt from 'bcrypt';
 import { ConfigurationService } from '@domain/configuration/configuration.service';
 import { ConfigService } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
@@ -54,6 +56,13 @@ export async function createToken(param: CreateTokenRequest) {
     return getAccount(String(identification));
   });
 
+  if (!entity.verification) {
+    // account not verified yet, return status code 403
+    throw new UnauthorizedException(
+      'Account successfully registered, waiting for access approval.',
+    );
+  }
+
   const tokens = makeTokens({ userId: entity.id });
   await saveToken({
     accountId: entity.id,
@@ -70,7 +79,7 @@ function makeTokens(payload: { userId: number }) {
   const accessToken = jwt.sign(
     payload,
     cfgService.getTokenData().accessTokenSecret,
-    { expiresIn: `${accessTokenExpiredAt}s` },
+    { expiresIn: `${accessTokenExpiredAt}` },
   );
 
   const refreshToken = jwt.sign(

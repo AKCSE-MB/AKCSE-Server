@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import {
+  UnauthorizedException,
   BaseException,
   CallerWrongUsageException,
 } from '@common/exception/internal.exception';
@@ -46,6 +47,21 @@ export class HttpExceptionFilter implements ExceptionFilter {
       if (!(exception instanceof CallerWrongUsageException)) {
         Sentry.captureException(exception, { extra: detailResponse });
       }
+
+      response.status(status).json(detailResponse);
+      return;
+    }
+
+    if (exception instanceof UnauthorizedException) {
+      const status = exception.getStatus();
+
+      const detailResponse = {
+        statusCode: status,
+        timestamp: new Date().toISOString(),
+        path: request.url,
+        originMessage: exception.message,
+        input: request.body,
+      };
 
       response.status(status).json(detailResponse);
       return;
