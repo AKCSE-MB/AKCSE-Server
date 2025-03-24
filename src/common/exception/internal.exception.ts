@@ -121,7 +121,7 @@ export class EmptyContentException extends HttpException {
 }
 
 export class UnauthorizedException extends HttpException {
-  constructor(message: string) {
-    super(HttpException.createBody({ message }), HttpStatus.UNAUTHORIZED);
+  constructor() {
+    super(HttpException.createBody({}), HttpStatus.UNAUTHORIZED);
   }
 }

@@ -58,9 +58,7 @@ export async function createToken(param: CreateTokenRequest) {
 
   if (!entity.verification) {
     // account not verified yet, return status code 403
-    throw new UnauthorizedException(
-      'Account successfully registered, waiting for access approval.',
-    );
+    throw new UnauthorizedException();
   }
 
   const tokens = makeTokens({ userId: entity.id });
