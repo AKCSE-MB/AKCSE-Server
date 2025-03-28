@@ -10,10 +10,9 @@ datasource db {
 model Accounts {
   id             Int      @id @default(autoincrement())
   identification String   @map("identification") @db.VarChar(256)
-  role           String   @map("role") @db.VarChar(10)
-  verification   Boolean  @default(false) @map("verification")
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
+  role           String   @map("role") @db.VarChar(10)
 
   @@map("accounts")
 }
@@ -35,9 +34,9 @@ model Members {
   id        Int      @id @default(autoincrement())
   score     Int      @default(0) @map("score")
   name      String   @map("name") @db.VarChar(25)
-  accountId String   @default("0") @map("accountId") @db.VarChar(25)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+  accountId String   @default("0") @map("accountId") @db.VarChar(25)
 
   @@map("members")
 }

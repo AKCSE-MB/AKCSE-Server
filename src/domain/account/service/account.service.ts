@@ -16,7 +16,7 @@ import { pipe } from 'fp-ts/lib/function';
 import { saveToken } from '@domain/account/repository/token.repository';
 import { getKakaoUserData } from '@root/src/third_party/kakao/kakao';
 import { CreateTokenRequest } from '../dto/account.dto';
-import { Role } from '../account.enum';
+import { Role } from '@domain/account/account.enum';
 
 export type AccountEntity = Awaited<ReturnType<typeof getAccount>>;
 export async function getAccount(identification: string) {
@@ -56,8 +56,8 @@ export async function createToken(param: CreateTokenRequest) {
     return getAccount(String(identification));
   });
 
-  if (!entity.verification) {
-    // account not verified yet, return status code 403
+  if (entity.role === Role.UNKNOWN) {
+    // account not verified yet, return status code 401
     throw new UnauthorizedException();
   }
 
