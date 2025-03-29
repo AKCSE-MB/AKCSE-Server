@@ -1,11 +1,13 @@
-import { CallerWrongUsageException } from '@common/exception/internal.exception';
+import {
+  UnauthorizedException,
+  CallerWrongUsageException,
+} from '@common/exception/internal.exception';
 import {
   getIdentification,
   getToken,
   saveAccount,
 } from '@domain/account/repository/account.repository';
 import { ErrorSubCategoryEnum } from '@common/exception/enum';
-import bcrypt from 'bcrypt';
 import { ConfigurationService } from '@domain/configuration/configuration.service';
 import { ConfigService } from '@nestjs/config';
 import * as jwt from 'jsonwebtoken';
@@ -14,7 +16,7 @@ import { pipe } from 'fp-ts/lib/function';
 import { saveToken } from '@domain/account/repository/token.repository';
 import { getKakaoUserData } from '@root/src/third_party/kakao/kakao';
 import { CreateTokenRequest } from '../dto/account.dto';
-import { Role } from '../account.enum';
+import { Role } from '@domain/account/account.enum';
 
 export type AccountEntity = Awaited<ReturnType<typeof getAccount>>;
 export async function getAccount(identification: string) {
@@ -54,6 +56,11 @@ export async function createToken(param: CreateTokenRequest) {
     return getAccount(String(identification));
   });
 
+  if (entity.role === Role.UNKNOWN) {
+    // account not verified yet, return status code 401
+    throw new UnauthorizedException();
+  }
+
   const tokens = makeTokens({ userId: entity.id });
   await saveToken({
     accountId: entity.id,
@@ -70,7 +77,7 @@ function makeTokens(payload: { userId: number }) {
   const accessToken = jwt.sign(
     payload,
     cfgService.getTokenData().accessTokenSecret,
-    { expiresIn: `${accessTokenExpiredAt}s` },
+    { expiresIn: `${accessTokenExpiredAt}` },
   );
 
   const refreshToken = jwt.sign(

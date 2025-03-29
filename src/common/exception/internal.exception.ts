@@ -119,3 +119,9 @@ export class EmptyContentException extends HttpException {
     super(HttpException.createBody({ message }), HttpStatus.NO_CONTENT);
   }
 }
+
+export class UnauthorizedException extends HttpException {
+  constructor() {
+    super(HttpException.createBody({}), HttpStatus.UNAUTHORIZED);
+  }
+}

@@ -42,7 +42,7 @@ export async function getIdentification(identification: string) {
 
   if (!res) return null;
 
-  if (Role[res.role] === undefined) {
+  if (res.role != Role.MEMBER && res.role != Role.UNKNOWN) {
     res = await prismaClient.accounts.update({
       where: {
         id: res.id,
