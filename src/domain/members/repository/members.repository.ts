@@ -1,6 +1,11 @@
 import prismaClient from '@common/database/prisma';
+import { Role } from '@prisma/client';
 
-export async function saveMember(param: { score: number; name: string }) {
+export async function saveMember(param: {
+  score: number;
+  name: string;
+  role: Role;
+}) {
   await prismaClient.members.create({ data: param });
 }
 
@@ -28,6 +33,7 @@ export async function updateMember(
     score?: number;
     numAttend?: number;
     name?: string;
+    role?: Role;
   },
 ) {
   await prismaClient.members.update({
