@@ -8,7 +8,7 @@ import {
 } from '@domain/account/repository/account.repository';
 import { pipe } from 'fp-ts/lib/function';
 import * as TE from 'fp-ts/TaskEither';
-import { Role } from '../account.enum';
+import { Role } from '@prisma/client';
 
 describe('account repository', () => {
   beforeEach(async () => {

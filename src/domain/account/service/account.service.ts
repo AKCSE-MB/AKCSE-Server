@@ -16,7 +16,7 @@ import { pipe } from 'fp-ts/lib/function';
 import { saveToken } from '@domain/account/repository/token.repository';
 import { getKakaoUserData } from '@root/src/third_party/kakao/kakao';
 import { CreateTokenRequest } from '../dto/account.dto';
-import { Role } from '@domain/account/account.enum';
+import { Role } from '@prisma/client';
 
 export type AccountEntity = Awaited<ReturnType<typeof getAccount>>;
 export async function getAccount(identification: string) {

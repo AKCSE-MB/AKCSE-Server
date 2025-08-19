@@ -4,7 +4,7 @@ import { ErrorContents } from '@common/exception/internal.exception';
 import * as E from 'fp-ts/Either';
 import * as TE from 'fp-ts/TaskEither';
 import { pipe } from 'fp-ts/lib/function';
-import { Role } from '../account.enum';
+import { Role } from '@prisma/client';
 
 type TokenRecord = {
   id: number;
