@@ -125,7 +125,7 @@ describe('members service', () => {
     const expected = {
       score: 10,
       name: 'testName2',
-      role: Role.MEMBER,
+      role: Role.ADMIN,
     };
 
     await createMember({ ...dto });
@@ -138,6 +138,7 @@ describe('members service', () => {
     expect(res.id).toEqual(memberId);
     expect(res.score).toEqual(expected.score);
     expect(res.name).toEqual(expected.name);
+    expect(res.role).toEqual(expected.role);
   });
 
   it('should throw an error with the message since the deleted member cannot be retreived', async () => {

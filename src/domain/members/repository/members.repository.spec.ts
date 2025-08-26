@@ -72,7 +72,7 @@ describe('members repository', () => {
     expect(res).toBeNull;
   });
 
-  it('should return a member with an updated score, and name', async () => {
+  it('should return a member with an updated score, name, and role', async () => {
     const dto = {
       score: 0,
       name: 'testName1',
@@ -82,7 +82,7 @@ describe('members repository', () => {
     const expected = {
       score: 10,
       name: 'testName2',
-      role: Role.MEMBER,
+      role: Role.ADMIN,
     };
     const memberId = 1;
 
