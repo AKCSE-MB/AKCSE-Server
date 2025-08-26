@@ -7,7 +7,7 @@ import {
   updateMember,
   deleteMember,
 } from '@domain/members/repository/members.repository';
-import { Program } from '@domain/members/members.enum';
+import { Role } from '@prisma/client';
 
 describe('members repository', () => {
   beforeEach(async () => {
@@ -18,6 +18,7 @@ describe('members repository', () => {
     const dto = {
       score: 0,
       name: 'testName1',
+      role: Role.MEMBER,
     };
     const memberId = 1;
 
@@ -32,6 +33,7 @@ describe('members repository', () => {
     const dto = {
       score: 0,
       name: 'testName',
+      role: Role.MEMBER,
     };
 
     await saveMember({ ...dto });
@@ -52,6 +54,7 @@ describe('members repository', () => {
     const dto = {
       score: 0,
       name: 'testName1',
+      role: Role.MEMBER,
     };
     const memberId = 1;
 
@@ -73,11 +76,13 @@ describe('members repository', () => {
     const dto = {
       score: 0,
       name: 'testName1',
+      role: Role.MEMBER,
     };
 
     const expected = {
       score: 10,
       name: 'testName2',
+      role: Role.MEMBER,
     };
     const memberId = 1;
 
@@ -92,6 +97,7 @@ describe('members repository', () => {
     const dto = {
       score: 0,
       name: 'testName1',
+      role: Role.MEMBER,
     };
     const memberId = 1;
 
