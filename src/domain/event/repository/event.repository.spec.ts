@@ -5,6 +5,8 @@ import {
   saveEvent,
   getEvents,
   getEventById,
+  updateEvent,
+  deleteEvent,
 } from '@domain/event/repository/event.repository';
 
 describe('event repository', () => {
@@ -21,10 +23,9 @@ describe('event repository', () => {
       endDateTime: new Date(),
       location: 'test-location',
       signUpDeadline: new Date(),
-      updatedAt: new Date(),
     };
 
-    await saveEvent(data);
+    await saveEvent({ ...data });
     const res = await getEvents();
     expect(res).not.toBeNull();
     expect(res).toHaveLength(1);
@@ -40,7 +41,6 @@ describe('event repository', () => {
         endDateTime: new Date(),
         location: 'test-location',
         signUpDeadline: new Date(),
-        updatedAt: new Date(),
       },
     ];
 
@@ -64,11 +64,10 @@ describe('event repository', () => {
       endDateTime: new Date(),
       location: 'test-location',
       signUpDeadline: new Date(),
-      updatedAt: new Date(),
     };
     const eventId = 1;
 
-    await saveEvent(data);
+    await saveEvent({ ...data });
     const res = await getEventById(eventId);
 
     expect(res).not.toBeNull();
@@ -76,6 +75,59 @@ describe('event repository', () => {
 
   it('event does not exist, should be null', async () => {
     const eventId = 100;
+    const res = await getEventById(eventId);
+
+    expect(res).toBeNull;
+  });
+
+  it('should return an event with an updated title, description, fee, startDateTime, endDateTime, location, signUpDeadline, rsvpLink, and imageUrl', async () => {
+    const data = {
+      title: 'test-title',
+      description: 'test-description',
+      fee: 100_000,
+      startDateTime: new Date(),
+      endDateTime: new Date(),
+      location: 'test-location',
+      signUpDeadline: new Date(),
+      rsvpLink: 'test-rsvpLink',
+      imageUrl: 'test-imageUrl',
+    };
+
+    const expected = {
+      title: 'title',
+      description: 'description',
+      fee: 10,
+      startDateTime: new Date('2025-01-01T12:30:00'), // Jan 1st, 2025, 12:30 pm
+      endDateTime: new Date('2025-01-01T15:30:00'), // Jan 1st, 2025, 3:30 pm
+      location: 'location',
+      signUpDeadline: new Date('2024-12-31T23:59:00'), // Dec 31st, 2024, 11:59 pm
+      rsvpLink: 'rsvpLink',
+      imageUrl: 'imageUrl',
+    };
+    const eventId = 1;
+
+    await saveEvent({ ...data });
+    await updateEvent(eventId, { ...expected });
+    const res = await getEventById(eventId);
+
+    expect(res).not.toBeNull();
+  });
+
+  it('should not be able to return an event after deletion', async () => {
+    const data = {
+      title: 'test-title',
+      description: 'test-description',
+      fee: 100_000,
+      startDateTime: new Date(),
+      endDateTime: new Date(),
+      location: 'test-location',
+      signUpDeadline: new Date(),
+      rsvpLink: 'test-rsvpLink',
+      imageUrl: 'test-imageUrl',
+    };
+    const eventId = 1;
+    await saveEvent({ ...data });
+    await deleteEvent(eventId);
     const res = await getEventById(eventId);
 
     expect(res).toBeNull;

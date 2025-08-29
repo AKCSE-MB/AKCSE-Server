@@ -1,11 +1,14 @@
 import { TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 import { INestApplication } from '@nestjs/common';
-import { appModuleFixture, assertStatusCode } from '@root/jest.setup';
+import {
+  appModuleFixture,
+  assertStatusCode,
+  createUserToken,
+} from '@root/jest.setup';
 import { ConfigurationService } from '@domain/configuration/configuration.service';
 import * as eventService from '@domain/event/service/event.service';
 import { EventModule } from '@domain/event/event.module';
-import { GetEventsOutput } from '@domain/event/dto/event.dto';
 
 describe('event controller', () => {
   let app: INestApplication;
@@ -22,7 +25,7 @@ describe('event controller', () => {
   });
 
   beforeEach(async () => {
-    jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
   it('should return events', async () => {
@@ -71,5 +74,90 @@ describe('event controller', () => {
 
     assertStatusCode(res, 200);
     expect(res.body.data).not.toBeNull();
+  });
+
+  it('should create a new event', async () => {
+    jest.spyOn(eventService, 'createEvent').mockImplementation();
+
+    const userId = 1;
+    const key = configService.getTokenData().accessTokenSecret;
+    const token = createUserToken(userId, key, { expiresIn: '1h' });
+
+    const res = await request(app.getHttpServer())
+      .post('/v1/event')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        title: 'test-title',
+        description: 'test-description',
+        fee: 100_000,
+        startDateTime: '2000-01-01',
+        endDateTime: '2000-01-01',
+        location: 'test-location',
+        signUpDeadline: '2000-01-01',
+        rsvpLink: 'test-rsvpLink',
+        imageUrl: 'test-imageUrl',
+      });
+
+    assertStatusCode(res, 200);
+  });
+
+  it('update request should succeed with a status code 200', async () => {
+    const userId = 1;
+    const key = configService.getTokenData().accessTokenSecret;
+    const token = createUserToken(userId, key, { expiresIn: '1h' });
+    const eventId = 1;
+
+    jest.spyOn(eventService, 'editEvent').mockImplementation();
+
+    const res = await request(app.getHttpServer())
+      .put(`/v1/event/${eventId}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({});
+
+    assertStatusCode(res, 200);
+    expect(res.body).not.toBeNull();
+  });
+
+  it('inavlid request, should return 400 bad request', async () => {
+    const userId = 1;
+    const key = configService.getTokenData().accessTokenSecret;
+    const token = createUserToken(userId, key, { expiresIn: '1h' });
+    const eventId = 100;
+
+    const res = await request(app.getHttpServer())
+      .put(`/v1/event/${eventId}`)
+      .set('Authorization', `Bearer ${token}`)
+      .send({});
+
+    assertStatusCode(res, 400);
+  });
+
+  it('delete request should succeed with a status code 200', async () => {
+    const userId = 1;
+    const key = configService.getTokenData().accessTokenSecret;
+    const token = createUserToken(userId, key, { expiresIn: '1h' });
+    const eventId = 1;
+
+    jest.spyOn(eventService, 'removeEvent').mockImplementation();
+
+    const res = await request(app.getHttpServer())
+      .delete(`/v1/event/${eventId}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    assertStatusCode(res, 200);
+    expect(res.body.data).not.toBeNull();
+  });
+
+  it('invalid request, should return 400 bad request', async () => {
+    const userId = 1;
+    const key = configService.getTokenData().accessTokenSecret;
+    const token = createUserToken(userId, key, { expiresIn: '1h' });
+    const eventId = 100;
+
+    const res = await request(app.getHttpServer())
+      .delete(`/v1/event/${eventId}`)
+      .set('Authorization', `Bearer ${token}`);
+
+    assertStatusCode(res, 400);
   });
 });
