@@ -43,6 +43,7 @@ describe('members controller', () => {
       .send({
         score: 0,
         name: 'testName1',
+        role: Role.MEMBER,
       });
 
     assertStatusCode(res, 200);
