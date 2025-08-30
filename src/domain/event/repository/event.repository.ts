@@ -72,7 +72,7 @@ export async function updateEvent(
     endDateTime?: Date;
     location?: string;
     signUpDeadline?: Date;
-    rsvpLin?: string;
+    rsvpLink?: string;
     imageUrl?: string;
   },
 ) {
