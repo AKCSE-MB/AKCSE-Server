@@ -8,6 +8,7 @@ import {
 import { HttpExceptionFilter } from '@common/exception/exception.filter';
 import { TypedBody, TypedRoute, TypedParam } from '@nestia/core';
 import {
+  AdminMembersResponseDTO,
   MemberCreateRequestDTO,
   MemberUpdateRequestDTO,
   MembersResponseDTO,
@@ -20,6 +21,7 @@ import {
   editMember,
   removeMember,
   getLeaderboard,
+  getAdmins,
 } from '@domain/members/service/members.service';
 import { BaseResponseDto } from '@common/dto/base.dto';
 import { AuthGuard } from '@common/auth/auth.guard';
@@ -62,6 +64,17 @@ export class MembersController {
   @HttpCode(200)
   async getLeaderboard(): Promise<BaseResponseDto<TopMembersResponseDTO[]>> {
     const res = await getLeaderboard();
+    return new BaseResponseDto(res);
+  }
+
+  /**
+   * @tag members
+   * @summary get all admins
+   */
+  @TypedRoute.Get('/admin')
+  @HttpCode(200)
+  async getAdmins(): Promise<BaseResponseDto<AdminMembersResponseDTO[]>> {
+    const res = await getAdmins();
     return new BaseResponseDto(res);
   }
 

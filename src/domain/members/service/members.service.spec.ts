@@ -9,7 +9,7 @@ import {
   getLeaderboard,
 } from '@domain/members/service/members.service';
 import prismaClient from '@common/database/prisma';
-import { Program } from '@domain/members/members.enum';
+import { Role } from '@prisma/client';
 
 describe('members service', () => {
   beforeEach(async () => {
@@ -20,6 +20,7 @@ describe('members service', () => {
     const dto = {
       score: 0,
       name: 'testName1',
+      role: Role.MEMBER,
     };
     const memberId = 1;
 
@@ -39,6 +40,7 @@ describe('members service', () => {
     const dto = {
       score: 0,
       name: 'testName',
+      role: Role.MEMBER,
     };
 
     await createMember({ ...dto });
@@ -60,6 +62,7 @@ describe('members service', () => {
     const dto = {
       score: 0,
       name: 'testName1',
+      role: Role.MEMBER,
     };
 
     await createMember({ ...dto });
@@ -73,11 +76,13 @@ describe('members service', () => {
     const dto1 = {
       score: 10,
       name: 'top member',
+      role: Role.MEMBER,
     };
 
     const dto2 = {
       score: 0,
       name: 'non-top member',
+      role: Role.MEMBER,
     };
 
     await createMember({ ...dto1 });
@@ -114,11 +119,13 @@ describe('members service', () => {
     const dto = {
       score: 0,
       name: 'testName1',
+      role: Role.MEMBER,
     };
 
     const expected = {
       score: 10,
       name: 'testName2',
+      role: Role.ADMIN,
     };
 
     await createMember({ ...dto });
@@ -131,12 +138,14 @@ describe('members service', () => {
     expect(res.id).toEqual(memberId);
     expect(res.score).toEqual(expected.score);
     expect(res.name).toEqual(expected.name);
+    expect(res.role).toEqual(expected.role);
   });
 
   it('should throw an error with the message since the deleted member cannot be retreived', async () => {
     const dto = {
       score: 0,
       name: 'testName1',
+      role: Role.MEMBER,
     };
     const memberId = 1;
 

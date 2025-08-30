@@ -1,4 +1,4 @@
-export interface EventDetails {
+export interface EventResponseDTO {
   /**
    * event id
    * example: 0
@@ -85,6 +85,26 @@ export interface EventDetails {
 }
 
 export interface GetEventsOutput {
-  upcoming: EventDetails[];
-  past: EventDetails[];
+  upcoming: EventResponseDTO[];
+  past: EventResponseDTO[];
 }
+
+export interface EventCreateRequestDTO
+  extends Omit<
+      EventResponseDTO,
+      | 'id'
+      | 'createdAt'
+      | 'updatedAt'
+      | 'rsvpLink'
+      | 'imageUrl'
+      | 'startDateTime'
+      | 'endDateTime'
+      | 'signUpDeadline'
+    >,
+    Partial<Pick<EventResponseDTO, 'rsvpLink' | 'imageUrl'>> {
+  startDateTime: string;
+  endDateTime: string;
+  signUpDeadline: string;
+}
+
+export interface EventUpdateRequestDTO extends Partial<EventCreateRequestDTO> {}

@@ -3,6 +3,7 @@ import { MembersModule } from '@domain/members/members.module';
 import * as membersService from '@domain/members/service/members.service';
 import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
+import { Role } from '@prisma/client';
 import {
   appModuleFixture,
   assertStatusCode,
@@ -42,6 +43,7 @@ describe('members controller', () => {
       .send({
         score: 0,
         name: 'testName1',
+        role: Role.MEMBER,
       });
 
     assertStatusCode(res, 200);
@@ -54,6 +56,7 @@ describe('members controller', () => {
         score: 0,
         name: 'testName1',
         accountId: '1',
+        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -62,6 +65,7 @@ describe('members controller', () => {
         score: 10,
         name: 'testName2',
         accountId: '2',
+        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -91,6 +95,7 @@ describe('members controller', () => {
       score: 0,
       name: 'testName1',
       accountId: '1',
+      role: Role.MEMBER,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
@@ -120,6 +125,7 @@ describe('members controller', () => {
         id: 1,
         score: 10,
         name: 'testName1',
+        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -127,6 +133,7 @@ describe('members controller', () => {
         id: 2,
         score: 9,
         name: 'testName2',
+        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -134,6 +141,7 @@ describe('members controller', () => {
         id: 3,
         score: 8,
         name: 'testName3',
+        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -141,6 +149,7 @@ describe('members controller', () => {
         id: 4,
         score: 7,
         name: 'testName4',
+        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -148,6 +157,7 @@ describe('members controller', () => {
         id: 5,
         score: 6,
         name: 'testName5',
+        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -155,6 +165,7 @@ describe('members controller', () => {
         id: 6,
         score: 5,
         name: 'testName6',
+        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -162,6 +173,7 @@ describe('members controller', () => {
         id: 7,
         score: 4,
         name: 'testName7',
+        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -169,6 +181,7 @@ describe('members controller', () => {
         id: 8,
         score: 3,
         name: 'testName8',
+        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -176,6 +189,7 @@ describe('members controller', () => {
         id: 9,
         score: 2,
         name: 'testName9',
+        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -183,6 +197,7 @@ describe('members controller', () => {
         id: 10,
         score: 1,
         name: 'testName10',
+        role: Role.MEMBER,
         createdAt: new Date(),
         updatedAt: new Date(),
       },

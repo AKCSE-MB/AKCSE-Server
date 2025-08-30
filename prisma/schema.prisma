@@ -7,12 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  MEMBER
+  ADMIN
+  UNKNOWN
+}
+
 model Accounts {
   id             Int      @id @default(autoincrement())
   identification String   @map("identification") @db.VarChar(256)
   createdAt      DateTime @default(now()) @map("created_at")
   updatedAt      DateTime @updatedAt @map("updated_at")
-  role           String   @map("role") @db.VarChar(10)
+  role           Role     @map("role")
 
   @@map("accounts")
 }
@@ -37,6 +43,7 @@ model Members {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   accountId String   @default("0") @map("accountId") @db.VarChar(25)
+  role      Role     @default(MEMBER) @map("role")
 
   @@map("members")
 }

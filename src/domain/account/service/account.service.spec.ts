@@ -1,7 +1,7 @@
 import { truncateTables } from '@root/jest.setup';
 import * as accountService from '@domain/account/service/account.service';
 import prismaClient from '@common/database/prisma';
-import { Role } from '../account.enum';
+import { Role } from '@prisma/client';
 
 describe('account service', () => {
   beforeEach(async () => {
