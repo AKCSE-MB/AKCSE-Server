@@ -97,10 +97,10 @@ describe('event repository', () => {
       title: 'title',
       description: 'description',
       fee: 10,
-      startDateTime: new Date('2025-01-01T12:30:00'), // Jan 1st, 2025, 12:30 pm
-      endDateTime: new Date('2025-01-01T15:30:00'), // Jan 1st, 2025, 3:30 pm
+      startDateTime: new Date('2025-01-01T12:30:00'),
+      endDateTime: new Date('2025-01-01T15:30:00'),
       location: 'location',
-      signUpDeadline: new Date('2024-12-31T23:59:00'), // Dec 31st, 2024, 11:59 pm
+      signUpDeadline: new Date('2024-12-31T23:59:00'),
       rsvpLink: 'rsvpLink',
       imageUrl: 'imageUrl',
     };
