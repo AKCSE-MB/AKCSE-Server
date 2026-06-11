@@ -7,3 +7,69 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  ADMIN
+  MEMBER
+  UNKNOWN
+}
+
+model Account {
+  id             Int      @id @default(autoincrement())
+  identification String   @db.VarChar(256)
+  role           Role
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+
+  @@map("accounts")
+}
+
+model Token {
+  id                       Int      @id @default(autoincrement())
+  account_id               Int
+  access_token             String   @db.VarChar(512)
+  refresh_token            String   @db.VarChar(512)
+  access_token_expired_at  DateTime
+  refresh_token_expired_at DateTime
+  created_at               DateTime @default(now())
+  updated_at               DateTime @updatedAt
+
+  @@map("tokens")
+}
+
+model Member {
+  id         Int      @id @default(autoincrement())
+  score      Int      @default(0)
+  name       String   @db.VarChar(25)
+  accountId  String   @default("0") @db.VarChar(25)
+  role       Role     @default(MEMBER)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("members")
+}
+
+model Event {
+  id               Int      @id @default(autoincrement())
+  title            String   @db.VarChar(50)
+  description      String   @db.VarChar(300)
+  fee              Float    @default(0)
+  start_date_time  DateTime @db.Timestamp(1)
+  end_date_time    DateTime @db.Timestamp(1)
+  location         String   @db.VarChar(30)
+  sign_up_deadline DateTime @db.Timestamp(1)
+  rsvp_link        String?  @db.VarChar(256)
+  image_url        String?  @db.VarChar(512)
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
+
+  @@map("events")
+}
+
+model Resource {
+  id                    Int     @id @default(autoincrement())
+  title                 String  @db.VarChar(50)
+  description           String  @db.VarChar(300)
+  academic_calendar_url String? @db.VarChar(300)
+
+  @@map("resources")
+}
