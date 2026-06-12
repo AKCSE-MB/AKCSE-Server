@@ -72,11 +72,10 @@ type tableNames =
   | 'resources'
 
 async function truncateTables(prisma: PrismaClient, tableNames: tableNames[]) {
-  const url = prisma['_engineConfig'].env.DATABASE_URL;
+  const url = process.env.DATABASE_URL ?? '';
 
-  if(!url.includes('localhost')) {
-    console.warn("wrong db url... please run the test using localhost")
-
+  if (!url.includes('localhost') && !url.includes('127.0.0.1')) {
+    console.warn('wrong db url... please run the test using localhost');
     return;
   }
 
