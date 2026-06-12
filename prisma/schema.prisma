@@ -8,68 +8,68 @@ datasource db {
 }
 
 enum Role {
-  MEMBER
   ADMIN
+  MEMBER
   UNKNOWN
 }
 
-model Accounts {
+model Account {
   id             Int      @id @default(autoincrement())
-  identification String   @map("identification") @db.VarChar(256)
-  createdAt      DateTime @default(now()) @map("created_at")
-  updatedAt      DateTime @updatedAt @map("updated_at")
-  role           Role     @map("role")
+  identification String   @db.VarChar(256)
+  role           Role
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
 
   @@map("accounts")
 }
 
-model Tokens {
-  id                    Int      @id @default(autoincrement())
-  accountId             Int      @map("account_id")
-  accessToken           String   @map("access_token") @db.VarChar(512)
-  refreshToken          String   @map("refresh_token") @db.VarChar(512)
-  accessTokenExpiredAt  DateTime @map("access_token_expired_at")
-  refreshTokenExpiredAt DateTime @map("refresh_token_expired_at")
-  createdAt             DateTime @default(now()) @map("created_at")
-  updatedAt             DateTime @updatedAt @map("updated_at")
+model Token {
+  id                       Int      @id @default(autoincrement())
+  account_id               Int
+  access_token             String   @db.VarChar(512)
+  refresh_token            String   @db.VarChar(512)
+  access_token_expired_at  DateTime
+  refresh_token_expired_at DateTime
+  created_at               DateTime @default(now())
+  updated_at               DateTime @updatedAt
 
   @@map("tokens")
 }
 
-model Members {
-  id        Int      @id @default(autoincrement())
-  score     Int      @default(0) @map("score")
-  name      String   @map("name") @db.VarChar(25)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
-  accountId String   @default("0") @map("accountId") @db.VarChar(25)
-  role      Role     @default(MEMBER) @map("role")
+model Member {
+  id         Int      @id @default(autoincrement())
+  score      Int      @default(0)
+  name       String   @db.VarChar(25)
+  accountId  String   @default("0") @db.VarChar(25)
+  role       Role     @default(MEMBER)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@map("members")
 }
 
-model Resources {
-  id                  Int     @id @default(autoincrement())
-  title               String  @map("title") @db.VarChar(50)
-  description         String  @map("description") @db.VarChar(300)
-  academicCalendarUrl String? @map("academic_calendar_url") @db.VarChar(300)
-
-  @@map("resources")
-}
-
-model Events {
-  id             Int      @id @default(autoincrement())
-  title          String   @map("title") @db.VarChar(50)
-  description    String   @map("description") @db.VarChar(300)
-  fee            Float    @default(0) @map("fee")
-  startDateTime  DateTime @map("start_date_time") @db.Timestamp(1)
-  endDateTime    DateTime @map("end_date_time") @db.Timestamp(1)
-  location       String   @map("location") @db.VarChar(30)
-  signUpDeadline DateTime @map("sign_up_deadline") @db.Timestamp(1)
-  rsvpLink       String?  @map("rsvp_link") @db.VarChar(256)
-  imageUrl       String?  @map("image_url") @db.VarChar(512)
-  createdAt      DateTime @default(now()) @map("created_at")
-  updatedAt      DateTime @updatedAt @map("updated_at")
+model Event {
+  id               Int      @id @default(autoincrement())
+  title            String   @db.VarChar(50)
+  description      String   @db.VarChar(300)
+  fee              Float    @default(0)
+  start_date_time  DateTime @db.Timestamp(1)
+  end_date_time    DateTime @db.Timestamp(1)
+  location         String   @db.VarChar(30)
+  sign_up_deadline DateTime @db.Timestamp(1)
+  rsvp_link        String?  @db.VarChar(256)
+  image_url        String?  @db.VarChar(512)
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt
 
   @@map("events")
+}
+
+model Resource {
+  id                    Int     @id @default(autoincrement())
+  title                 String  @db.VarChar(50)
+  description           String  @db.VarChar(300)
+  academic_calendar_url String? @db.VarChar(300)
+
+  @@map("resources")
 }
