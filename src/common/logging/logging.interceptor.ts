@@ -1,3 +1,4 @@
+import { randomUUID } from 'node:crypto';
 import {
   CallHandler,
   ExecutionContext,
@@ -8,7 +9,6 @@ import {
 import { Request } from 'express';
 import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class LogInterceptor implements NestInterceptor {
@@ -16,7 +16,7 @@ export class LogInterceptor implements NestInterceptor {
   private responseLogger = new Logger('HTTP_RESPONSE');
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<unknown> {
-    const executionId = uuid();
+    const executionId = randomUUID();
     this.logRequest(context, executionId);
 
     return next.handle().pipe(
