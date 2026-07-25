@@ -11,7 +11,6 @@ import {
   BaseException,
   CallerWrongUsageException,
 } from '@common/exception/internal.exception';
-import * as Sentry from '@sentry/nestjs';
 
 @Catch()
 export class HttpExceptionFilter implements ExceptionFilter {
@@ -44,10 +43,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
         originMessage: exception.message,
       };
 
-      if (!(exception instanceof CallerWrongUsageException)) {
-        Sentry.captureException(exception, { extra: detailResponse });
-      }
-
       response.status(status).json(detailResponse);
       return;
     }
@@ -68,7 +63,6 @@ export class HttpExceptionFilter implements ExceptionFilter {
     }
 
     console.error(exception);
-    Sentry.captureException(exception, { extra: request.body });
 
     response.status(400).json({
       statusCode: 400,
