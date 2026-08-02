@@ -16,17 +16,24 @@ export interface EventRecord {
   updatedAt: Date;
 }
 
-export function sum(a, b) {
-  const output = a + b;
-  return output;
+export interface IEventsRepository {
+  getEvents(): Promise<EventRecord[]>;
 }
 
-export async function getEvents(): Promise<EventRecord[]> {
-  const records = await prismaClient.event.findMany({
-    orderBy: { start_date_time: 'asc' },
-  });
+export class EventsRepository implements IEventsRepository {
+  async getEvents(): Promise<EventRecord[]> {
+    const records = await prismaClient.event.findMany({
+      orderBy: { start_date_time: 'asc' },
+    });
 
-  return records.map(toEventRecord);
+    return records.map(toEventRecord);
+  }
+}
+
+const eventsRepository = new EventsRepository();
+
+export async function getEvents(): Promise<EventRecord[]> {
+  return eventsRepository.getEvents();
 }
 
 function toEventRecord(record: EventEntity): EventRecord {
