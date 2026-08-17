@@ -73,3 +73,14 @@ model Resource {
 
   @@map("resources")
 }
+
+model Executive {
+  id         Int      @id @default(autoincrement())
+  name       String   @db.VarChar(25)
+  position   String   @db.VarChar(50)
+  image_url  String?  @db.VarChar(512)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("executives")
+}

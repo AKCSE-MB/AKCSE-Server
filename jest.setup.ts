@@ -70,6 +70,7 @@ type tableNames =
   | 'members'
   | 'events'
   | 'resources'
+  | 'executives'
 
 async function truncateTables(prisma: PrismaClient, tableNames: tableNames[]) {
   const url = process.env.DATABASE_URL ?? '';
