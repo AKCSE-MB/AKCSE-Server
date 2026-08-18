@@ -1,8 +1,15 @@
 import {
-  getEvents as getEventRecords,
+  EventsRepository,
   EventRecord,
 } from '@domain/events/repository/events.repository';
 
-export async function getEvents(): Promise<EventRecord[]> {
-  return getEventRecords();
+export interface IEventsService {
+  getEvents(): Promise<EventRecord[]>;
+}
+export class EventsService implements IEventsService {
+  constructor(private readonly eventsRepository: EventsRepository) {}
+
+  async getEvents(): Promise<EventRecord[]> {
+    return this.eventsRepository.getEvents();
+  }
 }
