@@ -22,10 +22,12 @@ describe('executives repository', () => {
     const res = await getExecutives();
 
     expect(res).toHaveLength(2);
-    expect(res[0].name).toEqual('test-name-1');
-    expect(res[0].position).toEqual('test-position-1');
-    expect(res[0].imageUrl).toEqual('test-image-url');
-    expect(res[1].name).toEqual('test-name-2');
-    expect(res[1].imageUrl).toEqual('');
+
+    const first = res.find((it) => it.name === 'test-name-1');
+    expect(first?.position).toEqual('test-position-1');
+    expect(first?.imageUrl).toEqual('test-image-url');
+
+    const second = res.find((it) => it.name === 'test-name-2');
+    expect(second?.imageUrl).toEqual('');
   });
 });

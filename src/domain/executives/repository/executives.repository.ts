@@ -10,24 +10,10 @@ export interface ExecutiveRecord {
   updatedAt: Date;
 }
 
-export interface IExecutivesRepository {
-  getExecutives(): Promise<ExecutiveRecord[]>;
-}
-
-export class ExecutivesRepository implements IExecutivesRepository {
-  async getExecutives(): Promise<ExecutiveRecord[]> {
-    const records = await prismaClient.executive.findMany({
-      orderBy: { id: 'asc' },
-    });
-
-    return records.map(toExecutiveRecord);
-  }
-}
-
-const executivesRepository = new ExecutivesRepository();
-
 export async function getExecutives(): Promise<ExecutiveRecord[]> {
-  return executivesRepository.getExecutives();
+  const records = await prismaClient.executive.findMany();
+
+  return records.map(toExecutiveRecord);
 }
 
 function toExecutiveRecord(record: ExecutiveEntity): ExecutiveRecord {
