@@ -21,13 +21,16 @@ describe('executives repository', () => {
 
     const res = await getExecutives();
 
+    expect(res).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          name: 'test-name-1',
+          position: 'test-position-1',
+          imageUrl: 'test-image-url',
+        }),
+        expect.objectContaining({ name: 'test-name-2', imageUrl: '' }),
+      ]),
+    );
     expect(res).toHaveLength(2);
-
-    const first = res.find((it) => it.name === 'test-name-1');
-    expect(first?.position).toEqual('test-position-1');
-    expect(first?.imageUrl).toEqual('test-image-url');
-
-    const second = res.find((it) => it.name === 'test-name-2');
-    expect(second?.imageUrl).toEqual('');
   });
 });
