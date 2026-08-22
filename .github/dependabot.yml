@@ -2,33 +2,112 @@ version: 2
 
 updates:
   - package-ecosystem: npm
-    directory: /
+    directories:
+      - /
+      - /packages/api
     schedule:
       interval: weekly
       day: monday
-    target-branch: develop
+      time: '09:00'
+      timezone: America/Winnipeg
+    target-branch: main
     open-pull-requests-limit: 5
     labels:
       - dependencies
+    commit-message:
+      prefix: chore
+      prefix-development: chore
+      include: scope
+    cooldown:
+      default-days: 7
+      semver-major-days: 30
+    ignore:
+      - dependency-name: typescript
+        update-types:
+          - version-update:semver-major
+    groups:
+      prisma:
+        patterns:
+          - prisma
+          - '@prisma/*'
+      nestia-typia:
+        patterns:
+          - typia
+          - nestia
+          - '@nestia/*'
+          - ts-patch
+          - typescript-transform-paths
+      nestjs:
+        patterns:
+          - '@nestjs/*'
+      testing:
+        patterns:
+          - jest
+          - ts-jest
+          - '@types/jest'
+          - supertest
+          - '@types/supertest'
+          - '@testcontainers/*'
+          - '@relmify/*'
+      linting:
+        patterns:
+          - eslint
+          - '@eslint/*'
+          - eslint-*
+          - typescript-eslint
+          - '@typescript-eslint/*'
+          - prettier
+          - globals
+      types:
+        patterns:
+          - '@types/*'
+      dev-minor-patch:
+        dependency-type: development
+        update-types:
+          - minor
+          - patch
 
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: weekly
       day: monday
-    target-branch: develop
-    open-pull-requests-limit: 5
+      time: '09:00'
+      timezone: America/Winnipeg
+    target-branch: main
+    open-pull-requests-limit: 3
     labels:
       - dependencies
       - github-actions
+    commit-message:
+      prefix: chore
+      include: scope
+    cooldown:
+      default-days: 7
+    groups:
+      github-actions:
+        patterns:
+          - '*'
 
   - package-ecosystem: docker
     directory: /docker
     schedule:
       interval: weekly
       day: monday
-    target-branch: develop
+      time: '09:00'
+      timezone: America/Winnipeg
+    target-branch: main
     open-pull-requests-limit: 3
     labels:
       - dependencies
       - docker
+    commit-message:
+      prefix: chore
+      include: scope
+    cooldown:
+      default-days: 7
+      semver-major-days: 30
+    groups:
+      docker:
+        patterns:
+          - '*'
