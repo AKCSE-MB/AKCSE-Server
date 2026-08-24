@@ -1,24 +1,16 @@
+import * as eventsRepository from '@domain/events/repository/events.repository';
 import { EventRecord } from '@domain/events/repository/events.repository';
-import { EventsService } from '@domain/events/service/events.service';
+import { getEvents } from '@domain/events/service/events.service';
 
 describe('events service', () => {
-  let service: EventsService;
-  let repository: {
-    getEvents: jest.Mock;
-  };
-
   beforeEach(() => {
-    repository = {
-      getEvents: jest.fn(),
-    };
-
-    service = new EventsService(repository as any);
+    jest.resetAllMocks();
   });
 
   it('should return an empty array when the repository has no events', async () => {
-    repository.getEvents.mockResolvedValueOnce([]);
+    jest.spyOn(eventsRepository, 'getEvents').mockResolvedValueOnce([]);
 
-    const res = await service.getEvents();
+    const res = await getEvents();
 
     expect(res).toEqual([]);
   });
@@ -41,18 +33,20 @@ describe('events service', () => {
       },
     ];
 
-    repository.getEvents.mockResolvedValueOnce(events);
+    jest.spyOn(eventsRepository, 'getEvents').mockResolvedValueOnce(events);
 
-    const res = await service.getEvents();
+    const res = await getEvents();
 
     expect(res).toEqual(events);
   });
 
   it('should delegate to the repository exactly once', async () => {
-    repository.getEvents.mockResolvedValueOnce([]);
+    const spy = jest
+      .spyOn(eventsRepository, 'getEvents')
+      .mockResolvedValueOnce([]);
 
-    await service.getEvents();
+    await getEvents();
 
-    expect(repository.getEvents).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

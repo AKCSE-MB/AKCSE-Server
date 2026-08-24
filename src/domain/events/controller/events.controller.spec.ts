@@ -2,29 +2,17 @@ import { INestApplication } from '@nestjs/common';
 import { TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 import { appModuleFixture, assertStatusCode } from '@root/jest.setup';
-import { EventsService } from '@domain/events/service/events.service';
+import * as eventsService from '@domain/events/service/events.service';
 import { EventsController } from '@domain/events/controller/events.controller';
 import { EventRecord } from '@domain/events/repository/events.repository';
 
 describe('events controller', () => {
   let app: INestApplication;
-  let eventsService: {
-    getEvents: jest.Mock;
-  };
 
   beforeAll(async () => {
-    eventsService = {
-      getEvents: jest.fn(),
-    };
-
     const module = (await appModuleFixture(
       [EventsController],
-      [
-        {
-          provide: EventsService,
-          useValue: eventsService,
-        },
-      ],
+      [],
     )) as TestingModule;
 
     app = module.createNestApplication();
@@ -32,12 +20,12 @@ describe('events controller', () => {
   });
 
   beforeEach(() => {
-    eventsService.getEvents.mockReset();
+    jest.resetAllMocks();
   });
 
   describe('/v1/events', () => {
     it('should return an empty array when there are no events', async () => {
-      eventsService.getEvents.mockResolvedValueOnce([]);
+      jest.spyOn(eventsService, 'getEvents').mockResolvedValueOnce([]);
 
       const res = await request(app.getHttpServer()).get('/v1/events');
 
@@ -63,7 +51,7 @@ describe('events controller', () => {
         },
       ];
 
-      eventsService.getEvents.mockResolvedValueOnce(events);
+      jest.spyOn(eventsService, 'getEvents').mockResolvedValueOnce(events);
 
       const res = await request(app.getHttpServer()).get('/v1/events');
 
@@ -73,11 +61,13 @@ describe('events controller', () => {
     });
 
     it('should call the service exactly once', async () => {
-      eventsService.getEvents.mockResolvedValueOnce([]);
+      const spy = jest
+        .spyOn(eventsService, 'getEvents')
+        .mockResolvedValueOnce([]);
 
       await request(app.getHttpServer()).get('/v1/events');
 
-      expect(eventsService.getEvents).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledTimes(1);
     });
   });
 });
