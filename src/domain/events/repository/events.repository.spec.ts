@@ -18,7 +18,7 @@ describe('events repository', () => {
 
     const res = await getEvents();
 
-    expect(res).toHaveLength(1);
+    expect(res).toHaveLength(2);
     expect(res[0].title).toEqual('test-title-2');
     expect(res[0].rsvpLink).toEqual('test-rsvp-link');
     expect(res[0].imageUrl).toEqual('test-image-url');
