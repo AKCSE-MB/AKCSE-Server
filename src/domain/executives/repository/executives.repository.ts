@@ -1,11 +1,13 @@
 import { Executive as ExecutiveEntity } from '@prisma/client';
 import prismaClient from '@common/database/prisma';
+import { ImagePayload, imagePayload } from '@common/cloudinary/cloudinary';
 
 export interface ExecutiveRecord {
   id: number;
   name: string;
   position: string;
-  imageUrl: string;
+  bio: string;
+  image: ImagePayload | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -21,7 +23,8 @@ function toExecutiveRecord(record: ExecutiveEntity): ExecutiveRecord {
     id: record.id,
     name: record.name,
     position: record.position,
-    imageUrl: record.image_url ?? '',
+    bio: record.bio ?? '',
+    image: imagePayload(record.image_public_id),
     createdAt: record.created_at,
     updatedAt: record.updated_at,
   };

@@ -38,7 +38,8 @@ describe('executives controller', () => {
           id: 1,
           name: 'test-name',
           position: 'test-position',
-          imageUrl: '',
+          bio: 'test-bio',
+          image: null,
           createdAt: new Date('2500-01-01'),
           updatedAt: new Date('2500-01-01'),
         },
@@ -52,6 +53,7 @@ describe('executives controller', () => {
       assertStatusCode(res, 200);
       expect(res.body.data).toHaveLength(1);
       expect(res.body.data[0]).toHaveProperty('name', 'test-name');
+      expect(res.body.data[0]).toHaveProperty('bio', 'test-bio');
     });
 
     it('should call the service exactly once', async () => {

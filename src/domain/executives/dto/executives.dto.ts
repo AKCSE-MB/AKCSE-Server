@@ -1,4 +1,5 @@
 import { tags } from 'typia';
+import { ImageDto } from '@common/dto/image.dto';
 
 export interface ExecutiveResponseDto {
   /**
@@ -17,10 +18,15 @@ export interface ExecutiveResponseDto {
    */
   position: string & tags.Example<'President'>;
   /**
-   * executive image url, empty string if not set
+   * executive bio, empty string if not set
    * @type string
    */
-  imageUrl: string & tags.Example<'https://cdn.akcse.org/team/president.png'>;
+  bio: string &
+    tags.Example<'Statistics major dedicated to transforming complex data into actionable insights.'>;
+  /**
+   * executive image delivery urls, null if not set
+   */
+  image: ImageDto | null;
   /**
    * executive created at
    * example: "2025-08-01T09:12:34Z"
