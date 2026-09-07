@@ -21,6 +21,15 @@ ENV NODE_ENV=production
 
 RUN apk add --no-cache openssl ca-certificates
 
+RUN rm -rf /usr/local/lib/node_modules/npm \
+           /usr/local/lib/node_modules/corepack \
+           /usr/local/bin/npm \
+           /usr/local/bin/npx \
+           /usr/local/bin/corepack \
+           /opt/yarn-v* \
+           /usr/local/bin/yarn \
+           /usr/local/bin/yarnpkg
+
 COPY --from=builder --chown=node:node /usr/src/app/node_modules ./node_modules
 COPY --from=builder --chown=node:node /usr/src/app/dist ./dist
 COPY --from=builder --chown=node:node /usr/src/app/packages/api/swagger.json ./packages/api/swagger.json
