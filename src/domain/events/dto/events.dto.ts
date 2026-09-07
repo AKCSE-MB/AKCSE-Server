@@ -1,4 +1,5 @@
 import { tags } from 'typia';
+import { ImageDto } from '@common/dto/image.dto';
 
 export interface EventResponseDto {
   /**
@@ -61,11 +62,9 @@ export interface EventResponseDto {
   rsvpLink: string & tags.Example<'https://forms.gle/akcse-fall-networking'>;
 
   /**
-   * event image url, empty string if not set
-   * @type string
+   * event image delivery urls, null if not set
    */
-  imageUrl: string &
-    tags.Example<'https://cdn.akcse.org/events/fall-networking-2025.png'>;
+  image: ImageDto | null;
 
   /**
    * event created at

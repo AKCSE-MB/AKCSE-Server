@@ -3,7 +3,19 @@ import { loadFixture } from '@root/test/utils/db-test-helper';
 import prismaClient from '@common/database/prisma';
 import { getExecutives } from '@domain/executives/repository/executives.repository';
 
+const DELIVERY_BASE = 'https://res.cloudinary.com/test-cloud/image/upload';
+
 describe('executives repository', () => {
+  const originalCloudName = process.env.CLOUDINARY_CLOUD_NAME;
+
+  beforeAll(() => {
+    process.env.CLOUDINARY_CLOUD_NAME = 'test-cloud';
+  });
+
+  afterAll(() => {
+    process.env.CLOUDINARY_CLOUD_NAME = originalCloudName;
+  });
+
   afterEach(async () => {
     await truncateTables(prismaClient, ['executives']);
   });
@@ -26,9 +38,17 @@ describe('executives repository', () => {
         expect.objectContaining({
           name: 'test-name-1',
           position: 'test-position-1',
-          imageUrl: 'test-image-url',
+          bio: 'test-bio',
+          image: {
+            publicId: 'team/test-image',
+            full: `${DELIVERY_BASE}/w_1200,c_limit,f_auto,q_auto/team/test-image`,
+          },
         }),
-        expect.objectContaining({ name: 'test-name-2', imageUrl: '' }),
+        expect.objectContaining({
+          name: 'test-name-2',
+          bio: '',
+          image: null,
+        }),
       ]),
     );
     expect(res).toHaveLength(2);

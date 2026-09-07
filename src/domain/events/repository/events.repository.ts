@@ -1,5 +1,6 @@
 import { Event as EventEntity } from '@prisma/client';
 import prismaClient from '@common/database/prisma';
+import { ImagePayload, imagePayload } from '@common/cloudinary/cloudinary';
 
 export interface EventRecord {
   id: number;
@@ -11,7 +12,7 @@ export interface EventRecord {
   location: string;
   signUpDeadline: Date;
   rsvpLink: string;
-  imageUrl: string;
+  image: ImagePayload | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -47,7 +48,7 @@ function toEventRecord(record: EventEntity): EventRecord {
     location: record.location,
     signUpDeadline: record.sign_up_deadline,
     rsvpLink: record.rsvp_link ?? '',
-    imageUrl: record.image_url ?? '',
+    image: imagePayload(record.image_public_id),
     createdAt: record.created_at,
     updatedAt: record.updated_at,
   };

@@ -58,7 +58,7 @@ model Event {
   location         String   @db.VarChar(30)
   sign_up_deadline DateTime @db.Timestamp(1)
   rsvp_link        String?  @db.VarChar(256)
-  image_url        String?  @db.VarChar(512)
+  image_public_id  String?  @db.VarChar(255)
   created_at       DateTime @default(now())
   updated_at       DateTime @updatedAt
 
@@ -75,12 +75,13 @@ model Resource {
 }
 
 model Executive {
-  id         Int      @id @default(autoincrement())
-  name       String   @db.VarChar(25)
-  position   String   @db.VarChar(50)
-  image_url  String?  @db.VarChar(512)
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id              Int      @id @default(autoincrement())
+  name            String   @db.VarChar(25)
+  position        String   @db.VarChar(50)
+  bio             String?  @db.VarChar(300)
+  image_public_id String?  @db.VarChar(255)
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
 
   @@map("executives")
 }
