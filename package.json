@@ -58,8 +58,28 @@
     "lodash": "^4.18.1",
     "multer": "^2.2.0",
     "ws": "^7.5.13",
+    "browserslist": "^4.28.9",
+    "fast-uri": "^3.1.6",
+    "form-data": "^4.0.6",
+    "tmp": "^0.2.6",
+    "undici": "^7.29.0",
     "minimatch@3": {
       "brace-expansion": "^1.1.18"
+    },
+    "minimatch@5": {
+      "brace-expansion": "^2.1.4"
+    },
+    "minimatch@9": {
+      "brace-expansion": "^2.1.4"
+    },
+    "minimatch@10": {
+      "brace-expansion": "^5.0.9"
+    },
+    "@nestjs/cli": {
+      "glob": "^10.5.0"
+    },
+    "@angular-devkit/core": {
+      "picomatch": "^4.0.7"
     }
   },
   "devDependencies": {
