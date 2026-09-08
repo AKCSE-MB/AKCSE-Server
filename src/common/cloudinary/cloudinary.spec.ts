@@ -2,6 +2,7 @@ import {
   IMAGE_TRANSFORMS,
   buildUrl,
   imagePayload,
+  imagePayloads,
 } from '@common/cloudinary/cloudinary';
 
 const CLOUD_NAME = 'test-cloud';
@@ -60,6 +61,34 @@ describe('cloudinary delivery', () => {
       expect(JSON.stringify(imagePayload('team/president'))).not.toMatch(
         /api_key|api_secret|signature/i,
       );
+    });
+  });
+
+  describe('imagePayloads', () => {
+    it('should keep the given order', () => {
+      expect(imagePayloads(['shoe1', 'shoe2'])).toEqual([
+        {
+          publicId: 'shoe1',
+          full: `${BASE}/w_1200,c_limit,f_auto,q_auto/shoe1`,
+        },
+        {
+          publicId: 'shoe2',
+          full: `${BASE}/w_1200,c_limit,f_auto,q_auto/shoe2`,
+        },
+      ]);
+    });
+
+    it('should drop the blank public ids', () => {
+      expect(imagePayloads([null, '', '   ', 'shoe1', undefined])).toEqual([
+        {
+          publicId: 'shoe1',
+          full: `${BASE}/w_1200,c_limit,f_auto,q_auto/shoe1`,
+        },
+      ]);
+    });
+
+    it('should return an empty array when there is no public id', () => {
+      expect(imagePayloads([])).toEqual([]);
     });
   });
 });

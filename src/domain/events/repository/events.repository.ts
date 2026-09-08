@@ -1,6 +1,9 @@
-import { Event as EventEntity } from '@prisma/client';
+import {
+  Event as EventEntity,
+  EventImage as EventImageEntity,
+} from '@prisma/client';
 import prismaClient from '@common/database/prisma';
-import { ImagePayload, imagePayload } from '@common/cloudinary/cloudinary';
+import { ImagePayload, imagePayloads } from '@common/cloudinary/cloudinary';
 
 export interface EventRecord {
   id: number;
@@ -12,7 +15,7 @@ export interface EventRecord {
   location: string;
   signUpDeadline: Date;
   rsvpLink: string;
-  image: ImagePayload | null;
+  images: ImagePayload[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -21,10 +24,15 @@ export interface IEventsRepository {
   getEvents(): Promise<EventRecord[]>;
 }
 
+type EventEntityWithImages = EventEntity & { images: EventImageEntity[] };
+
 export class EventsRepository implements IEventsRepository {
   async getEvents(): Promise<EventRecord[]> {
     const records = await prismaClient.event.findMany({
       orderBy: { start_date_time: 'asc' },
+      include: {
+        images: { orderBy: [{ position: 'asc' }, { id: 'asc' }] },
+      },
     });
 
     return records.map(toEventRecord);
@@ -37,7 +45,7 @@ export async function getEvents(): Promise<EventRecord[]> {
   return eventsRepository.getEvents();
 }
 
-function toEventRecord(record: EventEntity): EventRecord {
+function toEventRecord(record: EventEntityWithImages): EventRecord {
   return {
     id: record.id,
     title: record.title,
@@ -48,7 +56,7 @@ function toEventRecord(record: EventEntity): EventRecord {
     location: record.location,
     signUpDeadline: record.sign_up_deadline,
     rsvpLink: record.rsvp_link ?? '',
-    image: imagePayload(record.image_public_id),
+    images: imagePayloads(record.images.map((image) => image.public_id)),
     createdAt: record.created_at,
     updatedAt: record.updated_at,
   };

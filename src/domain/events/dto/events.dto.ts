@@ -62,9 +62,9 @@ export interface EventResponseDto {
   rsvpLink: string & tags.Example<'https://forms.gle/akcse-fall-networking'>;
 
   /**
-   * event image delivery urls, null if not set
+   * event image delivery urls, ordered, empty array if the event has no image
    */
-  image: ImageDto | null;
+  images: ImageDto[];
 
   /**
    * event created at
