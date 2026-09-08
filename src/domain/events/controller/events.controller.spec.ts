@@ -44,7 +44,7 @@ describe('events controller', () => {
           location: 'test-location',
           signUpDeadline: new Date('2500-01-01'),
           rsvpLink: '',
-          image: null,
+          images: [],
           createdAt: new Date('2500-01-01'),
           updatedAt: new Date('2500-01-01'),
         },

@@ -27,7 +27,7 @@ describe('events service', () => {
         location: 'test-location',
         signUpDeadline: new Date('2500-01-01'),
         rsvpLink: '',
-        image: null,
+        images: [],
         createdAt: new Date(),
         updatedAt: new Date(),
       },

@@ -58,11 +58,25 @@ model Event {
   location         String   @db.VarChar(30)
   sign_up_deadline DateTime @db.Timestamp(1)
   rsvp_link        String?  @db.VarChar(256)
-  image_public_id  String?  @db.VarChar(255)
   created_at       DateTime @default(now())
   updated_at       DateTime @updatedAt
 
+  images EventImage[]
+
   @@map("events")
+}
+
+model EventImage {
+  id         Int      @id @default(autoincrement())
+  event_id   Int
+  public_id  String   @db.VarChar(255)
+  position   Int      @default(0)
+  created_at DateTime @default(now())
+
+  event Event @relation(fields: [event_id], references: [id], onDelete: Cascade)
+
+  @@index([event_id, position])
+  @@map("event_images")
 }
 
 model Resource {

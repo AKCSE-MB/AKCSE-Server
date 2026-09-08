@@ -69,3 +69,18 @@ export function imagePayload(
     full: buildUrl(normalized, IMAGE_TRANSFORMS.FULL),
   };
 }
+
+/**
+ * Shape an ordered list of public ids into the `images` field of an API
+ * response. Blank ids are dropped so the array only holds deliverable images.
+ *
+ * @returns an empty array when the record has no image, so the caller can hand
+ *          the value straight to the response dto
+ */
+export function imagePayloads(
+  publicIds: readonly (string | null | undefined)[],
+): ImagePayload[] {
+  return publicIds
+    .map(imagePayload)
+    .filter((payload): payload is ImagePayload => payload !== null);
+}

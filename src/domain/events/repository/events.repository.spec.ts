@@ -17,7 +17,7 @@ describe('events repository', () => {
   });
 
   afterEach(async () => {
-    await truncateTables(prismaClient, ['events']);
+    await truncateTables(prismaClient, ['event_images', 'events']);
   });
 
   it('should return an empty array when there are no events', async () => {
@@ -25,7 +25,7 @@ describe('events repository', () => {
     expect(res).toEqual([]);
   });
 
-  it('should return all events', async () => {
+  it('should return all events with their images ordered by position', async () => {
     await loadFixture(prismaClient, 'test/fixtures/events/events.setup.sql');
 
     const res = await getEvents();
@@ -33,12 +33,18 @@ describe('events repository', () => {
     expect(res).toHaveLength(2);
     expect(res[0].title).toEqual('test-title-2');
     expect(res[0].rsvpLink).toEqual('test-rsvp-link');
-    expect(res[0].image).toEqual({
-      publicId: 'events/test-image',
-      full: `${DELIVERY_BASE}/w_1200,c_limit,f_auto,q_auto/events/test-image`,
-    });
+    expect(res[0].images).toEqual([
+      {
+        publicId: 'events/test-image-1',
+        full: `${DELIVERY_BASE}/w_1200,c_limit,f_auto,q_auto/events/test-image-1`,
+      },
+      {
+        publicId: 'events/test-image-2',
+        full: `${DELIVERY_BASE}/w_1200,c_limit,f_auto,q_auto/events/test-image-2`,
+      },
+    ]);
     expect(res[1].title).toEqual('test-title-1');
     expect(res[1].rsvpLink).toEqual('');
-    expect(res[1].image).toBeNull();
+    expect(res[1].images).toEqual([]);
   });
 });

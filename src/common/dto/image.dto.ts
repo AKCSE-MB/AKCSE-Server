@@ -1,8 +1,8 @@
 import { tags } from 'typia';
 
 /**
- * Cloudinary delivery urls for a single image, or `null` when the record has
- * no image. Only the public id is persisted, the urls are built per request.
+ * Cloudinary delivery urls for a single image. Only the public id is
+ * persisted, the urls are built per request.
  */
 export interface ImageDto {
   /**

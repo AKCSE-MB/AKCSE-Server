@@ -69,6 +69,7 @@ type tableNames =
   | 'tokens'
   | 'members'
   | 'events'
+  | 'event_images'
   | 'resources'
   | 'executives'
 
