@@ -2,9 +2,11 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from '@src/app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { createLogger } from '@src/common/logging/logger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {});
+  const app = await NestFactory.create(AppModule, { bufferLogs: true });
+  app.useLogger(createLogger());
   const config = app.get(ConfigService);
   const url = config.get<string>('API_SERVER_URL') as string;
   const port = config.get<number>('API_SERVER_PORT') as number;
